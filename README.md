@@ -1,1 +1,1 @@
-# Iterable connector for Lokalise content type app engines
+# Template connector for Lokalise content type app engines
