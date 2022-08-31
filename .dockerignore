@@ -1,0 +1,10 @@
+.dockerignore
+.git
+.github
+.gitignore
+.idea
+Dockerfile*
+Jenkinsfile
+docker-compose*
+node_modules
+npm-debug.log
