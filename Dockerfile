@@ -1,4 +1,4 @@
-FROM node:18-alpine as base
+FROM node:18.8.0-alpine3.15 as base
 
 FROM base as build
 WORKDIR /srv

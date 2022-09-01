@@ -1,34 +1,21 @@
-import { buildJsonSchemas } from 'fastify-zod'
-
 import { apiError } from '../schema'
+import type { Routes } from '../types'
 
 import envController from './controller'
 import { envResponseBody } from './schema'
 
-const { schemas, $ref } = buildJsonSchemas(
+const envRouteDefinition: Routes = [
   {
-    envResponseBody,
-    apiError,
-  },
-  {
-    $id: 'envSchemas',
-  },
-)
-
-const envRouteDefinition = {
-  schemas,
-  routes: [
-    {
-      method: 'GET',
-      url: '/env',
-      handler: envController.getEnv,
-      schema: {
-        response: {
-          200: $ref('envResponseBody'),
-          403: $ref('apiError'),
-        },
+    method: 'GET',
+    url: '/env',
+    handler: envController.getEnv,
+    schema: {
+      response: {
+        200: envResponseBody,
+        403: apiError,
       },
     },
-  ],
-}
+  },
+]
+
 export default envRouteDefinition

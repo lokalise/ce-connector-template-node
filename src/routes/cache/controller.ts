@@ -7,14 +7,14 @@ import type { CacheRequestBody, CacheResponse, ListCacheResponse } from './types
 const getCache = async (req: FastifyRequest, reply: ListCacheResponse) => {
   const items = await cacheService.listItems(req.accessToken)
   if (!items) {
-    reply.status(403).send({
+    void reply.status(403).send({
       message: 'Could not retrieve cache items',
       statusCode: 403,
     })
     return
   }
 
-  reply.send({
+  return reply.send({
     items,
   })
 }
@@ -25,14 +25,14 @@ const getCacheItems = async (
 ) => {
   const items = await cacheService.getItems(req.accessToken, req.body.items)
   if (!items) {
-    reply.status(403).send({
+    void reply.status(403).send({
       message: 'Could not retrieve cache items',
       statusCode: 403,
     })
     return
   }
 
-  reply.send({
+  return reply.send({
     items,
   })
 }

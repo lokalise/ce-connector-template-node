@@ -16,14 +16,14 @@ const postAuth = async (
   const key = await authService.validate(req.body.key)
 
   if (!key) {
-    reply.status(403).send({
+    void reply.status(403).send({
       message: 'Could not authenticate to 3rd party using the provided key.',
       statusCode: 403,
     })
     return
   }
 
-  reply.send({
+  return reply.send({
     key,
   })
 }
@@ -35,14 +35,14 @@ const postAuthRefresh = async (
   const key = await authService.refresh(req.body.refreshKey)
 
   if (!key) {
-    reply.status(403).send({
+    void reply.status(403).send({
       message: 'Could not authenticate to 3rd party using the provided key.',
       statusCode: 403,
     })
     return
   }
 
-  reply.send({
+  return reply.send({
     key,
   })
 }

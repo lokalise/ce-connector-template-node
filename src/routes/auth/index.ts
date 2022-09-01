@@ -1,49 +1,34 @@
-import { buildJsonSchemas } from 'fastify-zod'
-
 import { apiError } from '../schema'
+import type { Routes } from '../types'
 
 import authController from './controller'
 import { authRequestBody, authRefreshRequestBody, authResponseBody } from './schema'
 
-const { schemas, $ref } = buildJsonSchemas(
+const authRouteDefinition: Routes = [
   {
-    authRequestBody,
-    authResponseBody,
-    authRefreshRequestBody,
-    apiError,
+    method: 'POST',
+    url: '/auth',
+    handler: authController.postAuth,
+    schema: {
+      body: authRequestBody,
+      response: {
+        200: authResponseBody,
+        403: apiError,
+      },
+    },
   },
   {
-    $id: 'authSchemas',
+    method: 'POST',
+    url: '/auth/refresh',
+    handler: authController.postAuthRefresh,
+    schema: {
+      body: authRefreshRequestBody,
+      response: {
+        200: authResponseBody,
+        403: apiError,
+      },
+    },
   },
-)
+]
 
-const authRouteDefinition = {
-  schemas,
-  routes: [
-    {
-      method: 'POST',
-      url: '/auth',
-      handler: authController.postAuth,
-      schema: {
-        body: $ref('authRequestBody'),
-        response: {
-          200: $ref('authResponseBody'),
-          403: $ref('apiError'),
-        },
-      },
-    },
-    {
-      method: 'POST',
-      url: '/auth/refresh',
-      handler: authController.postAuthRefresh,
-      schema: {
-        body: $ref('authRefreshRequestBody'),
-        response: {
-          200: $ref('authResponseBody'),
-          403: $ref('apiError'),
-        },
-      },
-    },
-  ],
-}
 export default authRouteDefinition

@@ -1,5 +1,8 @@
 import fastify from 'fastify'
+import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 
+import { errorHandler } from './infrastructure/errors/errorHandler'
 import authTokenValidatorPlugin from './plugins/authTokenValidatorPlugin'
 import routeDefinitions from './routes'
 
@@ -14,12 +17,17 @@ const getApp = async () => {
 
   const versionPrefix = `/v${getMajorApiVersion()}`
 
-  app.register(authTokenValidatorPlugin, {
+  app.setValidatorCompiler(validatorCompiler)
+  app.setSerializerCompiler(serializerCompiler)
+
+  void app.register(authTokenValidatorPlugin, {
     skipList: [
       '/$', // Healthcheck
       ...[`\\/auth$`].map((url) => `^\\${versionPrefix}`.concat(url)),
     ],
   })
+
+  app.setErrorHandler(errorHandler)
 
   app.after(() => {
     // Healthcheck
@@ -27,13 +35,12 @@ const getApp = async () => {
       method: 'GET',
       url: '/',
       handler: (request, reply) => {
-        reply.send('OK')
+        void reply.send('OK')
       },
     })
 
-    routeDefinitions.schemas.forEach((schema) => app.addSchema(schema))
     routeDefinitions.routes.forEach((route) =>
-      app.route({
+      app.withTypeProvider<ZodTypeProvider>().route({
         ...route,
         url: versionPrefix.concat(route.url),
       }),

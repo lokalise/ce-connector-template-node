@@ -1,32 +1,20 @@
-import { buildJsonSchemas } from 'fastify-zod'
+import type { Routes } from '../types'
 
 import publishController from './controller'
 import { publishRequestBody, publishResponseBody } from './schema'
 
-const { schemas, $ref } = buildJsonSchemas(
+const publishRouteDefinition: Routes = [
   {
-    publishRequestBody,
-    publishResponseBody,
-  },
-  {
-    $id: 'publishSchemas',
-  },
-)
-
-const publishRouteDefinition = {
-  schemas,
-  routes: [
-    {
-      method: 'POST',
-      url: '/publish',
-      handler: publishController.publishContent,
-      schema: {
-        body: $ref('publishRequestBody'),
-        response: {
-          200: $ref('publishResponseBody'),
-        },
+    method: 'POST',
+    url: '/publish',
+    handler: publishController.publishContent,
+    schema: {
+      body: publishRequestBody,
+      response: {
+        200: publishResponseBody,
       },
     },
-  ],
-}
+  },
+]
+
 export default publishRouteDefinition

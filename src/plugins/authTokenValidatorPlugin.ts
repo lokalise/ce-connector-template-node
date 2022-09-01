@@ -47,7 +47,7 @@ function plugin(
 }
 
 const authTokenValidatorPlugin = fp<AuthTokenValidatorPluginOptions>(plugin, {
-  fastify: '3.x',
+  fastify: '4.x',
   name: 'auth-token-validator-plugin',
 })
 

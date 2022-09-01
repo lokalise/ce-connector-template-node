@@ -1,36 +1,22 @@
-import { buildJsonSchemas } from 'fastify-zod'
-
 import { apiError } from '../schema'
+import type { Routes } from '../types'
 
 import translateController from './controller'
 import { translateRequestBody, translateResponseBody } from './schema'
 
-const { schemas, $ref } = buildJsonSchemas(
+const translateRouteDefinition: Routes = [
   {
-    translateRequestBody,
-    translateResponseBody,
-    apiError,
-  },
-  {
-    $id: 'translateSchemas',
-  },
-)
-
-const translateRouteDefinition = {
-  schemas,
-  routes: [
-    {
-      method: 'POST',
-      url: '/translate',
-      handler: translateController.getContent,
-      schema: {
-        body: $ref('translateRequestBody'),
-        response: {
-          200: $ref('translateResponseBody'),
-          403: $ref('apiError'),
-        },
+    method: 'POST',
+    url: '/translate',
+    handler: translateController.getContent,
+    schema: {
+      body: translateRequestBody,
+      response: {
+        200: translateResponseBody,
+        403: apiError,
       },
     },
-  ],
-}
+  },
+]
+
 export default translateRouteDefinition
