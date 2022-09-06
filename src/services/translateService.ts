@@ -2,7 +2,7 @@ import type { ItemIdentifiers } from '../types'
 
 const getContent = async (accessToken: string, locales: string[], ids: ItemIdentifiers[]) => {
   // implementation
-  return undefined
+  return Promise.resolve(undefined)
 }
 
 const translateService = {

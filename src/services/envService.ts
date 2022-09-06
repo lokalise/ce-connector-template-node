@@ -1,6 +1,6 @@
 const getLocales = async (accessToken: string) => {
   //TODO: implementation
-  return {
+  return Promise.resolve({
     defaultLocale: 'en',
     locales: [
       {
@@ -8,12 +8,12 @@ const getLocales = async (accessToken: string) => {
         name: 'English',
       },
     ],
-  }
+  })
 }
 
 const getCacheItemStructure = async () => {
   //TODO: implementation
-  return { foo: 'bar' }
+  return Promise.resolve({ foo: 'bar' })
 }
 
 const envService = {
