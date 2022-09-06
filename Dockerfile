@@ -1,4 +1,4 @@
-FROM node:18.8.0-alpine3.15 as base
+FROM node:18.8.0-alpine3.16 as base
 
 FROM base as build
 WORKDIR /srv
@@ -17,7 +17,7 @@ WORKDIR /srv
 RUN apk update && apk add --no-cache git
 
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev --ignore-scripts
 COPY --from=build /srv/dist/ ./
 COPY --from=build /usr/local/lib/node_modules/ /usr/local/lib/node_modules/
 
