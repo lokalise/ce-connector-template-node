@@ -8,7 +8,12 @@ const getContent = async (
   req: FastifyRequest<{ Body: TranslateRequestBody }>,
   reply: TranslateResponse,
 ) => {
-  const items = await translateService.getContent(req.accessToken, req.body.locales, req.body.items)
+  const items = await translateService.getContent(
+    req.accessToken,
+    req.body.locales,
+    req.body.items,
+    req.body.defaultLocale,
+  )
   if (!items) {
     void reply.status(403).send({
       message: 'Could not retrieve content items',

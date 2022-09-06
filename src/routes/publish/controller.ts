@@ -8,7 +8,11 @@ const publishContent = async (
   req: FastifyRequest<{ Body: PublishRequestBody }>,
   reply: PublishResponse,
 ) => {
-  const publishResult = await publishService.publishContent(req.accessToken, req.body.items)
+  const publishResult = await publishService.publishContent(
+    req.accessToken,
+    req.body.items,
+    req.body.defaultLocale,
+  )
   if (!publishResult) {
     void reply.status(403).send({
       message: 'Could not publish content',
