@@ -4,6 +4,7 @@ import { contentItem } from '../schema'
 
 export const publishRequestBody = z.object({
   items: z.array(contentItem),
+  defaultLocale: z.string(),
 })
 
 export const publishResponseBody = z.object({
