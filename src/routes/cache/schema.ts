@@ -5,6 +5,7 @@ import { itemIdentifiers } from '../schema'
 export const cacheItem = itemIdentifiers.extend({
   fields: z.object({}).passthrough(),
   title: z.string().max(255),
+  groupTitle: z.string().max(255),
 })
 
 export const listCacheResponseBody = z.object({
