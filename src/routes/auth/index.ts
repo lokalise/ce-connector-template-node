@@ -2,9 +2,24 @@ import { apiError } from '../schema'
 import type { Routes } from '../types'
 
 import authController from './controller'
-import { authRequestBody, authRefreshRequestBody, authResponseBody } from './schema'
+import {
+  authRequestBody,
+  authRefreshRequestBody,
+  authResponseBody,
+  getAuthResponseBody,
+} from './schema'
 
 const authRouteDefinition: Routes = [
+  {
+    method: 'GET',
+    url: '/auth',
+    handler: authController.getAuth,
+    schema: {
+      response: {
+        200: getAuthResponseBody,
+      },
+    },
+  },
   {
     method: 'POST',
     url: '/auth',
