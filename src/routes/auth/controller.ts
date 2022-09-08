@@ -7,7 +7,15 @@ import type {
   PostAuthRefreshRequestPayload,
   PostAuthRequestPayload,
   AuthRefreshResponse,
+  GetAuthResponse,
 } from './types'
+
+const getAuth = async (req: FastifyRequest, reply: GetAuthResponse) => {
+  await reply.send({
+    // type can be either apiToken or OAuth that depends on the app authorization strategy
+    type: 'apiToken',
+  })
+}
 
 const postAuth = async (
   req: FastifyRequest<{ Body: PostAuthRequestPayload }>,
@@ -48,6 +56,7 @@ const postAuthRefresh = async (
 }
 
 const authController = {
+  getAuth,
   postAuth,
   postAuthRefresh,
 }

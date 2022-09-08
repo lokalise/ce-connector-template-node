@@ -2,7 +2,10 @@ import type z from 'zod'
 
 import type { ApiReply } from '../types'
 
-import type { authRequestBody, authRefreshRequestBody } from './schema'
+import type { getAuthResponseBody, authRequestBody, authRefreshRequestBody } from './schema'
+
+export type GetAuthResponseBody = z.infer<typeof getAuthResponseBody>
+export type GetAuthResponse = ApiReply<GetAuthResponseBody>
 
 export type PostAuthRequestPayload = z.infer<typeof authRequestBody>
 export type PostAuthRefreshRequestPayload = z.infer<typeof authRefreshRequestBody>
