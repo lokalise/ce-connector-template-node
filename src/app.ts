@@ -27,7 +27,7 @@ const getApp = async () => {
     ],
   })
 
-  // app.setErrorHandler(errorHandler)
+  app.setErrorHandler(errorHandler)
 
   app.after(() => {
     // Healthcheck

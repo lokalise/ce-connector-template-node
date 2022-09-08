@@ -1,10 +1,6 @@
-export const decodeBase64 = (data: string): Record<string, unknown> | undefined => {
+export const decodeBase64 = (data: string): Record<string, unknown> => {
   const buffer = Buffer.from(data, 'base64')
-  try {
-    return JSON.parse(buffer.toString('utf-8')) as Record<string, unknown>
-  } catch (e) {
-    return undefined
-  }
+  return JSON.parse(buffer.toString('utf-8')) as Record<string, unknown>
 }
 
 export const encodeBase64 = (data: Record<string, unknown>): string => {

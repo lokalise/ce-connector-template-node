@@ -27,8 +27,8 @@ function plugin(
   pluginOptions: PluginOptions,
   next: (err?: Error) => void,
 ) {
-  fastify.decorateRequest('authConfig', undefined)
-  fastify.decorateRequest('integrationConfig', undefined)
+  fastify.decorateRequest('authConfig', null)
+  fastify.decorateRequest('integrationConfig', null)
 
   const resolvedSkipList: RegExp[] = pluginOptions.skipList.map((regexStr) => new RegExp(regexStr))
 
@@ -40,11 +40,12 @@ function plugin(
         | string
         | undefined
       if (integrationConfigHeaderData) {
-        const integrationConfigDecoded = decodeBase64(integrationConfigHeaderData)
-        if (!integrationConfigDecoded) {
+        try {
+          const integrationConfigDecoded = decodeBase64(integrationConfigHeaderData)
+          req.integrationConfig = integrationConfigDecoded
+        } catch (e) {
           return done(new Error('Invalid configuration data provided'))
         }
-        req.integrationConfig = integrationConfigDecoded
       }
 
       // Auth configuration
@@ -57,13 +58,12 @@ function plugin(
       if (!authConfigHeaderData) {
         return done(new Error('Auth data not provided'))
       }
-
-      const authConfigDecoded = decodeBase64(authConfigHeaderData)
-      if (!authConfigDecoded) {
+      try {
+        const authConfigDecoded = decodeBase64(authConfigHeaderData)
+        req.authConfig = authConfigDecoded
+      } catch (e) {
         return done(new Error('Invalid auth data provided'))
       }
-
-      req.authConfig = authConfigDecoded
 
       return done()
     },
