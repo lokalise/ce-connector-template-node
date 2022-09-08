@@ -5,18 +5,21 @@ import envService from '../../services/envService'
 import type { EnvResponse } from './types'
 
 const getEnv = async (req: FastifyRequest, reply: EnvResponse) => {
-  const localeData = await envService.getLocales(req.accessToken)
+  const localeData = await envService.getLocales(req.integrationConfig, req.authConfig)
   if (!localeData) {
-    void reply.status(403).send({
+    await reply.status(403).send({
       message: 'Could not retrieve locales from 3rd party.',
       statusCode: 403,
     })
     return
   }
 
-  const cacheItemStructure = await envService.getCacheItemStructure()
+  const cacheItemStructure = await envService.getCacheItemStructure(
+    req.integrationConfig,
+    req.authConfig,
+  )
 
-  return reply.send({
+  await reply.send({
     ...localeData,
     cacheItemStructure,
   })

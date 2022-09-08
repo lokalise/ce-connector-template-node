@@ -3,7 +3,7 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 
 import { errorHandler } from './infrastructure/errors/errorHandler'
-import authTokenValidatorPlugin from './plugins/authTokenValidatorPlugin'
+import integrationConfigPlugin from './plugins/integrationConfigPlugin'
 import routeDefinitions from './routes'
 
 const API_VERSION = '1.0.0'
@@ -20,14 +20,14 @@ const getApp = async () => {
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)
 
-  void app.register(authTokenValidatorPlugin, {
+  void app.register(integrationConfigPlugin, {
     skipList: [
       '/$', // Healthcheck
       ...[`\\/auth$`].map((url) => `^\\${versionPrefix}`.concat(url)),
     ],
   })
 
-  app.setErrorHandler(errorHandler)
+  // app.setErrorHandler(errorHandler)
 
   app.after(() => {
     // Healthcheck

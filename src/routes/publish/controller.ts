@@ -9,23 +9,19 @@ const publishContent = async (
   reply: PublishResponse,
 ) => {
   const publishResult = await publishService.publishContent(
-    req.accessToken,
+    req.integrationConfig,
+    req.authConfig,
     req.body.items,
     req.body.defaultLocale,
   )
   if (!publishResult) {
-    void reply.status(403).send({
+    await reply.status(403).send({
       message: 'Could not publish content',
       statusCode: 403,
       error: 'Invalid credentials',
     })
     return
   }
-
-  return reply.send({
-    status: 200,
-    message: 'Content successfully updated',
-  })
 }
 
 const publishController = {

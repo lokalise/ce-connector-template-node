@@ -1,7 +1,8 @@
-import type { ItemIdentifiers } from '../types'
+import type { AuthConfig, IntegrationConfig, ItemIdentifiers } from '../types'
 
 const getContent = async (
-  accessToken: string,
+  config: IntegrationConfig,
+  auth: AuthConfig,
   locales: string[],
   ids: ItemIdentifiers[],
   // Default locale might not be needed for integration logic

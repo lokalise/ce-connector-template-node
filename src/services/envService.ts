@@ -1,4 +1,6 @@
-const getLocales = async (accessToken: string) => {
+import type { AuthConfig, IntegrationConfig } from 'src/types'
+
+const getLocales = async (config: IntegrationConfig, auth: AuthConfig) => {
   //TODO: implementation
   return Promise.resolve({
     defaultLocale: 'en',
@@ -11,7 +13,7 @@ const getLocales = async (accessToken: string) => {
   })
 }
 
-const getCacheItemStructure = async () => {
+const getCacheItemStructure = async (config: IntegrationConfig, auth: AuthConfig) => {
   //TODO: implementation
   return Promise.resolve({ foo: 'bar' })
 }

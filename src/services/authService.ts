@@ -1,9 +1,12 @@
-const validate = async (key: string) => {
+import type { PostAuthRequestPayload } from 'src/routes/auth/types'
+import type { AuthConfig, IntegrationConfig } from 'src/types'
+
+const validate = async (config: IntegrationConfig) => {
   // TODO: implementation
   return Promise.resolve(undefined)
 }
 
-const refresh = async (refreshKey: string) => {
+const refresh = async (config: IntegrationConfig, auth: AuthConfig) => {
   // TODO: implementation
   return Promise.resolve(undefined)
 }
