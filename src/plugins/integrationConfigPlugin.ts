@@ -49,7 +49,13 @@ function plugin(
       }
 
       // Auth configuration
-      if (resolvedSkipList.some((regex) => regex.test(req.routerPath))) {
+      if (
+        resolvedSkipList.some((regex) => {
+          console.log(regex)
+          console.log(req.url)
+          return regex.test(req.url)
+        })
+      ) {
         return done()
       }
 

@@ -6,7 +6,7 @@ import { errorHandler } from './infrastructure/errors/errorHandler'
 import integrationConfigPlugin from './plugins/integrationConfigPlugin'
 import routeDefinitions from './routes'
 
-const API_VERSION = '1.0.0'
+const API_VERSION = '2.1.0'
 
 const getMajorApiVersion = (): string => {
   return parseInt(API_VERSION).toString()
@@ -23,7 +23,7 @@ const getApp = async () => {
   void app.register(integrationConfigPlugin, {
     skipList: [
       '/$', // Healthcheck
-      ...[`\\/auth$`].map((url) => `^\\${versionPrefix}`.concat(url)),
+      ...[`\\/auth.*$`].map((url) => `^\\${versionPrefix}`.concat(url)),
     ],
   })
 

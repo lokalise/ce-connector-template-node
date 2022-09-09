@@ -1,4 +1,4 @@
-import { apiError } from '../schema'
+import { apiError, authError } from '../schema'
 import type { Routes } from '../types'
 
 import authController from './controller'
@@ -7,6 +7,8 @@ import {
   authRefreshRequestBody,
   authResponseBody,
   getAuthResponseBody,
+  authResponseResponseBody,
+  authResponseRequestBody,
 } from './schema'
 
 const authRouteDefinition: Routes = [
@@ -41,6 +43,18 @@ const authRouteDefinition: Routes = [
       response: {
         200: authResponseBody,
         403: apiError,
+      },
+    },
+  },
+  {
+    method: 'POST',
+    url: '/auth/response',
+    handler: authController.postAuthResponse,
+    schema: {
+      body: authResponseRequestBody,
+      response: {
+        200: authResponseResponseBody,
+        403: authError,
       },
     },
   },

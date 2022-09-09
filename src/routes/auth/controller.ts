@@ -8,6 +8,7 @@ import type {
   PostAuthRequestPayload,
   AuthRefreshResponse,
   GetAuthResponse,
+  PostAuthResponseRequestPayload,
 } from './types'
 
 const getAuth = async (req: FastifyRequest, reply: GetAuthResponse) => {
@@ -24,16 +25,14 @@ const postAuth = async (
   const authConfig = await authService.validate(req.body)
 
   if (!authConfig) {
-    void reply.status(403).send({
+    await reply.status(403).send({
       message: 'Could not authenticate to 3rd party using the provided key.',
       statusCode: 403,
     })
     return
   }
 
-  return reply.send({
-    authConfig,
-  })
+  return reply.send(authConfig)
 }
 
 const postAuthRefresh = async (
@@ -43,22 +42,38 @@ const postAuthRefresh = async (
   const authConfig = await authService.refresh(req.integrationConfig, req.body)
 
   if (!authConfig) {
-    void reply.status(403).send({
+    await reply.status(403).send({
       message: 'Could not authenticate to 3rd party using the provided key.',
       statusCode: 403,
     })
     return
   }
 
-  return reply.send({
-    authConfig,
-  })
+  return reply.send(authConfig)
+}
+
+const postAuthResponse = async (
+  req: FastifyRequest<{ Body: PostAuthResponseRequestPayload }>,
+  reply: AuthRefreshResponse,
+) => {
+  const credentials = await authService.getAuthCredentials(req.body)
+
+  if (!credentials) {
+    await reply.status(403).send({
+      message: 'Authorization failed',
+      errorCode: 403,
+    })
+    return
+  }
+
+  return reply.send(credentials)
 }
 
 const authController = {
   getAuth,
   postAuth,
   postAuthRefresh,
+  postAuthResponse,
 }
 
 export default authController
