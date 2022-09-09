@@ -21,9 +21,9 @@ const postAuth = async (
   req: FastifyRequest<{ Body: PostAuthRequestPayload }>,
   reply: AuthResponse,
 ) => {
-  const key = await authService.validate(req.body.key)
+  const authConfig = await authService.validate(req.body)
 
-  if (!key) {
+  if (!authConfig) {
     void reply.status(403).send({
       message: 'Could not authenticate to 3rd party using the provided key.',
       statusCode: 403,
@@ -32,7 +32,7 @@ const postAuth = async (
   }
 
   return reply.send({
-    key,
+    authConfig,
   })
 }
 
@@ -40,9 +40,9 @@ const postAuthRefresh = async (
   req: FastifyRequest<{ Body: PostAuthRefreshRequestPayload }>,
   reply: AuthRefreshResponse,
 ) => {
-  const key = await authService.refresh(req.body.refreshKey)
+  const authConfig = await authService.refresh(req.integrationConfig, req.body)
 
-  if (!key) {
+  if (!authConfig) {
     void reply.status(403).send({
       message: 'Could not authenticate to 3rd party using the provided key.',
       statusCode: 403,
@@ -51,7 +51,7 @@ const postAuthRefresh = async (
   }
 
   return reply.send({
-    key,
+    authConfig,
   })
 }
 

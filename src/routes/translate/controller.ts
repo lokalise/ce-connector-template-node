@@ -9,21 +9,20 @@ const getContent = async (
   reply: TranslateResponse,
 ) => {
   const items = await translateService.getContent(
-    req.accessToken,
+    req.integrationConfig,
+    req.authConfig,
     req.body.locales,
     req.body.items,
     req.body.defaultLocale,
   )
   if (!items) {
-    void reply.status(403).send({
+    await reply.status(403).send({
       message: 'Could not retrieve content items',
       statusCode: 403,
       error: 'Invalid credentials',
     })
     return
   }
-
-  return reply.send({ items })
 }
 
 const translateController = {

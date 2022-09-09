@@ -14,3 +14,7 @@ export const apiError = z.object({
   message: z.string(),
   statusCode: z.number(),
 })
+
+export const integrationConfig = z.object({}).passthrough()
+
+export const authConfig = z.object({}).passthrough()

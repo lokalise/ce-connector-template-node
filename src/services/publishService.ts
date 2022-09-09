@@ -1,7 +1,8 @@
-import type { ContentItem } from '../types'
+import type { AuthConfig, ContentItem, IntegrationConfig } from '../types'
 
 const publishContent = async (
-  accessToken: string,
+  config: IntegrationConfig,
+  auth: AuthConfig,
   items: ContentItem[],
   // Default locale might not be needed for integration logic
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
