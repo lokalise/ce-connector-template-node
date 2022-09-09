@@ -22,6 +22,11 @@ const publishContent = async (
     })
     return
   }
+
+  await reply.send({
+    status: 200,
+    message: 'Content successfully updated',
+  })
 }
 
 const publishController = {

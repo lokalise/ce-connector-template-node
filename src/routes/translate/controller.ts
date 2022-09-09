@@ -23,6 +23,8 @@ const getContent = async (
     })
     return
   }
+
+  await reply.send({ items })
 }
 
 const translateController = {
