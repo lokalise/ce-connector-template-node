@@ -51,8 +51,6 @@ function plugin(
       // Auth configuration
       if (
         resolvedSkipList.some((regex) => {
-          console.log(regex)
-          console.log(req.url)
           return regex.test(req.url)
         })
       ) {
