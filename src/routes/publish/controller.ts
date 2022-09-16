@@ -8,7 +8,7 @@ const publishContent = async (
   req: FastifyRequest<{ Body: PublishRequestBody }>,
   reply: PublishResponse,
 ) => {
-  const publishResult = await publishService.publishContent(
+  const [publishResult, updateItems] = await publishService.publishContent(
     req.integrationConfig,
     req.authConfig,
     req.body.items,
@@ -26,6 +26,7 @@ const publishContent = async (
   await reply.send({
     status: 200,
     message: 'Content successfully updated',
+    updateItems,
   })
 }
 

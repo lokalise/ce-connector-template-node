@@ -1,6 +1,6 @@
 import z from 'zod'
 
-import { contentItem } from '../schema'
+import { contentItem, itemIdentifiers } from '../schema'
 
 export const publishRequestBody = z.object({
   items: z.array(contentItem),
@@ -10,4 +10,5 @@ export const publishRequestBody = z.object({
 export const publishResponseBody = z.object({
   status: z.number(),
   message: z.string(),
+  updateItems: z.array(itemIdentifiers),
 })

@@ -2,18 +2,39 @@ import fastify from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 
+import config from './config'
 import { errorHandler } from './infrastructure/errors/errorHandler'
 import integrationConfigPlugin from './plugins/integrationConfigPlugin'
 import routeDefinitions from './routes'
 
-const API_VERSION = '2.1.0'
+const API_VERSION = '2.1.1'
 
 const getMajorApiVersion = (): string => {
   return parseInt(API_VERSION).toString()
 }
 
 const getApp = async () => {
-  const app = fastify()
+  const app = fastify({
+    logger:
+      config.app.env === 'development'
+        ? {
+            transport: {
+              target: 'pino-pretty',
+              options: {
+                colorize: true,
+                quietReqLogger: true,
+                crlf: true,
+                levelFirst: true,
+                singleLine: true,
+                messageFormat: '[{context}] {msg}',
+                errorLikeObjectKeys: [],
+                translateTime: 'SYS:standard',
+                ignore: 'hostname,pid',
+              },
+            },
+          }
+        : true,
+  })
 
   const versionPrefix = `/v${getMajorApiVersion()}`
 
@@ -23,7 +44,7 @@ const getApp = async () => {
   void app.register(integrationConfigPlugin, {
     skipList: [
       '/$', // Healthcheck
-      ...[`\\/auth.*$`].map((url) => `^\\${versionPrefix}`.concat(url)),
+      ...[`\\/auth$`, `\\/auth/response$`].map((url) => `^\\${versionPrefix}`.concat(url)),
     ],
   })
 
@@ -34,6 +55,14 @@ const getApp = async () => {
     app.route({
       method: 'GET',
       url: '/',
+      handler: (request, reply) => {
+        void reply.send('OK')
+      },
+    })
+
+    app.route({
+      method: 'GET',
+      url: '/health',
       handler: (request, reply) => {
         void reply.send('OK')
       },

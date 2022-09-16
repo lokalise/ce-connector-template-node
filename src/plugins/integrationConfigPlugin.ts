@@ -19,7 +19,7 @@ interface PluginOptions {
   skipList: string[]
 }
 
-const AUTH_HEADER = 'X-Api-Token'
+const AUTH_HEADER = 'CE-Auth'
 const CONFIG_HEADER = 'CE-Config'
 
 function plugin(
@@ -27,8 +27,8 @@ function plugin(
   pluginOptions: PluginOptions,
   next: (err?: Error) => void,
 ) {
-  fastify.decorateRequest('authConfig', null)
-  fastify.decorateRequest('integrationConfig', null)
+  fastify.decorateRequest('authConfig', undefined)
+  fastify.decorateRequest('integrationConfig', undefined)
 
   const resolvedSkipList: RegExp[] = pluginOptions.skipList.map((regexStr) => new RegExp(regexStr))
 
@@ -40,34 +40,41 @@ function plugin(
         | string
         | undefined
       if (integrationConfigHeaderData) {
-        try {
-          const integrationConfigDecoded = decodeBase64(integrationConfigHeaderData)
-          req.integrationConfig = integrationConfigDecoded
-        } catch (e) {
+        const integrationConfigDecoded = decodeBase64(integrationConfigHeaderData)
+        if (!integrationConfigDecoded) {
+          void res.status(401).send({
+            errorCode: 401,
+            message: 'Invalid configuration data provided',
+          })
           return done(new Error('Invalid configuration data provided'))
         }
+        req.integrationConfig = integrationConfigDecoded
       }
 
       // Auth configuration
-      if (
-        resolvedSkipList.some((regex) => {
-          return regex.test(req.url)
-        })
-      ) {
+      if (resolvedSkipList.some((regex) => regex.test(req.routerPath))) {
         return done()
       }
 
       const authConfigHeaderData = req.headers[AUTH_HEADER.toLowerCase()] as string | undefined
-
       if (!authConfigHeaderData) {
+        void res.status(401).send({
+          errorCode: 401,
+          message: 'Authorization data not provided',
+        })
         return done(new Error('Auth data not provided'))
       }
-      try {
-        const authConfigDecoded = decodeBase64(authConfigHeaderData)
-        req.authConfig = authConfigDecoded
-      } catch (e) {
+
+      const authConfigDecoded = decodeBase64(authConfigHeaderData)
+      if (!authConfigDecoded) {
+        void res.status(400).send({
+          errorCode: 400,
+          message: 'Invalid authorization data provided',
+        })
         return done(new Error('Invalid auth data provided'))
       }
+
+      req.authConfig = authConfigDecoded
 
       return done()
     },

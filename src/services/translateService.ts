@@ -1,4 +1,4 @@
-import type { AuthConfig, IntegrationConfig, ItemIdentifiers } from '../types'
+import type { AuthConfig, ContentItem, IntegrationConfig, ItemIdentifiers } from '../types'
 
 const getContent = async (
   config: IntegrationConfig,
@@ -8,9 +8,9 @@ const getContent = async (
   // Default locale might not be needed for integration logic
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   defaultLocale: string,
-) => {
+): Promise<[ContentItem[] | undefined, ItemIdentifiers[]]> => {
   // implementation
-  return Promise.resolve(undefined)
+  return Promise.resolve([undefined, []])
 }
 
 const translateService = {

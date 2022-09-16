@@ -3,26 +3,22 @@ import type { FastifyRequest } from 'fastify'
 import authService from '../../services/authService'
 
 import type {
-  AuthResponse,
-  PostAuthRefreshRequestPayload,
-  PostAuthRequestPayload,
-  AuthRefreshResponse,
+  PostAuthResponse,
   GetAuthResponse,
   PostAuthResponseRequestPayload,
+  PostAuthResponseResponse,
+  PostAuthRefreshResponse,
 } from './types'
 
 const getAuth = async (req: FastifyRequest, reply: GetAuthResponse) => {
   await reply.send({
-    // type can be either apiKey or OAuth that depends on the app authorization strategy
-    type: 'apiKey',
+    // type can be either apiToken or OAuth that depends on the app authorization strategy
+    type: 'apiToken',
   })
 }
 
-const postAuth = async (
-  req: FastifyRequest<{ Body: PostAuthRequestPayload }>,
-  reply: AuthResponse,
-) => {
-  const authConfig = await authService.validate(req.body)
+const postAuth = async (req: FastifyRequest, reply: PostAuthResponse) => {
+  const authConfig = await authService.validate(req.integrationConfig)
 
   if (!authConfig) {
     await reply.status(403).send({
@@ -32,14 +28,11 @@ const postAuth = async (
     return
   }
 
-  return reply.send(authConfig)
+  await reply.send(authConfig)
 }
 
-const postAuthRefresh = async (
-  req: FastifyRequest<{ Body: PostAuthRefreshRequestPayload }>,
-  reply: AuthRefreshResponse,
-) => {
-  const authConfig = await authService.refresh(req.integrationConfig, req.body)
+const postAuthRefresh = async (req: FastifyRequest, reply: PostAuthRefreshResponse) => {
+  const authConfig = await authService.refresh(req.integrationConfig, req.authConfig)
 
   if (!authConfig) {
     await reply.status(403).send({
@@ -54,7 +47,7 @@ const postAuthRefresh = async (
 
 const postAuthResponse = async (
   req: FastifyRequest<{ Body: PostAuthResponseRequestPayload }>,
-  reply: AuthRefreshResponse,
+  reply: PostAuthResponseResponse,
 ) => {
   const credentials = await authService.getAuthCredentials(req.body)
 
