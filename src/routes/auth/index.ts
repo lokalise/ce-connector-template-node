@@ -5,8 +5,8 @@ import authController from './controller'
 import {
   getAuthResponseBody,
   postAuthResponseBody,
-  postAuthResponseResponseBody,
-  postAuthResponseRequestBody,
+  postAuthResultResponseBody,
+  postAuthResultRequestBody,
 } from './schema'
 
 const authRouteDefinition: Routes = [
@@ -47,9 +47,9 @@ const authRouteDefinition: Routes = [
     url: '/auth/response',
     handler: authController.postAuthResponse,
     schema: {
-      body: postAuthResponseRequestBody,
+      body: postAuthResultRequestBody,
       response: {
-        200: postAuthResponseResponseBody,
+        200: postAuthResultResponseBody,
         403: authError,
       },
     },

@@ -8,10 +8,10 @@ export const getAuthResponseBody = z.object({
 
 export const postAuthResponseBody = z.object({}).passthrough()
 
-export const postAuthResponseRequestBody = z.object({
+export const postAuthResultRequestBody = z.object({
   query: z.object({}).passthrough(),
   body: z.object({}).passthrough(),
   redirectUrl: z.string().max(255),
 })
 
-export const postAuthResponseResponseBody = z.object({}).passthrough()
+export const postAuthResultResponseBody = z.object({}).passthrough()
