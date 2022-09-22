@@ -1,4 +1,4 @@
-import type { PostAuthResponseRequestPayload } from 'src/routes/auth/types'
+import type { PostAuthResultRequestPayload } from 'src/routes/auth/types'
 import type { AuthConfig, IntegrationConfig } from 'src/types'
 
 // API key flow
@@ -27,7 +27,7 @@ const refresh = async (config: IntegrationConfig, auth: AuthConfig) => {
   })
 }
 
-const getAuthCredentials = async (authData: PostAuthResponseRequestPayload) => {
+const getAuthCredentials = async (authData: PostAuthResultRequestPayload) => {
   // TODO: implementation
   return Promise.resolve({
     accessToken: 'accessToken',

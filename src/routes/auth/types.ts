@@ -13,6 +13,6 @@ export type PostAuthResponse = ApiReply<PostAuthResponseBody>
 
 export type PostAuthRefreshResponse = ApiReply<PostAuthResponseBody>
 
-export type PostAuthResponseRequestPayload = z.infer<typeof postAuthResultRequestBody>
-export type PostAuthResponseResponseBody = Record<string, unknown>
-export type PostAuthResponseResponse = ApiReply<PostAuthResponseResponseBody>
+export type PostAuthResultRequestPayload = z.infer<typeof postAuthResultRequestBody>
+export type PostAuthResultResponseBody = Record<string, unknown>
+export type PostAuthResultResponse = ApiReply<PostAuthResultResponseBody>

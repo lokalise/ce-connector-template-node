@@ -5,8 +5,8 @@ import authService from '../../services/authService'
 import type {
   PostAuthResponse,
   GetAuthResponse,
-  PostAuthResponseRequestPayload,
-  PostAuthResponseResponse,
+  PostAuthResultRequestPayload,
+  PostAuthResultResponse,
   PostAuthRefreshResponse,
 } from './types'
 
@@ -49,8 +49,8 @@ const postAuthRefresh = async (req: FastifyRequest, reply: PostAuthRefreshRespon
 }
 
 const postAuthResponse = async (
-  req: FastifyRequest<{ Body: PostAuthResponseRequestPayload }>,
-  reply: PostAuthResponseResponse,
+  req: FastifyRequest<{ Body: PostAuthResultRequestPayload }>,
+  reply: PostAuthResultResponse,
 ) => {
   const credentials = await authService.getAuthCredentials(req.body)
 
