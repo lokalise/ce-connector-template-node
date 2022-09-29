@@ -6,6 +6,9 @@ import type {
 } from 'fastify'
 import fp from 'fastify-plugin'
 
+import { InternalError } from '../infrastructure/errors/InternalError'
+import { PublicNonRecoverableError } from '../infrastructure/errors/PublicNonRecoverableError'
+
 import { decodeBase64 } from './helpers'
 
 declare module 'fastify' {
@@ -27,8 +30,8 @@ function plugin(
   pluginOptions: PluginOptions,
   next: (err?: Error) => void,
 ) {
-  fastify.decorateRequest('authConfig', undefined)
-  fastify.decorateRequest('integrationConfig', undefined)
+  fastify.decorateRequest('authConfig', null)
+  fastify.decorateRequest('integrationConfig', null)
 
   const resolvedSkipList: RegExp[] = pluginOptions.skipList.map((regexStr) => new RegExp(regexStr))
 
@@ -42,11 +45,12 @@ function plugin(
       if (integrationConfigHeaderData) {
         const integrationConfigDecoded = decodeBase64(integrationConfigHeaderData)
         if (!integrationConfigDecoded) {
-          void res.status(401).send({
-            errorCode: 401,
-            message: 'Invalid configuration data provided',
-          })
-          return done(new Error('Invalid configuration data provided'))
+          return done(
+            new PublicNonRecoverableError({
+              errorCode: '401',
+              message: 'Invalid configuration data provided',
+            }),
+          )
         }
         req.integrationConfig = integrationConfigDecoded
       }
@@ -58,20 +62,22 @@ function plugin(
 
       const authConfigHeaderData = req.headers[AUTH_HEADER.toLowerCase()] as string | undefined
       if (!authConfigHeaderData) {
-        void res.status(401).send({
-          errorCode: 401,
-          message: 'Authorization data not provided',
-        })
-        return done(new Error('Auth data not provided'))
+        return done(
+          new PublicNonRecoverableError({
+            errorCode: '401',
+            message: 'Authorization data not provided',
+          }),
+        )
       }
 
       const authConfigDecoded = decodeBase64(authConfigHeaderData)
       if (!authConfigDecoded) {
-        void res.status(400).send({
-          errorCode: 400,
-          message: 'Invalid authorization data provided',
-        })
-        return done(new Error('Invalid auth data provided'))
+        return done(
+          new PublicNonRecoverableError({
+            errorCode: '400',
+            message: 'Invalid authorization data provided',
+          }),
+        )
       }
 
       req.authConfig = authConfigDecoded
