@@ -2,7 +2,7 @@ import z from 'zod'
 
 import { integrationConfig } from '../schema'
 
-const AUTH_TYPES_AVAILABLE = ['OAuth', 'apiToken'] as const
+const AUTH_TYPES_AVAILABLE = ['OAuth', 'apiKey'] as const
 
 export const getAuthResponseBody = z.object({
   type: z.enum(AUTH_TYPES_AVAILABLE),

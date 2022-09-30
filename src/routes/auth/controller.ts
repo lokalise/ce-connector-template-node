@@ -12,8 +12,8 @@ import type {
 
 const getAuth = async (req: FastifyRequest, reply: GetAuthResponse) => {
   await reply.send({
-    // type can be either apiToken or OAuth that depends on the app authorization strategy
-    type: 'apiToken',
+    // type can be either apiKey or OAuth that depends on the app authorization strategy
+    type: 'apiKey',
   })
 }
 
