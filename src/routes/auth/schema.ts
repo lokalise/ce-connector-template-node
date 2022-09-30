@@ -1,15 +1,17 @@
 import z from 'zod'
 
-import { integrationConfig } from '../schema'
-
-const AUTH_TYPES_AVAILABLE = ['OAuth', 'apiKey'] as const
+const AUTH_TYPES_AVAILABLE = ['OAuth', 'apiToken'] as const
 
 export const getAuthResponseBody = z.object({
   type: z.enum(AUTH_TYPES_AVAILABLE),
 })
 
-export const authRequestBody = integrationConfig
+export const postAuthResponseBody = z.object({}).passthrough()
 
-export const authRefreshRequestBody = z.object({}).passthrough()
+export const postAuthResultRequestBody = z.object({
+  query: z.object({}).passthrough(),
+  body: z.object({}).passthrough(),
+  redirectUrl: z.string().max(255),
+})
 
-export const authResponseBody = z.object({}).passthrough()
+export const postAuthResultResponseBody = z.object({}).passthrough()

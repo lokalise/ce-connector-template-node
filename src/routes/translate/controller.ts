@@ -8,7 +8,7 @@ const getContent = async (
   req: FastifyRequest<{ Body: TranslateRequestBody }>,
   reply: TranslateResponse,
 ) => {
-  const items = await translateService.getContent(
+  const [items, updateItems] = await translateService.getContent(
     req.integrationConfig,
     req.authConfig,
     req.body.locales,
@@ -23,6 +23,8 @@ const getContent = async (
     })
     return
   }
+
+  await reply.send({ items, updateItems })
 }
 
 const translateController = {

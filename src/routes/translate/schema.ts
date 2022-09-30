@@ -10,4 +10,5 @@ export const translateRequestBody = z.object({
 
 export const translateResponseBody = z.object({
   items: z.array(contentItem),
+  updateItems: z.array(itemIdentifiers),
 })

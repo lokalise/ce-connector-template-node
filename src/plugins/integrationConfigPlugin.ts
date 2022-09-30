@@ -6,6 +6,9 @@ import type {
 } from 'fastify'
 import fp from 'fastify-plugin'
 
+import { InternalError } from '../infrastructure/errors/InternalError'
+import { PublicNonRecoverableError } from '../infrastructure/errors/PublicNonRecoverableError'
+
 import { decodeBase64 } from './helpers'
 
 declare module 'fastify' {
@@ -19,7 +22,7 @@ interface PluginOptions {
   skipList: string[]
 }
 
-const AUTH_HEADER = 'X-Api-Token'
+const AUTH_HEADER = 'CE-Auth'
 const CONFIG_HEADER = 'CE-Config'
 
 function plugin(
@@ -40,12 +43,16 @@ function plugin(
         | string
         | undefined
       if (integrationConfigHeaderData) {
-        try {
-          const integrationConfigDecoded = decodeBase64(integrationConfigHeaderData)
-          req.integrationConfig = integrationConfigDecoded
-        } catch (e) {
-          return done(new Error('Invalid configuration data provided'))
+        const integrationConfigDecoded = decodeBase64(integrationConfigHeaderData)
+        if (!integrationConfigDecoded) {
+          return done(
+            new PublicNonRecoverableError({
+              errorCode: '401',
+              message: 'Invalid configuration data provided',
+            }),
+          )
         }
+        req.integrationConfig = integrationConfigDecoded
       }
 
       // Auth configuration
@@ -54,16 +61,26 @@ function plugin(
       }
 
       const authConfigHeaderData = req.headers[AUTH_HEADER.toLowerCase()] as string | undefined
-
       if (!authConfigHeaderData) {
-        return done(new Error('Auth data not provided'))
+        return done(
+          new PublicNonRecoverableError({
+            errorCode: '401',
+            message: 'Authorization data not provided',
+          }),
+        )
       }
-      try {
-        const authConfigDecoded = decodeBase64(authConfigHeaderData)
-        req.authConfig = authConfigDecoded
-      } catch (e) {
-        return done(new Error('Invalid auth data provided'))
+
+      const authConfigDecoded = decodeBase64(authConfigHeaderData)
+      if (!authConfigDecoded) {
+        return done(
+          new PublicNonRecoverableError({
+            errorCode: '400',
+            message: 'Invalid authorization data provided',
+          }),
+        )
       }
+
+      req.authConfig = authConfigDecoded
 
       return done()
     },

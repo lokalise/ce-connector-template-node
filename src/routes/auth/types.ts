@@ -2,15 +2,17 @@ import type z from 'zod'
 
 import type { ApiReply } from '../types'
 
-import type { getAuthResponseBody } from './schema'
+import type { getAuthResponseBody, postAuthResultRequestBody } from './schema'
 
 export type GetAuthResponseBody = z.infer<typeof getAuthResponseBody>
 export type GetAuthResponse = ApiReply<GetAuthResponseBody>
 
-export type PostAuthRequestPayload = Record<string, unknown>
-export type PostAuthRefreshRequestPayload = Record<string, unknown>
+// url field is needed if OAuth flow used
+export type PostAuthResponseBody = Record<string, unknown> & { url?: string }
+export type PostAuthResponse = ApiReply<PostAuthResponseBody>
 
-export type AuthResponseBody = Record<string, unknown>
-export type AuthResponse = ApiReply<AuthResponseBody>
+export type PostAuthRefreshResponse = ApiReply<PostAuthResponseBody>
 
-export type AuthRefreshResponse = ApiReply<AuthResponseBody>
+export type PostAuthResultRequestPayload = z.infer<typeof postAuthResultRequestBody>
+export type PostAuthResultResponseBody = Record<string, unknown>
+export type PostAuthResultResponse = ApiReply<PostAuthResultResponseBody>
