@@ -5,7 +5,7 @@
   "description": "Template connector for Lokalise Content type app engine",
   "main": "server.js",
   "scripts": {
-    "copy:config": "cpy --rename=.env ./docker/.env.default ./",
+    "copy:config": "cpy --rename=.env .env.default ./",
     "build": "tsc",
     "test": "jest",
     "test:coverage": "jest --coverage",
