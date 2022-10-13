@@ -54,4 +54,4 @@ Openapi docs are available at [connector-openapi](https://github.com/lokalise/co
 
 This library is licensed under the [Apache 2.0 license](LICENSE). 
 
-Copyright (c) [Lokalise group](https://lokalise.com/).
+Copyright (c) [Lokalise](https://lokalise.com/).
