@@ -1,6 +1,6 @@
 # Code of Conduct
 
-Lokalise, as member project of the OpenJS Foundation, use [Contributor Covenant
+Lokalise use [Contributor Covenant
 v2.0](https://contributor-covenant.org/version/2/0/code_of_conduct) as their
 code of conduct. The full text is included
 [below](#contributor-covenant-code-of-conduct) in English, and translations are
@@ -9,20 +9,19 @@ available from the Contributor Covenant organisation:
 - [contributor-covenant.org/translations](https://www.contributor-covenant.org/translations)
 - [github.com/ContributorCovenant](https://github.com/ContributorCovenant/contributor_covenant/tree/release/content/version/2/0)
 
-Refer to the sections on reporting and escalation in this document for the
+Refer to the sections on reporting in this document for the
 specific emails that can be used to report and escalate issues.
 
 ## Reporting
 
 ### Project Spaces
 
-For reporting issues in spaces related to Fastify please use the email
-`igor.savin@lokalise.com`. Fastify handles CoC issues
+For reporting issues in spaces related to Lokalise please use the email
+`igor.savin@lokalise.com`. Lokalise handles CoC issues
 related to the spaces that it maintains. Projects maintainers commit to:
 
 - maintain the confidentiality with regard to the reporter of an incident
-- to participate in the path for escalation as outlined in the section on
-  Escalation when required.
+- to participate in the path for escalation when required.
 
 ## Contributor Covenant Code of Conduct v2.0
 
@@ -86,8 +85,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at the email
-addresses listed above in the [Reporting](#reporting) and
-[Escalation](#escalation) sections. All complaints will be reviewed and
+addresses listed above in the [Reporting](#reporting) sections. All complaints will be reviewed and
 investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
