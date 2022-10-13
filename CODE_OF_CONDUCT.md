@@ -1,6 +1,6 @@
 # Code of Conduct
 
-Lokalise use [Contributor Covenant
+Lokalise uses [Contributor Covenant
 v2.0](https://contributor-covenant.org/version/2/0/code_of_conduct) as their
 code of conduct. The full text is included
 [below](#contributor-covenant-code-of-conduct) in English, and translations are
