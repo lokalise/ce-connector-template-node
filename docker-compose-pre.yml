@@ -1,8 +1,0 @@
-services:
-  app:
-    image: reg.lokalise.work/content-engine/ce-connector-template:${TAG}
-    ports:
-      - '80:3000'
-    restart: unless-stopped
-    env_file:
-      - .env
