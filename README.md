@@ -49,3 +49,9 @@ Run linter:
 ## Openapi
 
 Openapi docs are available at [connector-openapi](https://github.com/lokalise/connector-openapi/blob/master/postman/schemas/schema.yaml)
+
+## License
+
+This library is licensed under the [Apache 2.0 license](LICENSE). 
+
+Copyright (c) [Lokalise](https://lokalise.com/).
