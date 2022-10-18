@@ -10,7 +10,7 @@ You can build and publish **your own content exchange app** by building a connec
  ------------------     -------------------------     ----------------  
 ```
 
-In this repository you will find **PHP code that you can use as a template** for your Lokalise content exchange connector.
+In this repository you will find **TypeScript code that you can use as a template** for your Lokalise content exchange connector.
 
 - The technical requirements of a connector are detailed on [Lokalise Developer Hub](https://developers.lokalise.com/docs/technical-requirements-content-exchange-hosted-connector).
 - The [OpenAPI schema](schema.yaml) describes the endpoints that must be served by a connector.
