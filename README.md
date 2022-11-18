@@ -21,7 +21,17 @@ To start development of a new connector:
 
 1. Copy this repository code to your repository
 2. Replace all entries **template** with **yourConnectorName** and **Template** with **YourConnectorName**
-3. Start implementing your connector specific logic replacing TODOs
+3. Start implementing your connector specific logic replacing TODOs. Note that field values in cacheItemStructure of [envResponseBody](src\routes\env\schema.ts) should be in the following format:
+
+   - First letter of the first name word should be capitalized.
+   - First letter of the second, etc word in name should be lower case.
+   - Concatenated words should be split.
+   - The field name should be meaningful to the user because it appears on the UI, and it helps users identify their
+     content.
+
+   In response all DateTime fields from [cacheItem](src\routes\cache\schema.ts) should be
+   converted in format `yyyy-mm-dd`.
+
 4. Remove current section from README
 
 ## Installation
