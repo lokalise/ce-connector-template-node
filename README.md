@@ -24,13 +24,21 @@ To start development of a new connector:
 3. Start implementing your connector specific logic replacing TODOs. Note that field values in cacheItemStructure of [envResponseBody](src\routes\env\schema.ts) should be in the following format:
 
    - First letter of the first name word should be capitalized.
+     - Wrong: "author"
+     - Correct: "Author"
    - First letter of the second, etc word in name should be lower case.
+     - Wrong: "Group Name"
+     - Correct: "Group name"
    - Concatenated words should be split.
-   - The field name should be meaningful to the user because it appears on the UI, and it helps users identify their
-     content.
+     - Wrong: "GroupName"
+     - Correct: "Group name"
+   - The field name should be meaningful to the user because it appears on the UI, and it helps users identify their content.
 
    In response all DateTime fields from [cacheItem](src\routes\cache\schema.ts) should be
    converted in format `yyyy-mm-dd`.
+
+   - Wrong: `fields: {updatedAt: "15.06.2022"}`
+   - Correct: `fields: {updatedAt: "2022-06-15"}`
 
 4. Remove current section from README
 
