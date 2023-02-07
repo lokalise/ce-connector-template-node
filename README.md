@@ -7,7 +7,7 @@ You can build and publish **your own content exchange app** by building a connec
 ```ascii
  ------------------     -------------------------     ----------------
 | Your content app | = | Lokalise content engine | + | Your connector |
- ------------------     -------------------------     ----------------  
+ ------------------     -------------------------     ----------------
 ```
 
 In this repository you will find **TypeScript code that you can use as a template** for your Lokalise content exchange connector.
@@ -50,7 +50,7 @@ For development, use the dockerized environment:
 
 `docker compose up -d`
 
-The app is available at: http://localhost:3000/
+The app is available at: http://localhost:3000/ (If `HOST_APP_PORT` was not changed)
 
 Run tests:
 
@@ -70,6 +70,6 @@ Openapi docs are available at [connector-openapi](https://github.com/lokalise/co
 
 ## License
 
-This library is licensed under the [Apache 2.0 license](LICENSE). 
+This library is licensed under the [Apache 2.0 license](LICENSE).
 
 Copyright (c) [Lokalise](https://lokalise.com/).
