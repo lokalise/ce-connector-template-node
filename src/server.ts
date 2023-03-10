@@ -1,17 +1,26 @@
-import getApp from './app'
-import config from './config'
-import { isObject } from './types'
+/* istanbul ignore file */
 
-const hasMessage = (error: unknown): error is { message: unknown } =>
-  isObject(error) && 'message' in error
+import { getApp } from './app'
+import type { Config } from './infrastructure/config'
+import { getConfig } from './infrastructure/config'
+import {
+  executeAndHandleGlobalErrors,
+  globalLogger,
+  resolveGlobalErrorLogObject,
+} from './infrastructure/errors/globalErrorHandler'
 
 async function start() {
+  globalLogger.info('Starting application...')
+  const config = executeAndHandleGlobalErrors<Config>(getConfig)
   const app = await getApp()
 
   try {
-    await app.listen({ port: Number(config.app.port), host: '0.0.0.0' })
-  } catch (error) {
-    app.log.error(hasMessage(error) ? error.message : error)
+    await app.listen({
+      host: config.app.bindAddress,
+      port: config.app.port,
+    })
+  } catch (err) {
+    app.log.error(resolveGlobalErrorLogObject(err))
     process.exit(1)
   }
 }

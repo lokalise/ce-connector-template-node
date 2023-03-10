@@ -6,10 +6,8 @@ import type {
 } from 'fastify'
 import fp from 'fastify-plugin'
 
-import { InternalError } from '../infrastructure/errors/InternalError'
 import { PublicNonRecoverableError } from '../infrastructure/errors/PublicNonRecoverableError'
-
-import { decodeBase64 } from './helpers'
+import { decodeBase64 } from '../utils/base64Utils'
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -89,9 +87,7 @@ function plugin(
   next()
 }
 
-const integrationConfigPlugin = fp<PluginOptions>(plugin, {
+export const integrationConfigPlugin = fp<PluginOptions>(plugin, {
   fastify: '4.x',
   name: 'auth-token-validator-plugin',
 })
-
-export default integrationConfigPlugin
