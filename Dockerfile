@@ -1,9 +1,9 @@
-FROM node:18.8.0-alpine3.16 as base
+FROM node:18.14.1-alpine3.17 as base
 
 FROM base as build
 WORKDIR /srv
 
-RUN apk update && apk add --no-cache git && npm install pm2@5.1.1 --location=global
+RUN apk update && apk add --no-cache git && npm install pm2@5.2.2 --location=global
 
 COPY package.json package-lock.json ./
 RUN npm install

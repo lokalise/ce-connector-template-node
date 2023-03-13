@@ -2,10 +2,10 @@ import fastify from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 
-import config from './config'
+import { isDevelopment } from './infrastructure/config'
 import { errorHandler } from './infrastructure/errors/errorHandler'
-import integrationConfigPlugin from './plugins/integrationConfigPlugin'
-import routeDefinitions from './routes'
+import routeDefinitions from './modules/routes'
+import { integrationConfigPlugin } from './plugins/integrationConfigPlugin'
 
 const API_VERSION = '2.1.1'
 
@@ -13,27 +13,26 @@ const getMajorApiVersion = (): string => {
   return parseInt(API_VERSION).toString()
 }
 
-const getApp = async () => {
+export async function getApp() {
   const app = fastify({
-    logger:
-      config.app.env === 'development'
-        ? {
-            transport: {
-              target: 'pino-pretty',
-              options: {
-                colorize: true,
-                quietReqLogger: true,
-                crlf: true,
-                levelFirst: true,
-                singleLine: true,
-                messageFormat: '[{context}] {msg}',
-                errorLikeObjectKeys: [],
-                translateTime: 'SYS:standard',
-                ignore: 'hostname,pid',
-              },
+    logger: isDevelopment()
+      ? {
+          transport: {
+            target: 'pino-pretty',
+            options: {
+              colorize: true,
+              quietReqLogger: true,
+              crlf: true,
+              levelFirst: true,
+              singleLine: true,
+              messageFormat: '[{context}] {msg}',
+              errorLikeObjectKeys: [],
+              translateTime: 'SYS:standard',
+              ignore: 'hostname,pid',
             },
-          }
-        : true,
+          },
+        }
+      : true,
   })
 
   const versionPrefix = `/v${getMajorApiVersion()}`
@@ -80,5 +79,3 @@ const getApp = async () => {
 
   return app
 }
-
-export default getApp

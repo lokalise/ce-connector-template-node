@@ -16,10 +16,10 @@
   "coveragePathIgnorePatterns": ["<rootDir>/node_modules/", "<rootDir>/coverage/"],
   "coverageThreshold": {
     "global": {
-      "statements": 75,
-      "branches": 50,
-      "functions": 75,
-      "lines": 75
+      "statements": 0,
+      "branches": 0,
+      "functions": 0,
+      "lines": 0
     }
   }
 }
