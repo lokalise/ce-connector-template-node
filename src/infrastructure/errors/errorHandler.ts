@@ -9,6 +9,9 @@ import { PublicNonRecoverableError } from './PublicNonRecoverableError'
 
 import stdSerializers = pino.stdSerializers
 
+import { reportErrorToBugsnag } from '@lokalise/fastify-extras'
+import type { NotifiableError } from '@bugsnag/js'
+
 type ResponseObject = {
   statusCode: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,6 +80,12 @@ export const errorHandler = function (
 ): void {
   const logObject = resolveLogObject(error)
   const responseObject = resolveResponseObject(error)
+
+  if (responseObject.statusCode === 500) {
+    reportErrorToBugsnag({
+      error: error as NotifiableError,
+    })
+  }
 
   this.log.error(logObject)
   void reply.status(responseObject.statusCode).send(responseObject.payload)
