@@ -2,7 +2,7 @@
 
 import { getApp } from './app'
 import type { Config } from './infrastructure/config'
-import { getConfig } from './infrastructure/config'
+import { getConfig, isProduction } from './infrastructure/config'
 import {
   executeAndHandleGlobalErrors,
   globalLogger,
@@ -12,7 +12,9 @@ import {
 async function start() {
   globalLogger.info('Starting application...')
   const config = executeAndHandleGlobalErrors<Config>(getConfig)
-  const app = await getApp()
+  const app = await getApp({
+    enableMetrics: isProduction(),
+  })
 
   try {
     await app.listen({

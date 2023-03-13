@@ -1,3 +1,5 @@
+import type { NotifiableError } from '@bugsnag/js'
+import { reportErrorToBugsnag } from '@lokalise/fastify-extras'
 import type { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify'
 import pino from 'pino'
 import { ZodError } from 'zod'
@@ -8,9 +10,6 @@ import { InternalError } from './InternalError'
 import { PublicNonRecoverableError } from './PublicNonRecoverableError'
 
 import stdSerializers = pino.stdSerializers
-
-import { reportErrorToBugsnag } from '@lokalise/fastify-extras'
-import type { NotifiableError } from '@bugsnag/js'
 
 type ResponseObject = {
   statusCode: number

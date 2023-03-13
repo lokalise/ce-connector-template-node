@@ -28,7 +28,11 @@ const getMajorApiVersion = (): string => {
   return parseInt(API_VERSION).toString()
 }
 
-export async function getApp() {
+export type ConfigOverrides = {
+  enableMetrics?: boolean
+}
+
+export async function getApp(configOverrides: ConfigOverrides = {}) {
   const config = getConfig()
   const appConfig = config.app
   const loggerConfig = resolveLoggerConfiguration(appConfig)
@@ -73,7 +77,7 @@ export async function getApp() {
   await app.register(healthcheckPlugin)
 
   // Vendor-specific plugins
-  if (appConfig.metrics.isEnabled) {
+  if (configOverrides.enableMetrics) {
     await app.register(metricsPlugin, {
       bindAddress: appConfig.bindAddress,
       errorObjectResolver: resolveGlobalErrorLogObject,
