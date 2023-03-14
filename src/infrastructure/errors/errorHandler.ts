@@ -1,3 +1,5 @@
+import type { NotifiableError } from '@bugsnag/js'
+import { reportErrorToBugsnag } from '@lokalise/fastify-extras'
 import type { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify'
 import pino from 'pino'
 import { ZodError } from 'zod'
@@ -77,6 +79,12 @@ export const errorHandler = function (
 ): void {
   const logObject = resolveLogObject(error)
   const responseObject = resolveResponseObject(error)
+
+  if (responseObject.statusCode === 500) {
+    reportErrorToBugsnag({
+      error: error as NotifiableError,
+    })
+  }
 
   this.log.error(logObject)
   void reply.status(responseObject.statusCode).send(responseObject.payload)
