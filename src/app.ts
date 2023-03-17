@@ -1,5 +1,6 @@
 import type http from 'http'
 
+import { diContainer, fastifyAwilixPlugin } from '@fastify/awilix'
 import {
   bugsnagPlugin,
   getRequestIdFastifyAppConfig,
@@ -14,6 +15,7 @@ import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod
 import type pino from 'pino'
 
 import { getConfig, isDevelopment } from './infrastructure/config'
+import { registerDependencies } from './infrastructure/diConfig'
 import { errorHandler } from './infrastructure/errors/errorHandler'
 import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler'
 import { resolveLoggerConfiguration } from './infrastructure/logger'
@@ -26,6 +28,10 @@ const API_VERSION = '2.1.1'
 
 const getMajorApiVersion = (): string => {
   return parseInt(API_VERSION).toString()
+}
+
+export function getPrefix() {
+  return `/v${getMajorApiVersion()}`
 }
 
 export type ConfigOverrides = {
@@ -44,10 +50,20 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
     disableRequestLogging: !enableRequestLogging,
   })
 
-  const versionPrefix = `/v${getMajorApiVersion()}`
+  const versionPrefix = getPrefix()
 
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)
+
+  await app.register(fastifyAwilixPlugin, { disposeOnClose: true })
+  registerDependencies(
+    diContainer,
+    {
+      app: app,
+      logger: app.log,
+    },
+    {},
+  )
 
   await app.register(integrationConfigPlugin, {
     skipList: [

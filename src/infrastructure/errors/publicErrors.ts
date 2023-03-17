@@ -23,6 +23,17 @@ export class EntityNotFoundError extends PublicNonRecoverableError {
   }
 }
 
+export class CouldNotRetrieveCacheItemsError extends PublicNonRecoverableError {
+  constructor(details?: Record<string, unknown>) {
+    super({
+      message: 'Could not retrieve cache items',
+      errorCode: 'COULD_NOT_RETRIEVE_CACHE_ITEMS',
+      httpStatusCode: 403,
+      details,
+    })
+  }
+}
+
 export class EmptyTokenError extends PublicNonRecoverableError {
   constructor(params: OptionalMessageErrorParams = {}) {
     super({

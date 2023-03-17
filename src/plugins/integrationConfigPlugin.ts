@@ -20,8 +20,8 @@ interface PluginOptions {
   skipList: string[]
 }
 
-const AUTH_HEADER = 'CE-Auth'
-const CONFIG_HEADER = 'CE-Config'
+export const AUTH_HEADER = 'CE-Auth'.toLowerCase()
+export const CONFIG_HEADER = 'CE-Config'.toLowerCase()
 
 function plugin(
   fastify: FastifyInstance,
@@ -37,9 +37,7 @@ function plugin(
     'onRequest',
     (req: FastifyRequest, res: FastifyReply, done: HookHandlerDoneFunction) => {
       // Integration configuration
-      const integrationConfigHeaderData = req.headers[CONFIG_HEADER.toLowerCase()] as
-        | string
-        | undefined
+      const integrationConfigHeaderData = req.headers[CONFIG_HEADER] as string | undefined
       if (integrationConfigHeaderData) {
         const integrationConfigDecoded = decodeBase64(integrationConfigHeaderData)
         if (!integrationConfigDecoded) {
@@ -58,7 +56,7 @@ function plugin(
         return done()
       }
 
-      const authConfigHeaderData = req.headers[AUTH_HEADER.toLowerCase()] as string | undefined
+      const authConfigHeaderData = req.headers[AUTH_HEADER] as string | undefined
       if (!authConfigHeaderData) {
         return done(
           new PublicNonRecoverableError({
