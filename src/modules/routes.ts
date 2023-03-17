@@ -1,5 +1,5 @@
 import authRouteDefinition from './auth/authRoutes'
-import cacheRouteDefinition from './cache/cacheRoutes'
+import { cacheRouteDefinition } from './cache/cacheRoutes'
 import envRouteDefinition from './env/envRoutes'
 import publishRouteDefinition from './publish/publishRoutes'
 import translateRouteDefinition from './translate/translateRoutes'

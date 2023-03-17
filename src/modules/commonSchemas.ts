@@ -6,6 +6,8 @@ export const itemIdentifiers = z.object({
   metadata: z.record(z.any(), z.any()),
 })
 
+export type ItemIdentifiers = z.infer<typeof itemIdentifiers>
+
 export const contentItem = itemIdentifiers.extend({
   translations: z.record(z.string(), z.string()),
 })

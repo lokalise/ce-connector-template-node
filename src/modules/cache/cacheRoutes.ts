@@ -1,14 +1,14 @@
 import { apiError } from '../commonSchemas'
 import type { Routes } from '../commonTypes'
 
-import cacheController from './cacheController'
+import { getCache, getCacheItems } from './cacheController'
 import { cacheRequestBody, cacheResponseBody, listCacheResponseBody } from './cacheSchemas'
 
-const cacheRouteDefinition: Routes = [
+export const cacheRouteDefinition: Routes = [
   {
     method: 'GET',
     url: '/cache',
-    handler: cacheController.getCache,
+    handler: getCache,
     schema: {
       response: {
         200: listCacheResponseBody,
@@ -19,7 +19,7 @@ const cacheRouteDefinition: Routes = [
   {
     method: 'POST',
     url: '/cache/items',
-    handler: cacheController.getCacheItems,
+    handler: getCacheItems,
     schema: {
       body: cacheRequestBody,
       response: {
@@ -29,5 +29,3 @@ const cacheRouteDefinition: Routes = [
     },
   },
 ]
-
-export default cacheRouteDefinition
