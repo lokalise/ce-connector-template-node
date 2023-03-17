@@ -2,7 +2,6 @@ import type { Dependencies } from '../../infrastructure/diConfig'
 import { CouldNotRetrieveCacheItemsError } from '../../infrastructure/errors/publicErrors'
 import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient'
 import type { AuthConfig, IntegrationConfig, ItemIdentifiers } from '../../types'
-import { itemIdentifiers } from '../commonSchemas'
 
 export class CacheService {
   private readonly fakeApiClient: FakeIntegrationApiClient

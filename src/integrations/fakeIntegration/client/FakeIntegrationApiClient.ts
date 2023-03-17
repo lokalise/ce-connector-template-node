@@ -3,7 +3,6 @@
 import { buildClient, sendGet } from '@lokalise/node-core'
 import type { Client } from 'undici'
 
-import { Config } from '../../../infrastructure/config'
 import type { Dependencies } from '../../../infrastructure/diConfig'
 
 import type { ExternalItem } from './fakeIntegrationApiTypes'
