@@ -1,13 +1,13 @@
 import type { Routes } from '../commonTypes'
 
-import publishController from './publishController'
+import { publishContent } from './publishController'
 import { publishRequestBody, publishResponseBody } from './publishSchemas'
 
-const publishRouteDefinition: Routes = [
+export const publishRouteDefinition: Routes = [
   {
     method: 'POST',
     url: '/publish',
-    handler: publishController.publishContent,
+    handler: publishContent,
     schema: {
       body: publishRequestBody,
       response: {
@@ -16,5 +16,3 @@ const publishRouteDefinition: Routes = [
     },
   },
 ]
-
-export default publishRouteDefinition

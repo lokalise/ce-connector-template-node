@@ -1,9 +1,10 @@
 import type { FastifyRequest } from 'fastify'
 
-import envService from './envService'
 import type { EnvResponse } from './envTypes'
 
-const getEnv = async (req: FastifyRequest, reply: EnvResponse) => {
+export const getEnv = async (req: FastifyRequest, reply: EnvResponse) => {
+  const { envService } = req.diScope.cradle
+
   const localeData = await envService.getLocales(req.integrationConfig, req.authConfig)
   if (!localeData) {
     await reply.status(403).send({
@@ -23,9 +24,3 @@ const getEnv = async (req: FastifyRequest, reply: EnvResponse) => {
     cacheItemStructure,
   })
 }
-
-const envController = {
-  getEnv,
-}
-
-export default envController

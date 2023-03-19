@@ -1,7 +1,7 @@
 import { apiError, authError } from '../commonSchemas'
 import type { Routes } from '../commonTypes'
 
-import authController from './authController'
+import { getAuth, postAuth, postAuthRefresh, postAuthResponse } from './authController'
 import {
   getAuthResponseBody,
   postAuthResponseBody,
@@ -9,11 +9,11 @@ import {
   postAuthResultRequestBody,
 } from './authSchemas'
 
-const authRouteDefinition: Routes = [
+export const authRouteDefinition: Routes = [
   {
     method: 'GET',
     url: '/auth',
-    handler: authController.getAuth,
+    handler: getAuth,
     schema: {
       response: {
         200: getAuthResponseBody,
@@ -23,7 +23,7 @@ const authRouteDefinition: Routes = [
   {
     method: 'POST',
     url: '/auth',
-    handler: authController.postAuth,
+    handler: postAuth,
     schema: {
       response: {
         200: postAuthResponseBody,
@@ -34,7 +34,7 @@ const authRouteDefinition: Routes = [
   {
     method: 'POST',
     url: '/auth/refresh',
-    handler: authController.postAuthRefresh,
+    handler: postAuthRefresh,
     schema: {
       response: {
         200: postAuthResponseBody,
@@ -45,7 +45,7 @@ const authRouteDefinition: Routes = [
   {
     method: 'POST',
     url: '/auth/response',
-    handler: authController.postAuthResponse,
+    handler: postAuthResponse,
     schema: {
       body: postAuthResultRequestBody,
       response: {
@@ -55,5 +55,3 @@ const authRouteDefinition: Routes = [
     },
   },
 ]
-
-export default authRouteDefinition

@@ -1,14 +1,14 @@
 import { apiError } from '../commonSchemas'
 import type { Routes } from '../commonTypes'
 
-import translateController from './translateController'
+import { getContent } from './translateController'
 import { translateRequestBody, translateResponseBody } from './translateSchemas'
 
-const translateRouteDefinition: Routes = [
+export const translateRouteDefinition: Routes = [
   {
     method: 'POST',
     url: '/translate',
-    handler: translateController.getContent,
+    handler: getContent,
     schema: {
       body: translateRequestBody,
       response: {
@@ -18,5 +18,3 @@ const translateRouteDefinition: Routes = [
     },
   },
 ]
-
-export default translateRouteDefinition

@@ -19,7 +19,7 @@ import { registerDependencies } from './infrastructure/diConfig'
 import { errorHandler } from './infrastructure/errors/errorHandler'
 import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler'
 import { resolveLoggerConfiguration } from './infrastructure/logger'
-import routeDefinitions from './modules/routes'
+import { routeDefinitions } from './modules/routes'
 import { healthcheckPlugin } from './plugins/healthcheckPlugin'
 import { integrationConfigPlugin } from './plugins/integrationConfigPlugin'
 

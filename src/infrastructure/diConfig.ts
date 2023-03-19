@@ -4,10 +4,14 @@ import type { FastifyInstance } from 'fastify'
 import type P from 'pino'
 
 import { FakeIntegrationApiClient } from '../integrations/fakeIntegration/client/FakeIntegrationApiClient'
+import { AuthService } from '../modules/auth/AuthService'
 import { CacheService } from '../modules/cache/CacheService'
+import { EnvService } from '../modules/env/EnvService'
+import { PublishService } from '../modules/publish/PublishService'
+import { TranslateService } from '../modules/translate/TranslateService'
 
-import type { Config } from './config'
 import { getConfig } from './config'
+import type { Config } from './config'
 
 export type ExternalDependencies = {
   app?: FastifyInstance
@@ -28,6 +32,10 @@ export function registerDependencies(
     }, SINGLETON_CONFIG),
     fakeIntegrationApiClient: asClass(FakeIntegrationApiClient, SINGLETON_CONFIG),
     cacheService: asClass(CacheService, SINGLETON_CONFIG),
+    authService: asClass(AuthService, SINGLETON_CONFIG),
+    envService: asClass(EnvService, SINGLETON_CONFIG),
+    translateService: asClass(TranslateService, SINGLETON_CONFIG),
+    publishService: asClass(PublishService, SINGLETON_CONFIG),
   }
   diContainer.register(diConfig)
 
@@ -42,6 +50,10 @@ export interface Dependencies {
   config: Config
   fakeIntegrationApiClient: FakeIntegrationApiClient
   cacheService: CacheService
+  authService: AuthService
+  envService: EnvService
+  publishService: PublishService
+  translateService: TranslateService
 }
 
 declare module '@fastify/awilix' {

@@ -1,12 +1,13 @@
 import type { FastifyRequest } from 'fastify'
 
-import translateService from './translateService'
 import type { TranslateRequestBody, TranslateResponse } from './translateTypes'
 
-const getContent = async (
+export const getContent = async (
   req: FastifyRequest<{ Body: TranslateRequestBody }>,
   reply: TranslateResponse,
 ) => {
+  const { translateService } = req.diScope.cradle
+
   const [items, updateItems] = await translateService.getContent(
     req.integrationConfig,
     req.authConfig,
@@ -25,9 +26,3 @@ const getContent = async (
 
   await reply.send({ items, updateItems })
 }
-
-const translateController = {
-  getContent,
-}
-
-export default translateController
