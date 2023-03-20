@@ -116,7 +116,6 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
       timeout: GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS,
     })
   }
-
   app.setErrorHandler(errorHandler)
 
   app.after(() => {

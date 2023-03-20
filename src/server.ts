@@ -1,4 +1,6 @@
-/* istanbul ignore file */
+if (process.env.NEW_RELIC_ENABLED !== 'false') {
+  require('newrelic')
+}
 
 import { getApp } from './app'
 import type { Config } from './infrastructure/config'
