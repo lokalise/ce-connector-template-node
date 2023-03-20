@@ -1,6 +1,5 @@
 import type { FastifyRequest } from 'fastify'
 
-import authService from './authService'
 import type {
   PostAuthResponse,
   GetAuthResponse,
@@ -9,15 +8,16 @@ import type {
   PostAuthRefreshResponse,
 } from './authTypes'
 
-const getAuth = async (req: FastifyRequest, reply: GetAuthResponse) => {
+export const getAuth = async (req: FastifyRequest, reply: GetAuthResponse) => {
   await reply.send({
     // type can be either apiToken or OAuth that depends on the app authorization strategy
     type: 'apiToken',
   })
 }
 
-const postAuth = async (req: FastifyRequest, reply: PostAuthResponse) => {
+export const postAuth = async (req: FastifyRequest, reply: PostAuthResponse) => {
   // Api key flow: delete next line if your connector uses OAuth
+  const { authService } = req.diScope.cradle
   const authConfig = await authService.validate(req.integrationConfig)
   // OAuth flow: uncomment next line if your connect uses OAuth otherwise delete it
   // const authConfig = await authService.generateAuthorizationUrl(req.integrationConfig)
@@ -33,7 +33,9 @@ const postAuth = async (req: FastifyRequest, reply: PostAuthResponse) => {
   await reply.send(authConfig)
 }
 
-const postAuthRefresh = async (req: FastifyRequest, reply: PostAuthRefreshResponse) => {
+export const postAuthRefresh = async (req: FastifyRequest, reply: PostAuthRefreshResponse) => {
+  const { authService } = req.diScope.cradle
+
   const authConfig = await authService.refresh(req.integrationConfig, req.authConfig)
 
   if (!authConfig) {
@@ -47,10 +49,12 @@ const postAuthRefresh = async (req: FastifyRequest, reply: PostAuthRefreshRespon
   return reply.send(authConfig)
 }
 
-const postAuthResponse = async (
+export const postAuthResponse = async (
   req: FastifyRequest<{ Body: PostAuthResultRequestPayload }>,
   reply: PostAuthResultResponse,
 ) => {
+  const { authService } = req.diScope.cradle
+
   const credentials = await authService.getAuthCredentials(req.body)
 
   if (!credentials) {
@@ -63,12 +67,3 @@ const postAuthResponse = async (
 
   return reply.send(credentials)
 }
-
-const authController = {
-  getAuth,
-  postAuth,
-  postAuthRefresh,
-  postAuthResponse,
-}
-
-export default authController

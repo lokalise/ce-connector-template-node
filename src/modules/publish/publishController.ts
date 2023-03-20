@@ -1,12 +1,13 @@
 import type { FastifyRequest } from 'fastify'
 
-import publishService from './publishService'
 import type { PublishRequestBody, PublishResponse } from './publishTypes'
 
-const publishContent = async (
+export const publishContent = async (
   req: FastifyRequest<{ Body: PublishRequestBody }>,
   reply: PublishResponse,
 ) => {
+  const { publishService } = req.diScope.cradle
+
   const [publishResult, updateItems] = await publishService.publishContent(
     req.integrationConfig,
     req.authConfig,
@@ -28,9 +29,3 @@ const publishContent = async (
     updateItems,
   })
 }
-
-const publishController = {
-  publishContent,
-}
-
-export default publishController

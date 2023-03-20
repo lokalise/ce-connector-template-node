@@ -12,3 +12,5 @@ export const publishResponseBody = z.object({
   message: z.string(),
   updateItems: z.array(itemIdentifiers),
 })
+
+export type PublishRequestBodyType = z.infer<typeof publishRequestBody>

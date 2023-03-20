@@ -7,8 +7,8 @@
   "scripts": {
     "copy:config": "cpy --rename=.env .env.default ./",
     "build": "tsc",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test": "jest --runInBand",
+    "test:coverage": "jest --coverage --runInBand",
     "test:ci": "npm run copy:config && npm run lint && npm run test:coverage",
     "lint": "eslint .",
     "lint:fix": "eslint .  --ext .ts --fix",

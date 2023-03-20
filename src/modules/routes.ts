@@ -1,10 +1,10 @@
-import authRouteDefinition from './auth/authRoutes'
+import { authRouteDefinition } from './auth/authRoutes'
 import { cacheRouteDefinition } from './cache/cacheRoutes'
-import envRouteDefinition from './env/envRoutes'
-import publishRouteDefinition from './publish/publishRoutes'
-import translateRouteDefinition from './translate/translateRoutes'
+import { envRouteDefinition } from './env/envRoutes'
+import { publishRouteDefinition } from './publish/publishRoutes'
+import { translateRouteDefinition } from './translate/translateRoutes'
 
-const routeDefinitions = {
+export const routeDefinitions = {
   routes: [
     ...authRouteDefinition,
     ...envRouteDefinition,
@@ -13,5 +13,3 @@ const routeDefinitions = {
     ...publishRouteDefinition,
   ],
 }
-
-export default routeDefinitions
