@@ -107,6 +107,7 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
     bugsnag: {
       apiKey: config.vendors.bugsnag.apiKey ?? '',
       releaseStage: appConfig.appEnv,
+      appVersion: appConfig.appVersion,
     },
   })
 

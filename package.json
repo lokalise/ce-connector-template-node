@@ -33,6 +33,7 @@
     "fastify-metrics": "^10.2.0",
     "fastify-plugin": "^4.5.0",
     "fastify-type-provider-zod": "^1.1.9",
+    "newrelic": "^9.13.0",
     "pino": "^8.11.0",
     "undici": "^5.21.0",
     "zod": "^3.21.4"
