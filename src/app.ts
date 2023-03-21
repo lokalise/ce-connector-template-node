@@ -107,6 +107,7 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
     bugsnag: {
       apiKey: config.vendors.bugsnag.apiKey ?? '',
       releaseStage: appConfig.appEnv,
+      appVersion: appConfig.appVersion,
     },
   })
 
@@ -116,7 +117,6 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
       timeout: GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS,
     })
   }
-
   app.setErrorHandler(errorHandler)
 
   app.after(() => {
