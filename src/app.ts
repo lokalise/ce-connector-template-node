@@ -14,13 +14,13 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 import type pino from 'pino'
 
-import { getConfig, isDevelopment } from './infrastructure/config'
+import { getConfig, isDevelopment, isTest } from './infrastructure/config'
 import { registerDependencies } from './infrastructure/diConfig'
 import { errorHandler } from './infrastructure/errors/errorHandler'
 import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler'
+import { registerHealthChecks, runAllHealthchecks } from './infrastructure/healthchecks'
 import { resolveLoggerConfiguration } from './infrastructure/logger'
 import { routeDefinitions } from './modules/routes'
-import { healthcheckPlugin } from './plugins/healthcheckPlugin'
 import { integrationConfigPlugin } from './plugins/integrationConfigPlugin'
 
 const GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS = 10000
@@ -36,6 +36,7 @@ export function getPrefix() {
 
 export type ConfigOverrides = {
   enableMetrics?: boolean
+  healthchecksEnabled?: boolean
 }
 
 export async function getApp(configOverrides: ConfigOverrides = {}) {
@@ -72,25 +73,27 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
     ],
   })
 
-  await app.register(customHealthCheck, {
-    path: '/health',
-    logLevel: 'warn',
-    info: {
-      env: appConfig.nodeEnv,
-      app_version: appConfig.appVersion,
-      git_commit_sha: appConfig.gitCommitSha,
-    },
-    schema: false,
-    exposeFailure: false,
-  })
-  await app.register(publicHealthcheckPlugin, {
-    responsePayload: {
-      version: appConfig.appVersion,
-      gitCommitSha: appConfig.gitCommitSha,
-      status: 'OK',
-    },
-  })
-  await app.register(healthcheckPlugin)
+  if (configOverrides.healthchecksEnabled !== false) {
+    await app.register(customHealthCheck, {
+      path: '/health',
+      logLevel: 'warn',
+      info: {
+        env: appConfig.nodeEnv,
+        app_version: appConfig.appVersion,
+        git_commit_sha: appConfig.gitCommitSha,
+      },
+      schema: false,
+      exposeFailure: false,
+    })
+    await app.register(publicHealthcheckPlugin, {
+      healthChecks: [],
+      responsePayload: {
+        version: appConfig.appVersion,
+        gitCommitSha: appConfig.gitCommitSha,
+        status: 'OK',
+      },
+    })
+  }
 
   // Vendor-specific plugins
   if (configOverrides.enableMetrics) {
@@ -134,9 +137,21 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
         next()
       })
     }
+
+    if (configOverrides.healthchecksEnabled !== false) {
+      registerHealthChecks(app)
+    }
   })
 
-  await app.ready()
+  try {
+    await app.ready()
+    if (!isTest() && configOverrides.healthchecksEnabled !== false) {
+      await runAllHealthchecks(app)
+    }
+  } catch (err) {
+    app.log.error('Error while initializing app: ', err)
+    throw err
+  }
 
   return app
 }
