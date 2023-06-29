@@ -20,7 +20,8 @@
     "<rootDir>/src/app.ts",
     "<rootDir>/src/server.ts",
     "<rootDir>/src/infrastructure/diConfig.ts",
-    "<rootDir>/src/infrastructure/errors/globalErrorHandler.ts"
+    "<rootDir>/src/infrastructure/errors/globalErrorHandler.ts",
+    "<rootDir>/src/utils/typeUtils.ts"
   ],
   "coverageThreshold": {
     "global": {
