@@ -1,7 +1,6 @@
 import type { AwilixContainer, Resolver } from 'awilix'
 import { asClass, asFunction, Lifetime } from 'awilix'
-import type { FastifyInstance } from 'fastify'
-import type P from 'pino'
+import type { FastifyInstance, FastifyBaseLogger } from 'fastify'
 
 import { FakeIntegrationApiClient } from '../integrations/fakeIntegration/client/FakeIntegrationApiClient'
 import { AuthService } from '../modules/auth/AuthService'
@@ -15,7 +14,7 @@ import type { Config } from './config'
 
 export type ExternalDependencies = {
   app?: FastifyInstance
-  logger?: P.Logger
+  logger?: FastifyBaseLogger
 }
 export const SINGLETON_CONFIG = { lifetime: Lifetime.SINGLETON }
 

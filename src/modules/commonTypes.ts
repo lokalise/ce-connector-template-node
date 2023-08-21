@@ -10,7 +10,7 @@ export type ApiError = z.infer<typeof apiError>
 
 export interface ApiReply<P extends Record<string, unknown>> extends FastifyReply {
   send(payload: P | ApiError): FastifyReply
-  status(statusCode: 200 | ApiError['statusCode']): FastifyReply
+  status(statusCode: ApiError['statusCode']): FastifyReply
 }
 
 export type Routes = Array<

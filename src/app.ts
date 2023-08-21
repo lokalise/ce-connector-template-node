@@ -7,6 +7,7 @@ import {
   metricsPlugin,
   publicHealthcheckPlugin,
 } from '@lokalise/fastify-extras'
+import type { FastifyBaseLogger } from 'fastify'
 import fastify from 'fastify'
 import customHealthCheck from 'fastify-custom-healthcheck'
 import fastifyGracefulShutdown from 'fastify-graceful-shutdown'
@@ -45,7 +46,7 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
   const loggerConfig = resolveLoggerConfiguration(appConfig)
   const enableRequestLogging = ['debug', 'trace'].includes(appConfig.logLevel)
 
-  const app = fastify<http.Server, http.IncomingMessage, http.ServerResponse, pino.Logger>({
+  const app = fastify<http.Server, http.IncomingMessage, http.ServerResponse, FastifyBaseLogger>({
     ...getRequestIdFastifyAppConfig(),
     logger: loggerConfig,
     disableRequestLogging: !enableRequestLogging,
