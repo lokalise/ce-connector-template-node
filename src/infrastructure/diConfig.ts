@@ -43,7 +43,8 @@ export function registerDependencies(
   }
 }
 
-type DiConfig = Record<keyof Dependencies, Resolver<unknown>>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type DiConfig = Record<keyof Dependencies, Resolver<any>>
 
 export interface Dependencies {
   config: Config
