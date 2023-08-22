@@ -1,31 +1,66 @@
-FROM node:18.15.0-alpine3.17 as base
+# ---- Base Node ----
+FROM node:18.7.1-bookworm-slim as base
 
-FROM base as build
-WORKDIR /srv
+RUN set -ex;\
+    apt-get update -y; \
+    apt-get install -y --no-install-recommends libssl3; \
+    rm -rf /var/lib/apt/lists/*;
 
-RUN apk update && apk add --no-cache git && npm install pm2@5.2.2 --location=global
+RUN mkdir -p /home/node/app
+RUN chown -R node:node /home/node && chmod -R 770 /home/node
+WORKDIR /home/node/app
 
-COPY package.json package-lock.json ./
-RUN npm install
+# ---- Dependencies ----
+FROM base AS dependencies
 
-COPY . ./
-RUN npm run prepublishOnly
+RUN set -ex; \
+    apt-get update -y ; \
+    apt-get install -y --no-install-recommends \
+      ca-certificates \
+      dumb-init \
+      make \
+      gcc \
+      g++ \
+      python3 \
+      git \
+      openssl
+COPY --chown=node:node ./package.json ./package.json
+COPY --chown=node:node ./package-lock.json ./package-lock.json
+USER node
+# install production dependencies
+RUN set -ex; \
+    npm ci --ignore-scripts
+# separate production node_modules
+RUN cp -R node_modules prod_node_modules
+# install ALL node_modules, including 'devDependencies'
+RUN set -ex; \
+    npm install --ignore-scripts
 
+# ---- Build ----
+FROM dependencies as build
+
+COPY --chown=node:node . .
+RUN npm run build
+
+# ---- App ----
 FROM base as app
-WORKDIR /srv
 
-RUN apk update && apk add --no-cache git
+COPY --chown=node:node --from=build /home/node/app/dist .
+COPY --chown=node:node --from=build /home/node/app/prod_node_modules node_modules
 
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --ignore-scripts
-COPY --from=build /srv/dist/ ./
-COPY --from=build /usr/local/lib/node_modules/ /usr/local/lib/node_modules/
+# ---- Rrelase ----
+FROM base as release
 
-RUN /usr/local/lib/node_modules/pm2/bin/pm2 install pm2-metrics
+COPY --from=build /usr/bin/dumb-init /usr/bin/dumb-init
+COPY --chown=node:node --from=app /home/node/app /home/node/app
 
-RUN touch /var/log/node.log && \
-    touch /srv/npm-debug.log
+ARG GIT_COMMIT_SHA=""
+ARG APP_VERSION=""
 
-ENV PM2_WORKERS_NUMBER=max
+ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+ENV APP_VERSION=${APP_VERSION}
+ENV NODE_ENV=production
+ENV NODE_PATH=.
 
-CMD /usr/local/lib/node_modules/pm2/bin/pm2-runtime start /srv/server.js -i $PM2_WORKERS_NUMBER
+USER node
+CMD [ "dumb-init", "node", "/home/node/app/src/server.js" ]
