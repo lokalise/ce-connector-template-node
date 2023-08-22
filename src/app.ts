@@ -13,7 +13,6 @@ import customHealthCheck from 'fastify-custom-healthcheck'
 import fastifyGracefulShutdown from 'fastify-graceful-shutdown'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
-import type pino from 'pino'
 
 import { getConfig, isDevelopment, isTest } from './infrastructure/config'
 import { registerDependencies } from './infrastructure/diConfig'
