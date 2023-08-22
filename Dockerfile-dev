@@ -1,9 +1,33 @@
-FROM node:18.15.0-alpine3.17
+FROM node:18.17.1-bookworm-slim
 
-RUN apk update && apk add git openssh
+RUN set -ex;\
+    apt-get update -y; \
+    apt-get install -y --no-install-recommends libssl3; \
+    rm -rf /var/lib/apt/lists/*;
 
-WORKDIR /app
-COPY package*.json ./
+RUN mkdir -p /home/node/app
+RUN chown -R node:node /home/node && chmod -R 770 /home/node
+WORKDIR /home/node/app
+
+RUN set -ex; \
+    apt-get update -y ; \
+    apt-get install -y --no-install-recommends \
+      ca-certificates \
+      dumb-init \
+      make \
+      gcc \
+      g++ \
+      python3 \
+      git \
+      openssl
+COPY --chown=node:node ./package.json ./package.json
+COPY --chown=node:node ./package-lock.json ./package-lock.json
+
+USER node
+RUN set -ex; \
+    npm ci --ignore-scripts ;
+
+COPY . .
 
 RUN npm ci
 CMD npm run start:dev
