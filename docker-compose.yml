@@ -6,7 +6,6 @@ services:
     ports:
       - '${HOST_APP_PORT}:3000'
     volumes:
-      - ./:/app/
-      - /app/node_modules
+      - ./:/home/node/app/
     env_file:
       - .env
