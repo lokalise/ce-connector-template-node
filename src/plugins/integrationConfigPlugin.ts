@@ -49,11 +49,12 @@ function plugin(
         req.integrationConfig = integrationConfigDecoded
       }
 
-      // Auth configuration
-      if (pluginOptions.skipList.includes(req.routeOptions.url)) {
+      const requestUrl = req.routeOptions.url || req.url
+      if (pluginOptions.skipList.includes(requestUrl)) {
         return done()
       }
 
+      // Auth configuration
       const authConfigHeaderData = req.headers[AUTH_HEADER] as string | undefined
       if (!authConfigHeaderData) {
         return done(

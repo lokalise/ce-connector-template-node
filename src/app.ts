@@ -70,11 +70,11 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
     {},
   )
 
-  const healthcheckEndpoints = ['/', '/health']
+  const defaultSkipList = ['/', '/health', '/favicon.ico']
 
   await app.register(integrationConfigPlugin, {
     skipList: [
-      ...healthcheckEndpoints,
+      ...defaultSkipList,
       ...[`/auth`, `/auth/response`].map((url) => `${versionPrefix}`.concat(url)),
     ],
   })

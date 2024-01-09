@@ -14,7 +14,8 @@
     "lint:fix": "eslint .  --ext .ts --fix",
     "format": "prettier --write .",
     "start:dev": "cross-env NODE_ENV=development ts-node -r dotenv/config src/server.ts",
-    "start:dev:watch": "cross-env NODE_ENV=development ts-node-dev -r dotenv/config src/server.ts",
+    "start:dev:watch": "cross-env NODE_ENV=development nodemon -r dotenv/config src/server.ts",
+    "start:dev:watch:alternative": "cross-env NODE_ENV=development ts-node-dev -r dotenv/config src/server.ts",
     "prepublishOnly": "npm run build"
   },
   "keywords": [],
@@ -52,6 +53,7 @@
     "eslint-plugin-prettier": "^5.1.2",
     "eslint-plugin-vitest": "^0.3.20",
     "mockttp": "^3.9.4",
+    "nodemon": "^3.0.2",
     "pino-pretty": "^10.3.1",
     "prettier": "^3.1.1",
     "ts-node": "^10.9.2",

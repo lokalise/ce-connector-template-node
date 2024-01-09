@@ -30,4 +30,7 @@ RUN set -ex; \
 COPY . .
 
 RUN npm ci
-CMD npm run start:dev
+
+# nodeman or ts-node-dev as alternative
+CMD npm run start:dev:watch
+#CMD npm run start:dev:watch:alternative
