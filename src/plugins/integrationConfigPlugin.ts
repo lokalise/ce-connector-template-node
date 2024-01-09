@@ -31,8 +31,6 @@ function plugin(
   fastify.decorateRequest('authConfig', null)
   fastify.decorateRequest('integrationConfig', null)
 
-  const resolvedSkipList: RegExp[] = pluginOptions.skipList.map((regexStr) => new RegExp(regexStr))
-
   fastify.addHook(
     'onRequest',
     (req: FastifyRequest, res: FastifyReply, done: HookHandlerDoneFunction) => {
@@ -52,7 +50,7 @@ function plugin(
       }
 
       // Auth configuration
-      if (resolvedSkipList.some((regex) => regex.test(req.routerPath))) {
+      if (pluginOptions.skipList.includes(req.routeOptions.url)) {
         return done()
       }
 
