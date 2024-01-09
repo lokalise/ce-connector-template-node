@@ -48,7 +48,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-prettier": "^5.1.2",
     "eslint-plugin-vitest": "^0.3.20",
     "mockttp": "^3.9.4",
@@ -60,6 +60,6 @@
     "vitest": "^1.1.3"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   }
 }
