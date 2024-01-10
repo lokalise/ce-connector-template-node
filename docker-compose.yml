@@ -3,7 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-dev
-    restart: on-failure
     ports:
       - '${HOST_APP_PORT}:3000'
     volumes:
