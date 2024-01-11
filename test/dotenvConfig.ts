@@ -1,1 +1,1 @@
-require('dotenv').config()
+require('dotenv').config({ path: '.env.default', override: true })

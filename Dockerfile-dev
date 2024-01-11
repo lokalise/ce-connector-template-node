@@ -1,4 +1,4 @@
-FROM node:18.17.1-bookworm-slim
+FROM node:20.10.0-bookworm-slim
 
 RUN set -ex;\
     apt-get update -y; \
@@ -30,4 +30,7 @@ RUN set -ex; \
 COPY . .
 
 RUN npm ci
-CMD npm run start:dev
+
+# nodeman or ts-node-dev as alternative
+CMD npm run start:dev:watch
+#CMD npm run start:dev:watch:alternative

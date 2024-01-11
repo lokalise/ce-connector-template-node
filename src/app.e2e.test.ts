@@ -17,7 +17,7 @@ describe('app', () => {
 
   describe('healthcheck', () => {
     it('Returns health check information', async () => {
-      const response = await app.inject().get('/health').end()
+      const response = await app.inject().get('/').end()
 
       expect(response.json()).toMatchObject({
         healthChecks: {
@@ -28,13 +28,15 @@ describe('app', () => {
     })
 
     it('Returns public health check information', async () => {
-      const response = await app.inject().get('/').end()
+      const response = await app.inject().get('/health').end()
 
       expect(response.statusCode).toBe(200)
       expect(response.json()).toEqual({
-        gitCommitSha: 'sha',
+        checks: {
+          dummy: 'HEALTHY',
+        },
         heartbeat: 'HEALTHY',
-        status: 'OK',
+        gitCommitSha: 'sha',
         version: '1',
       })
     })

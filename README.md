@@ -48,6 +48,7 @@ Add .env file to your project root directory based on .env.default.
 
 For development, use the dockerized environment:
 
+`npm install` \
 `docker compose up -d`
 
 The app is available at: http://localhost:3000/ (If `HOST_APP_PORT` was not changed)

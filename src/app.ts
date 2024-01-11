@@ -18,7 +18,11 @@ import { getConfig, isDevelopment, isTest } from './infrastructure/config'
 import { registerDependencies } from './infrastructure/diConfig'
 import { errorHandler } from './infrastructure/errors/errorHandler'
 import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler'
-import { registerHealthChecks, runAllHealthchecks } from './infrastructure/healthchecks'
+import {
+  dummyHealthCheck,
+  registerHealthChecks,
+  runAllHealthchecks,
+} from './infrastructure/healthchecks'
 import { resolveLoggerConfiguration } from './infrastructure/logger'
 import { routeDefinitions } from './modules/routes'
 import { integrationConfigPlugin } from './plugins/integrationConfigPlugin'
@@ -66,31 +70,39 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
     {},
   )
 
+  const defaultSkipList = ['/', '/health', '/favicon.ico']
+
   await app.register(integrationConfigPlugin, {
     skipList: [
-      '/',
-      ...[`\\/auth$`, `\\/auth/response$`].map((url) => `^\\${versionPrefix}`.concat(url)),
+      ...defaultSkipList,
+      ...[`/auth`, `/auth/response`].map((url) => `${versionPrefix}`.concat(url)),
     ],
   })
 
   if (configOverrides.healthchecksEnabled !== false) {
     await app.register(customHealthCheck, {
-      path: '/health',
+      path: '/',
       logLevel: 'warn',
       info: {
         env: appConfig.nodeEnv,
-        app_version: appConfig.appVersion,
-        git_commit_sha: appConfig.gitCommitSha,
+        version: appConfig.appVersion,
+        gitCommitSha: appConfig.gitCommitSha,
       },
       schema: false,
       exposeFailure: false,
     })
     await app.register(publicHealthcheckPlugin, {
-      healthChecks: [],
+      url: '/health',
+      healthChecks: [
+        {
+          name: 'dummy',
+          isMandatory: true,
+          checker: dummyHealthCheck,
+        },
+      ],
       responsePayload: {
         version: appConfig.appVersion,
         gitCommitSha: appConfig.gitCommitSha,
-        status: 'OK',
       },
     })
   }

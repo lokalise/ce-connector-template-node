@@ -7,7 +7,8 @@ import type { ExternalItem } from '../../integrations/fakeIntegration/client/fak
 
 import type { PublishRequestBodyType } from './publishSchemas'
 
-const mockBaseUrl = 'http://localhost:8080'
+const mockPort = 8000
+const mockBaseUrl = `http://localhost:${mockPort}`
 const JSON_HEADERS = {
   'content-type': 'application/json',
 }
@@ -19,7 +20,7 @@ describe('publishController e2e', () => {
     let app: FastifyInstance
     beforeAll(async () => {
       app = await getApp()
-      await mockServer.start(8080)
+      await mockServer.start(mockPort)
       const { config } = app.diContainer.cradle
       config.integrations.fakeStore.baseUrl = mockBaseUrl
     })
