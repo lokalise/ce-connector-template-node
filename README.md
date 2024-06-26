@@ -55,15 +55,15 @@ The app is available at: http://localhost:3000/ (If `HOST_APP_PORT` was not chan
 
 Run tests:
 
-`docker compose exec -it app npm run test`
+`npm run test`
 
 Run formatting:
 
-`docker compose exec -it app npm run format`
+`npm run format`
 
 Run linter:
 
-`docker compose exec -it app npm run lint`
+`npm run lint`
 
 ## Openapi
 
