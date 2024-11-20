@@ -1,11 +1,11 @@
 // TODO: fakeIntegration connector 3-rd party client implementation
 
-import { buildClient, sendGet } from '@lokalise/node-core'
+import { buildClient, sendGet } from '@lokalise/backend-http-client'
 import type { Client } from 'undici'
 
 import type { Dependencies } from '../../../infrastructure/diConfig'
 
-import type { ExternalItem } from './fakeIntegrationApiTypes'
+import { EXTERNAL_ITEM_RESPONSE_SCHEMA, ExternalItem } from './fakeIntegrationApiTypes'
 
 const RETRY_CONFIG = {
   retryOnTimeout: false,
@@ -24,8 +24,10 @@ export class FakeIntegrationApiClient {
   }
 
   async listItems() {
-    const response = await sendGet<ExternalItem[]>(this.client, `/items`, {
+    const response = await sendGet(this.client, `/items`, {
       retryConfig: RETRY_CONFIG,
+      requestLabel: 'TEST',
+      responseSchema: EXTERNAL_ITEM_RESPONSE_SCHEMA,
     })
 
     return response.result.body

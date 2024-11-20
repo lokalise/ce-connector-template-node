@@ -28,8 +28,8 @@ function plugin(
   pluginOptions: PluginOptions,
   next: (err?: Error) => void,
 ) {
-  fastify.decorateRequest('authConfig', null)
-  fastify.decorateRequest('integrationConfig', null)
+  fastify.decorateRequest('authConfig')
+  fastify.decorateRequest('integrationConfig')
 
   fastify.addHook(
     'onRequest',
