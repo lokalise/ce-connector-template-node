@@ -1,4 +1,5 @@
 import type {
+  CommonFastifyInstance,
   HealthChecker,
   HealthcheckResult,
   PrometheusHealthCheck,
@@ -22,7 +23,7 @@ export const wrapHealthCheckForPrometheus = (
 ): PrometheusHealthCheck => {
   return {
     name: healthcheckName,
-    checker: async (app: FastifyInstance): Promise<HealthcheckResult> => {
+    checker: async (app: CommonFastifyInstance): Promise<HealthcheckResult> => {
       const startTime = Date.now()
       const response = await healthCheck(app)
       const checkTimeInMsecs = Date.now() - startTime

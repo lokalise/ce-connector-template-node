@@ -1,4 +1,4 @@
-import { buildClient, sendGet } from '@lokalise/node-core'
+import { buildClient, sendGet, TEST_OPTIONS } from '@lokalise/backend-http-client'
 import type { FastifyInstance } from 'fastify'
 
 import { getApp } from './app'
@@ -44,7 +44,7 @@ describe('app', () => {
 
   describe('metrics', () => {
     it('Returns Prometheus metrics', async () => {
-      const response = await sendGet(buildClient('http://127.0.0.1:9080'), '/metrics')
+      const response = await sendGet(buildClient('http://127.0.0.1:9080'), '/metrics', TEST_OPTIONS)
 
       expect(response.result.statusCode).toBe(200)
     })

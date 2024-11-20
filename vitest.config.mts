@@ -5,10 +5,11 @@ export default defineConfig({
     globals: true,
     poolOptions: {
       threads: {
-        minThreads: 1,
-        maxThreads: 1,
-      }
+        singleThread: true,
+        isolate: false,
+      },
     },
+    pool: 'threads',
     watch: false,
     environment: 'node',
     setupFiles: ['test/dotenvConfig.ts'],

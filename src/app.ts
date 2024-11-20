@@ -2,11 +2,13 @@ import type http from 'http'
 
 import { diContainer, fastifyAwilixPlugin } from '@fastify/awilix'
 import {
-  bugsnagPlugin,
+  bugsnagErrorReporter,
+  bugsnagPlugin, createErrorHandler,
   getRequestIdFastifyAppConfig,
   metricsPlugin,
   publicHealthcheckPlugin,
 } from '@lokalise/fastify-extras'
+import { resolveLogger } from '@lokalise/node-core'
 import type { FastifyBaseLogger } from 'fastify'
 import fastify from 'fastify'
 import customHealthCheck from 'fastify-custom-healthcheck'
@@ -16,14 +18,12 @@ import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod
 
 import { getConfig, isDevelopment, isTest } from './infrastructure/config'
 import { registerDependencies } from './infrastructure/diConfig'
-import { errorHandler } from './infrastructure/errors/errorHandler'
 import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler'
 import {
   dummyHealthCheck,
   registerHealthChecks,
   runAllHealthchecks,
 } from './infrastructure/healthchecks'
-import { resolveLoggerConfiguration } from './infrastructure/logger'
 import { routeDefinitions } from './modules/routes'
 import { integrationConfigPlugin } from './plugins/integrationConfigPlugin'
 
@@ -46,12 +46,12 @@ export type ConfigOverrides = {
 export async function getApp(configOverrides: ConfigOverrides = {}) {
   const config = getConfig()
   const appConfig = config.app
-  const loggerConfig = resolveLoggerConfiguration(appConfig)
+  const logger = resolveLogger(appConfig)
   const enableRequestLogging = ['debug', 'trace'].includes(appConfig.logLevel)
 
   const app = fastify<http.Server, http.IncomingMessage, http.ServerResponse, FastifyBaseLogger>({
     ...getRequestIdFastifyAppConfig(),
-    logger: loggerConfig,
+    loggerInstance: logger,
     disableRequestLogging: !enableRequestLogging,
   })
 
@@ -112,7 +112,7 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
     await app.register(metricsPlugin, {
       bindAddress: appConfig.bindAddress,
       errorObjectResolver: resolveGlobalErrorLogObject,
-      loggerOptions: loggerConfig,
+      logger,
       disablePrometheusRequestLogging: true,
     })
   }
@@ -132,7 +132,10 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
       timeout: GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS,
     })
   }
-  app.setErrorHandler(errorHandler)
+  app.setErrorHandler(		createErrorHandler({
+      errorReporter: bugsnagErrorReporter,
+    }),
+  )
 
   app.after(() => {
     routeDefinitions.routes.forEach((route) =>
@@ -144,9 +147,8 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
 
     // Graceful shutdown hook
     if (!isDevelopment()) {
-      app.gracefulShutdown((signal, next) => {
+      app.gracefulShutdown(() => {
         app.log.info('Starting graceful shutdown')
-        next()
       })
     }
 
