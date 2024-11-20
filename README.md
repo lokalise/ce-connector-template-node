@@ -46,10 +46,10 @@ To start development of a new connector:
 
 Add .env file to your project root directory based on .env.default.
 
-For development, use the dockerized environment:
+For development, run the dev script:
 
 `npm install` \
-`docker compose up -d`
+`npm run start:dev`
 
 The app is available at: http://localhost:3000/ (If `HOST_APP_PORT` was not changed)
 
@@ -59,7 +59,7 @@ Run tests:
 
 Run formatting:
 
-`npm run format`
+`npm run lint:fix`
 
 Run linter:
 
