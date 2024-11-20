@@ -1,14 +1,14 @@
 import type { FastifyRequest } from 'fastify'
 
 import type {
-  PostAuthResponse,
   GetAuthResponse,
+  PostAuthRefreshResponse,
+  PostAuthResponse,
   PostAuthResultRequestPayload,
   PostAuthResultResponse,
-  PostAuthRefreshResponse,
 } from './authTypes'
 
-export const getAuth = async (req: FastifyRequest, reply: GetAuthResponse) => {
+export const getAuth = async (_req: FastifyRequest, reply: GetAuthResponse) => {
   await reply.send({
     // type can be either apiToken or OAuth that depends on the app authorization strategy
     type: 'apiToken',

@@ -33,7 +33,7 @@ function plugin(
 
   fastify.addHook(
     'onRequest',
-    (req: FastifyRequest, res: FastifyReply, done: HookHandlerDoneFunction) => {
+    (req: FastifyRequest, _res: FastifyReply, done: HookHandlerDoneFunction) => {
       // Integration configuration
       const integrationConfigHeaderData = req.headers[CONFIG_HEADER] as string | undefined
       if (integrationConfigHeaderData) {

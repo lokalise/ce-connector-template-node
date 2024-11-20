@@ -2,13 +2,13 @@ import { PublicNonRecoverableError } from './PublicNonRecoverableError'
 
 export type CommonErrorParams = {
   message: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: this is intentionally loose
   details?: Record<string, any>
 }
 
 export type OptionalMessageErrorParams = {
   message?: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: this is intentionally loose
   details?: Record<string, any>
 }
 

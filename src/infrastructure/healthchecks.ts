@@ -40,10 +40,10 @@ export function registerHealthChecks(app: FastifyInstance) {
   app.addHealthCheck('heartbeat', () => true)
 }
 
-export const dummyHealthCheck: HealthChecker = async (app): Promise<Either<Error, true>> => {
+export const dummyHealthCheck: HealthChecker = async (_app): Promise<Either<Error, true>> => {
   return Promise.resolve({ result: true })
 }
 
-export async function runAllHealthchecks(app: FastifyInstance) {
+export async function runAllHealthchecks(_app: FastifyInstance) {
   return executeSettleAllAndHandleGlobalErrors([], false)
 }

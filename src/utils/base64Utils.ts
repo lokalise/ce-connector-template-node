@@ -2,7 +2,7 @@ export const decodeBase64 = (data: string): Record<string, unknown> | undefined 
   const buffer = Buffer.from(data, 'base64')
   try {
     return JSON.parse(buffer.toString('utf-8')) as Record<string, unknown>
-  } catch (e) {
+  } catch (_e) {
     return undefined
   }
 }
