@@ -13,7 +13,7 @@ export default defineConfig({
     pool: 'threads',
     watch: false,
     environment: 'node',
-    setupFiles: ['test/dotenvConfig.ts'],
+    setupFiles: ['test/envSetupHook.ts'],
     reporters: ['default'],
     coverage: {
       include: ['src/**/*.ts'],
