@@ -2,7 +2,8 @@ import type http from 'http'
 
 import { diContainer, fastifyAwilixPlugin } from '@fastify/awilix'
 import {
-  bugsnagPlugin,
+  bugsnagErrorReporter,
+  bugsnagPlugin, createErrorHandler,
   getRequestIdFastifyAppConfig,
   metricsPlugin,
   publicHealthcheckPlugin,
@@ -17,7 +18,6 @@ import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod
 
 import { getConfig, isDevelopment, isTest } from './infrastructure/config'
 import { registerDependencies } from './infrastructure/diConfig'
-import { errorHandler } from './infrastructure/errors/errorHandler'
 import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler'
 import {
   dummyHealthCheck,
@@ -132,7 +132,10 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
       timeout: GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS,
     })
   }
-  app.setErrorHandler(errorHandler)
+  app.setErrorHandler(		createErrorHandler({
+      errorReporter: bugsnagErrorReporter,
+    }),
+  )
 
   app.after(() => {
     routeDefinitions.routes.forEach((route) =>

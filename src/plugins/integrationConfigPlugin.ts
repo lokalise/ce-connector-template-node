@@ -85,6 +85,6 @@ function plugin(
 }
 
 export const integrationConfigPlugin = fp<PluginOptions>(plugin, {
-  fastify: '4.x',
+  fastify: '5.x',
   name: 'auth-token-validator-plugin',
 })
