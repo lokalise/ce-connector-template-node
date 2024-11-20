@@ -5,8 +5,8 @@ import { getAuth, postAuth, postAuthRefresh, postAuthResponse } from './authCont
 import {
   getAuthResponseBody,
   postAuthResponseBody,
-  postAuthResultResponseBody,
   postAuthResultRequestBody,
+  postAuthResultResponseBody,
 } from './authSchemas'
 
 export const authRouteDefinition: Routes = [

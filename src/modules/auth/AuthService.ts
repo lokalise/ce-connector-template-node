@@ -11,7 +11,7 @@ export class AuthService {
   }
 
   // API key flow
-  async validate(config: IntegrationConfig) {
+  async validate(_config: IntegrationConfig) {
     // TODO: implementation
     // response structure depends on platform specificity
     return Promise.resolve({
@@ -20,7 +20,7 @@ export class AuthService {
   }
 
   // OAuth flow
-  async generateAuthorizationUrl(config: IntegrationConfig) {
+  async generateAuthorizationUrl(_config: IntegrationConfig) {
     // TODO: implementation
     // response structure depends on auth strategy and platform specificity
     return Promise.resolve({
@@ -28,7 +28,7 @@ export class AuthService {
     })
   }
 
-  async refresh(config: IntegrationConfig, auth: AuthConfig) {
+  async refresh(_config: IntegrationConfig, _auth: AuthConfig) {
     // TODO: implementation
     // response structure depends on auth strategy and platform specificity
     return Promise.resolve({
@@ -36,7 +36,7 @@ export class AuthService {
     })
   }
 
-  async getAuthCredentials(authData: PostAuthResultRequestPayload) {
+  async getAuthCredentials(_authData: PostAuthResultRequestPayload) {
     // TODO: implementation
     return Promise.resolve({
       accessToken: 'accessToken',

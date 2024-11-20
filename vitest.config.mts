@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitest/config'
 
+// biome-ignore lint/style/noDefaultExport: vite expects default export
 export default defineConfig({
   test: {
     globals: true,
@@ -21,7 +22,7 @@ export default defineConfig({
         'src/server.ts',
         'src/infrastructure/diConfig.ts',
         'src/infrastructure/errors/globalErrorHandler.ts',
-        'src/utils/typeUtils.ts'
+        'src/utils/typeUtils.ts',
       ],
       reporter: ['text'],
       all: true,

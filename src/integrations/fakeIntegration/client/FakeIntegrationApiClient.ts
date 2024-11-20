@@ -5,7 +5,7 @@ import type { Client } from 'undici'
 
 import type { Dependencies } from '../../../infrastructure/diConfig'
 
-import { EXTERNAL_ITEM_RESPONSE_SCHEMA, ExternalItem } from './fakeIntegrationApiTypes'
+import { EXTERNAL_ITEM_RESPONSE_SCHEMA } from './fakeIntegrationApiTypes'
 
 const RETRY_CONFIG = {
   retryOnTimeout: false,
@@ -24,7 +24,7 @@ export class FakeIntegrationApiClient {
   }
 
   async listItems() {
-    const response = await sendGet(this.client, `/items`, {
+    const response = await sendGet(this.client, '/items', {
       retryConfig: RETRY_CONFIG,
       requestLabel: 'TEST',
       responseSchema: EXTERNAL_ITEM_RESPONSE_SCHEMA,

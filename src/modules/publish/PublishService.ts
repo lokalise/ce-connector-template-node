@@ -2,12 +2,12 @@ import type { AuthConfig, ContentItem, IntegrationConfig, ItemIdentifiers } from
 
 export class PublishService {
   async publishContent(
-    config: IntegrationConfig,
-    auth: AuthConfig,
-    items: ContentItem[],
+    _config: IntegrationConfig,
+    _auth: AuthConfig,
+    _items: ContentItem[],
     // Default locale might not be needed for integration logic
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    defaultLocale: string,
+    _defaultLocale: string,
   ): Promise<[boolean | undefined, ItemIdentifiers[]]> {
     // implementation
 

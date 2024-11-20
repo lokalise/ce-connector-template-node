@@ -1,4 +1,4 @@
-import { encodeBase64, decodeBase64 } from './base64Utils'
+import { decodeBase64, encodeBase64 } from './base64Utils'
 
 describe('Base64 encoding/decoding', () => {
   const dataSet = [

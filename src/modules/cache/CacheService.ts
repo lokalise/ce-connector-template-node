@@ -9,7 +9,7 @@ export class CacheService {
     this.fakeApiClient = fakeIntegrationApiClient
   }
 
-  async listItems(config: IntegrationConfig, auth: AuthConfig): Promise<ItemIdentifiers[]> {
+  async listItems(_config: IntegrationConfig, _auth: AuthConfig): Promise<ItemIdentifiers[]> {
     const items = await this.fakeApiClient.listItems()
 
     if (!items) {
@@ -25,7 +25,7 @@ export class CacheService {
     })
   }
 
-  async getItems(config: IntegrationConfig, auth: AuthConfig, ids: ItemIdentifiers[]) {
+  async getItems(_config: IntegrationConfig, _auth: AuthConfig, _ids: ItemIdentifiers[]) {
     const items = await Promise.resolve(undefined)
 
     if (!items) {

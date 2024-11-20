@@ -1,6 +1,6 @@
-import type { AwilixContainer, Resolver } from 'awilix'
-import { asClass, asFunction, Lifetime } from 'awilix'
-import type { FastifyInstance, FastifyBaseLogger } from 'fastify'
+import type { AwilixContainer, NameAndRegistrationPair } from 'awilix'
+import { Lifetime, asClass, asFunction } from 'awilix'
+import type { FastifyBaseLogger, FastifyInstance } from 'fastify'
 
 import { FakeIntegrationApiClient } from '../integrations/fakeIntegration/client/FakeIntegrationApiClient'
 import { AuthService } from '../modules/auth/AuthService'
@@ -22,7 +22,7 @@ export type DependencyOverrides = Partial<DiConfig>
 
 export function registerDependencies(
   diContainer: AwilixContainer,
-  dependencies: ExternalDependencies = {},
+  _dependencies: ExternalDependencies = {},
   dependencyOverrides: DependencyOverrides = {},
 ): void {
   const diConfig: DiConfig = {
@@ -39,12 +39,12 @@ export function registerDependencies(
   diContainer.register(diConfig)
 
   for (const [dependencyKey, dependencyValue] of Object.entries(dependencyOverrides)) {
+    // @ts-expect-error
     diContainer.register(dependencyKey, dependencyValue)
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type DiConfig = Record<keyof Dependencies, Resolver<any>>
+type DiConfig = NameAndRegistrationPair<Dependencies>
 
 export interface Dependencies {
   config: Config

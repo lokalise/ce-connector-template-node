@@ -1,9 +1,10 @@
-import type http from 'http'
+import type http from 'node:http'
 
 import { diContainer, fastifyAwilixPlugin } from '@fastify/awilix'
 import {
   bugsnagErrorReporter,
-  bugsnagPlugin, createErrorHandler,
+  bugsnagPlugin,
+  createErrorHandler,
   getRequestIdFastifyAppConfig,
   metricsPlugin,
   publicHealthcheckPlugin,
@@ -31,7 +32,7 @@ const GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS = 10000
 const API_VERSION = '2.1.1'
 
 const getMajorApiVersion = (): string => {
-  return parseInt(API_VERSION).toString()
+  return Number.parseInt(API_VERSION).toString()
 }
 
 export function getPrefix() {
@@ -75,7 +76,7 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
   await app.register(integrationConfigPlugin, {
     skipList: [
       ...defaultSkipList,
-      ...[`/auth`, `/auth/response`].map((url) => `${versionPrefix}`.concat(url)),
+      ...['/auth', '/auth/response'].map((url) => `${versionPrefix}`.concat(url)),
     ],
   })
 
@@ -132,7 +133,8 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
       timeout: GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS,
     })
   }
-  app.setErrorHandler(		createErrorHandler({
+  app.setErrorHandler(
+    createErrorHandler({
       errorReporter: bugsnagErrorReporter,
     }),
   )
