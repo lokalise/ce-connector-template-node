@@ -140,12 +140,12 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
   )
 
   app.after(() => {
-    routeDefinitions.routes.forEach((route) =>
+    for (const route of routeDefinitions.routes) {
       app.withTypeProvider<ZodTypeProvider>().route({
         ...route,
         url: versionPrefix.concat(route.url),
-      }),
-    )
+      })
+    }
 
     // Graceful shutdown hook
     if (!isDevelopment()) {
