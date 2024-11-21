@@ -1,6 +1,6 @@
-import { AUTH_HEADER, CONFIG_HEADER } from '../../src/plugins/integrationConfigPlugin'
-import type { AuthConfig, IntegrationConfig } from '../../src/types'
-import { encodeBase64 } from '../../src/utils/base64Utils'
+import { AUTH_HEADER, CONFIG_HEADER } from '../../src/plugins/integrationConfigPlugin.js'
+import type { AuthConfig, IntegrationConfig } from '../../src/types.js'
+import { encodeBase64 } from '../../src/utils/base64Utils.js'
 
 export function createTestRequestHeaders(
   integrationConfig: IntegrationConfig,

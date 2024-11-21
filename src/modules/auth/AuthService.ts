@@ -1,8 +1,8 @@
 import type { PostAuthResultRequestPayload } from 'src/modules/auth/authTypes'
 import type { AuthConfig, IntegrationConfig } from 'src/types'
 
-import type { Dependencies } from '../../infrastructure/diConfig'
-import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient'
+import type { Dependencies } from '../../infrastructure/diConfig.js'
+import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.js'
 
 export class AuthService {
   private readonly fakeApiClient: FakeIntegrationApiClient
@@ -11,7 +11,7 @@ export class AuthService {
   }
 
   // API key flow
-  async validate(_config: IntegrationConfig) {
+  validate(_config: IntegrationConfig) {
     // TODO: implementation
     // response structure depends on platform specificity
     return Promise.resolve({
@@ -20,7 +20,7 @@ export class AuthService {
   }
 
   // OAuth flow
-  async generateAuthorizationUrl(_config: IntegrationConfig) {
+  generateAuthorizationUrl(_config: IntegrationConfig) {
     // TODO: implementation
     // response structure depends on auth strategy and platform specificity
     return Promise.resolve({
@@ -28,7 +28,7 @@ export class AuthService {
     })
   }
 
-  async refresh(_config: IntegrationConfig, _auth: AuthConfig) {
+  refresh(_config: IntegrationConfig, _auth: AuthConfig) {
     // TODO: implementation
     // response structure depends on auth strategy and platform specificity
     return Promise.resolve({
@@ -36,7 +36,7 @@ export class AuthService {
     })
   }
 
-  async getAuthCredentials(_authData: PostAuthResultRequestPayload) {
+  getAuthCredentials(_authData: PostAuthResultRequestPayload) {
     // TODO: implementation
     return Promise.resolve({
       accessToken: 'accessToken',

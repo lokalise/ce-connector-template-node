@@ -1,7 +1,7 @@
-import type { Routes } from '../commonTypes'
+import type { Routes } from '../commonTypes.js'
 
-import { publishContent } from './publishController'
-import { publishRequestBody, publishResponseBody } from './publishSchemas'
+import { publishContent } from './publishController.js'
+import { publishRequestBody, publishResponseBody } from './publishSchemas.js'
 
 export const publishRouteDefinition: Routes = [
   {

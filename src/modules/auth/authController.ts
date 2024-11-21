@@ -6,7 +6,7 @@ import type {
   PostAuthResponse,
   PostAuthResultRequestPayload,
   PostAuthResultResponse,
-} from './authTypes'
+} from './authTypes.js'
 
 export const getAuth = async (_req: FastifyRequest, reply: GetAuthResponse) => {
   await reply.send({

@@ -2,15 +2,15 @@ import type { AwilixContainer, NameAndRegistrationPair } from 'awilix'
 import { Lifetime, asClass, asFunction } from 'awilix'
 import type { FastifyBaseLogger, FastifyInstance } from 'fastify'
 
-import { FakeIntegrationApiClient } from '../integrations/fakeIntegration/client/FakeIntegrationApiClient'
-import { AuthService } from '../modules/auth/AuthService'
-import { CacheService } from '../modules/cache/CacheService'
-import { EnvService } from '../modules/env/EnvService'
-import { PublishService } from '../modules/publish/PublishService'
-import { TranslateService } from '../modules/translate/TranslateService'
+import { FakeIntegrationApiClient } from '../integrations/fakeIntegration/client/FakeIntegrationApiClient.js'
+import { AuthService } from '../modules/auth/AuthService.js'
+import { CacheService } from '../modules/cache/CacheService.js'
+import { EnvService } from '../modules/env/EnvService.js'
+import { PublishService } from '../modules/publish/PublishService.js'
+import { TranslateService } from '../modules/translate/TranslateService.js'
 
-import { getConfig } from './config'
-import type { Config } from './config'
+import { getConfig } from './config.js'
+import type { Config } from './config.js'
 
 export type ExternalDependencies = {
   app?: FastifyInstance

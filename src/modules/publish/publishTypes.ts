@@ -1,8 +1,8 @@
 import type z from 'zod'
 
-import type { ApiReply } from '../commonTypes'
+import type { ApiReply } from '../commonTypes.js'
 
-import type { publishRequestBody, publishResponseBody } from './publishSchemas'
+import type { publishRequestBody, publishResponseBody } from './publishSchemas.js'
 
 export type PublishRequestBody = z.infer<typeof publishRequestBody>
 type PublishResponseBody = z.infer<typeof publishResponseBody>

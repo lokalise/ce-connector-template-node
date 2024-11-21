@@ -1,6 +1,6 @@
 import type { FastifyRequest } from 'fastify'
 
-import type { CacheRequestBody, CacheResponse, ListCacheResponse } from './cacheTypes'
+import type { CacheRequestBody, CacheResponse, ListCacheResponse } from './cacheTypes.js'
 
 export async function getCache(req: FastifyRequest, reply: ListCacheResponse) {
   const { cacheService } = req.diScope.cradle

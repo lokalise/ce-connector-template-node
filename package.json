@@ -1,7 +1,8 @@
 {
     "name": "@lokalise/template-connector",
-    "private": true,
     "version": "1.0.0",
+    "type": "module",
+    "private": true,
     "description": "Template connector for Lokalise Content type app engine",
     "main": "server.js",
     "scripts": {
@@ -41,6 +42,7 @@
     "devDependencies": {
         "@biomejs/biome": "^1.9.4",
         "@lokalise/biome-config": "^1.5.0",
+        "@types/newrelic": "^9.14.6",
         "@types/node": "^22.9.1",
         "@vitest/coverage-v8": "^2.1.5",
         "cpy-cli": "^5.0.0",

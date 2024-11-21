@@ -1,11 +1,11 @@
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
 
-import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders'
-import { getApp, getPrefix } from '../../app'
-import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes'
+import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.js'
+import { getApp, getPrefix } from '../../app.js'
+import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.js'
 
-import type { TranslateRequestBodyType } from './translateSchemas'
+import type { TranslateRequestBodyType } from './translateSchemas.js'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`

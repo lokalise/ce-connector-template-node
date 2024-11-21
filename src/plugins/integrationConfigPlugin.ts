@@ -6,8 +6,8 @@ import type {
 } from 'fastify'
 import fp from 'fastify-plugin'
 
-import { PublicNonRecoverableError } from '../infrastructure/errors/PublicNonRecoverableError'
-import { decodeBase64 } from '../utils/base64Utils'
+import { PublicNonRecoverableError } from '../infrastructure/errors/PublicNonRecoverableError.js'
+import { decodeBase64 } from '../utils/base64Utils.js'
 
 declare module 'fastify' {
   interface FastifyRequest {

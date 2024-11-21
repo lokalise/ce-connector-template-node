@@ -4,7 +4,7 @@ import type { FastifyReply, RouteOptions } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import type z from 'zod'
 
-import type { apiError } from './commonSchemas'
+import type { apiError } from './commonSchemas.js'
 
 export type ApiError = z.infer<typeof apiError>
 

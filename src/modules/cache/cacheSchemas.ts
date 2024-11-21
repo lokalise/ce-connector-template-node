@@ -1,6 +1,6 @@
 import z from 'zod'
 
-import { itemIdentifiers } from '../commonSchemas'
+import { itemIdentifiers } from '../commonSchemas.js'
 
 export const cacheItem = itemIdentifiers.extend({
   fields: z.object({}).passthrough(),
