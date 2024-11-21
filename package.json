@@ -1,7 +1,8 @@
 {
     "name": "@lokalise/template-connector",
-    "private": true,
     "version": "1.0.0",
+    "type": "module",
+    "private": true,
     "description": "Template connector for Lokalise Content type app engine",
     "main": "server.js",
     "scripts": {
