@@ -1,5 +1,5 @@
 if (process.env.NEW_RELIC_ENABLED !== 'false') {
-  require('newrelic')
+  await import('newrelic')
 }
 
 import { getApp } from './app'
