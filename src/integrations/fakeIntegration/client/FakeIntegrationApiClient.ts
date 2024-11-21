@@ -3,9 +3,9 @@
 import { buildClient, sendGet } from '@lokalise/backend-http-client'
 import type { Client } from 'undici'
 
-import type { Dependencies } from '../../../infrastructure/diConfig'
+import type { Dependencies } from '../../../infrastructure/diConfig.js'
 
-import { EXTERNAL_ITEM_RESPONSE_SCHEMA } from './fakeIntegrationApiTypes'
+import { EXTERNAL_ITEM_RESPONSE_SCHEMA } from './fakeIntegrationApiTypes.js'
 
 const RETRY_CONFIG = {
   retryOnTimeout: false,

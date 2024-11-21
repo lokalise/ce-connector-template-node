@@ -2,14 +2,14 @@ if (process.env.NEW_RELIC_ENABLED !== 'false') {
   await import('newrelic')
 }
 
-import { getApp } from './app'
-import type { Config } from './infrastructure/config'
-import { getConfig, isProduction } from './infrastructure/config'
+import { getApp } from './app.js'
+import type { Config } from './infrastructure/config.js'
+import { getConfig, isProduction } from './infrastructure/config.js'
 import {
   executeAndHandleGlobalErrors,
   globalLogger,
   resolveGlobalErrorLogObject,
-} from './infrastructure/errors/globalErrorHandler'
+} from './infrastructure/errors/globalErrorHandler.js'
 
 async function start() {
   globalLogger.info('Starting application...')

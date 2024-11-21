@@ -1,8 +1,8 @@
-import { apiError } from '../commonSchemas'
-import type { Routes } from '../commonTypes'
+import { apiError } from '../commonSchemas.js'
+import type { Routes } from '../commonTypes.js'
 
-import { getEnv } from './envController'
-import { envResponseBody } from './envSchemas'
+import { getEnv } from './envController.js'
+import { envResponseBody } from './envSchemas.js'
 
 export const envRouteDefinition: Routes = [
   {

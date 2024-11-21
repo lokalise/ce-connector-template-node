@@ -1,6 +1,6 @@
 import type { FastifyRequest } from 'fastify'
 
-import type { TranslateRequestBody, TranslateResponse } from './translateTypes'
+import type { TranslateRequestBody, TranslateResponse } from './translateTypes.js'
 
 export const getContent = async (
   req: FastifyRequest<{ Body: TranslateRequestBody }>,

@@ -1,4 +1,4 @@
-import type { AuthConfig, ContentItem, IntegrationConfig, ItemIdentifiers } from '../../types'
+import type { AuthConfig, ContentItem, IntegrationConfig, ItemIdentifiers } from '../../types.js'
 
 export class PublishService {
   async publishContent(

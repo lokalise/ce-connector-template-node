@@ -17,16 +17,16 @@ import fastifyGracefulShutdown from 'fastify-graceful-shutdown'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 
-import { getConfig, isDevelopment, isTest } from './infrastructure/config'
-import { registerDependencies } from './infrastructure/diConfig'
-import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler'
+import { getConfig, isDevelopment, isTest } from './infrastructure/config.js'
+import { registerDependencies } from './infrastructure/diConfig.js'
+import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler.js'
 import {
   dummyHealthCheck,
   registerHealthChecks,
   runAllHealthchecks,
-} from './infrastructure/healthchecks'
-import { routeDefinitions } from './modules/routes'
-import { integrationConfigPlugin } from './plugins/integrationConfigPlugin'
+} from './infrastructure/healthchecks.js'
+import { routeDefinitions } from './modules/routes.js'
+import { integrationConfigPlugin } from './plugins/integrationConfigPlugin.js'
 
 const GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS = 10000
 const API_VERSION = '2.1.1'

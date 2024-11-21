@@ -1,13 +1,13 @@
-import { apiError, authError } from '../commonSchemas'
-import type { Routes } from '../commonTypes'
+import { apiError, authError } from '../commonSchemas.js'
+import type { Routes } from '../commonTypes.js'
 
-import { getAuth, postAuth, postAuthRefresh, postAuthResponse } from './authController'
+import { getAuth, postAuth, postAuthRefresh, postAuthResponse } from './authController.js'
 import {
   getAuthResponseBody,
   postAuthResponseBody,
   postAuthResultRequestBody,
   postAuthResultResponseBody,
-} from './authSchemas'
+} from './authSchemas.js'
 
 export const authRouteDefinition: Routes = [
   {

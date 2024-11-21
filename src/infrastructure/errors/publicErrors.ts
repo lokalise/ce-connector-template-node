@@ -1,4 +1,4 @@
-import { PublicNonRecoverableError } from './PublicNonRecoverableError'
+import { PublicNonRecoverableError } from './PublicNonRecoverableError.js'
 
 export type CommonErrorParams = {
   message: string

@@ -1,8 +1,8 @@
 import type { PostAuthResultRequestPayload } from 'src/modules/auth/authTypes'
 import type { AuthConfig, IntegrationConfig } from 'src/types'
 
-import type { Dependencies } from '../../infrastructure/diConfig'
-import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient'
+import type { Dependencies } from '../../infrastructure/diConfig.js'
+import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.js'
 
 export class AuthService {
   private readonly fakeApiClient: FakeIntegrationApiClient

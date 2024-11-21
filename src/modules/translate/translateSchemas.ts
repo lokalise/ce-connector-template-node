@@ -1,6 +1,6 @@
 import z from 'zod'
 
-import { contentItem, itemIdentifiers } from '../commonSchemas'
+import { contentItem, itemIdentifiers } from '../commonSchemas.js'
 
 export const translateRequestBody = z.object({
   locales: z.array(z.string()),
