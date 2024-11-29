@@ -20,9 +20,9 @@ describe('app', () => {
       const response = await app.inject().get('/').end()
 
       expect(response.json()).toMatchObject({
-        healthChecks: {
-          heartbeat: 'HEALTHY',
-        },
+        gitCommitSha: 'sha',
+        heartbeat: 'HEALTHY',
+        version: '1',
       })
       expect(response.statusCode).toBe(200)
     })

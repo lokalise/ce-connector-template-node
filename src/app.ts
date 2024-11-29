@@ -4,15 +4,14 @@ import { diContainer, fastifyAwilixPlugin } from '@fastify/awilix'
 import {
   bugsnagErrorReporter,
   bugsnagPlugin,
+  commonHealthcheckPlugin,
   createErrorHandler,
   getRequestIdFastifyAppConfig,
   metricsPlugin,
-  publicHealthcheckPlugin,
 } from '@lokalise/fastify-extras'
 import { resolveLogger } from '@lokalise/node-core'
 import type { FastifyBaseLogger } from 'fastify'
 import fastify from 'fastify'
-import customHealthCheck from 'fastify-custom-healthcheck'
 import fastifyGracefulShutdown from 'fastify-graceful-shutdown'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
@@ -20,11 +19,7 @@ import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod
 import { getConfig, isDevelopment, isTest } from './infrastructure/config.js'
 import { registerDependencies } from './infrastructure/diConfig.js'
 import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler.js'
-import {
-  dummyHealthCheck,
-  registerHealthChecks,
-  runAllHealthchecks,
-} from './infrastructure/healthchecks.js'
+import { dummyHealthCheck, runAllHealthchecks } from './infrastructure/healthchecks.js'
 import { routeDefinitions } from './modules/routes.js'
 import { integrationConfigPlugin } from './plugins/integrationConfigPlugin.js'
 
@@ -81,19 +76,7 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
   })
 
   if (configOverrides.healthchecksEnabled !== false) {
-    await app.register(customHealthCheck, {
-      path: '/',
-      logLevel: 'warn',
-      info: {
-        env: appConfig.nodeEnv,
-        version: appConfig.appVersion,
-        gitCommitSha: appConfig.gitCommitSha,
-      },
-      schema: false,
-      exposeFailure: false,
-    })
-    await app.register(publicHealthcheckPlugin, {
-      url: '/health',
+    await app.register(commonHealthcheckPlugin, {
       healthChecks: [
         {
           name: 'dummy',
@@ -152,10 +135,6 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
       app.gracefulShutdown(() => {
         app.log.info('Starting graceful shutdown')
       })
-    }
-
-    if (configOverrides.healthchecksEnabled !== false) {
-      registerHealthChecks(app)
     }
   })
 
