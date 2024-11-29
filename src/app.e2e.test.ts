@@ -16,7 +16,7 @@ describe('app', () => {
   })
 
   describe('healthcheck', () => {
-    it('Returns health check information', async () => {
+    it('Returns public health check information', async () => {
       const response = await app.inject().get('/').end()
 
       expect(response.json()).toMatchObject({
@@ -27,7 +27,7 @@ describe('app', () => {
       expect(response.statusCode).toBe(200)
     })
 
-    it('Returns public health check information', async () => {
+    it('Returns private health check information', async () => {
       const response = await app.inject().get('/health').end()
 
       expect(response.statusCode).toBe(200)
