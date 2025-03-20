@@ -1,8 +1,8 @@
-package.json @lokalise/flow-in-and-out @kibertoad
-package-lock.json @lokalise/flow-in-and-out @kibertoad
-/.github @lokalise/flow-in-and-out @kibertoad
-Dockerfile @lokalise/flow-in-and-out @kibertoad
+package.json @lokalise/content-exchange @kibertoad
+package-lock.json @lokalise/content-exchange @kibertoad
+/.github @lokalise/content-exchange @kibertoad
+Dockerfile @lokalise/content-exchange @kibertoad
 
-/src @lokalise/flow-in-and-out @kibertoad
-/test @lokalise/flow-in-and-out @kibertoad
-/docs @lokalise/flow-in-and-out @kibertoad
+/src @lokalise/content-exchange @kibertoad
+/test @lokalise/content-exchange @kibertoad
+/docs @lokalise/content-exchange @kibertoad
