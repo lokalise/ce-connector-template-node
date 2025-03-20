@@ -1,4 +1,8 @@
-*.yml        @kibertoad @andrewi-wd @m-evans-1 @davidribeiro-lokalise
-*.md         @kibertoad @andrewi-wd @m-evans-1 @davidribeiro-lokalise
-*.ts         @kibertoad @andrewi-wd @m-evans-1 @davidribeiro-lokalise
-package.json @kibertoad @andrewi-wd @m-evans-1 @davidribeiro-lokalise
+package.json @lokalise/content-exchange @kibertoad
+package-lock.json @lokalise/content-exchange @kibertoad
+/.github @lokalise/content-exchange @kibertoad
+Dockerfile @lokalise/content-exchange @kibertoad
+
+/src @lokalise/content-exchange @kibertoad
+/test @lokalise/content-exchange @kibertoad
+/docs @lokalise/content-exchange @kibertoad
