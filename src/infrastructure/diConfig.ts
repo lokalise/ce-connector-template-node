@@ -9,8 +9,9 @@ import { EnvService } from '../modules/env/EnvService.js'
 import { PublishService } from '../modules/publish/PublishService.js'
 import { TranslateService } from '../modules/translate/TranslateService.js'
 
-import { getConfig } from './config.js'
+import type { TransactionObservabilityManager } from '@lokalise/node-core'
 import type { Config } from './config.js'
+import { getConfig } from './config.js'
 
 export type ExternalDependencies = {
   app?: FastifyInstance
@@ -22,12 +23,19 @@ export type DependencyOverrides = Partial<DiConfig>
 
 export function registerDependencies(
   diContainer: AwilixContainer,
-  _dependencies: ExternalDependencies = {},
+  dependencies: ExternalDependencies = {},
   dependencyOverrides: DependencyOverrides = {},
 ): void {
   const diConfig: DiConfig = {
     config: asFunction(() => {
       return getConfig()
+    }, SINGLETON_CONFIG),
+    transactionObservabilityManager: asFunction(() => {
+      if (!dependencies.app?.newrelicTransactionManager) {
+        throw new Error('Observability manager is not set')
+      }
+
+      return dependencies.app?.newrelicTransactionManager
     }, SINGLETON_CONFIG),
     fakeIntegrationApiClient: asClass(FakeIntegrationApiClient, SINGLETON_CONFIG),
     cacheService: asClass(CacheService, SINGLETON_CONFIG),
@@ -48,6 +56,7 @@ type DiConfig = NameAndRegistrationPair<Dependencies>
 
 export interface Dependencies {
   config: Config
+  transactionObservabilityManager: TransactionObservabilityManager
   fakeIntegrationApiClient: FakeIntegrationApiClient
   cacheService: CacheService
   authService: AuthService

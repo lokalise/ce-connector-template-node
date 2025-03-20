@@ -25,7 +25,7 @@
         "@bugsnag/js": "^8.2.0",
         "@fastify/awilix": "^6.0.1",
         "@lokalise/backend-http-client": "^4.1.1",
-        "@lokalise/fastify-extras": "^25.5.0",
+        "@lokalise/fastify-extras": "27.2.0",
         "@lokalise/node-core": "^13.5.0",
         "awilix": "^12.0.5",
         "fastify": "^5.2.1",

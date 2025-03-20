@@ -8,6 +8,7 @@ import {
   createErrorHandler,
   getRequestIdFastifyAppConfig,
   metricsPlugin,
+  newrelicTransactionManagerPlugin,
 } from '@lokalise/fastify-extras'
 import { resolveLogger } from '@lokalise/node-core'
 import type { FastifyBaseLogger } from 'fastify'
@@ -55,6 +56,14 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
 
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)
+
+  /**
+   * Since DI config relies on having app-scoped NewRelic instance to be set by the plugin,
+   * we instantiate it earlier than we run the DI initialization.
+   */
+  await app.register(newrelicTransactionManagerPlugin, {
+    isEnabled: config.vendors.newrelic.isEnabled,
+  })
 
   await app.register(fastifyAwilixPlugin, { disposeOnClose: true })
   registerDependencies(
