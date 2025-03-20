@@ -1,4 +1,8 @@
-*.yml        @kibertoad @andrewi-wd @m-evans-1 @davidribeiro-lokalise
-*.md         @kibertoad @andrewi-wd @m-evans-1 @davidribeiro-lokalise
-*.ts         @kibertoad @andrewi-wd @m-evans-1 @davidribeiro-lokalise
-package.json @kibertoad @andrewi-wd @m-evans-1 @davidribeiro-lokalise
+package.json @lokalise/flow-in-and-out @kibertoad
+package-lock.json @lokalise/flow-in-and-out @kibertoad
+/.github @lokalise/flow-in-and-out @kibertoad
+Dockerfile @lokalise/flow-in-and-out @kibertoad
+
+/src @lokalise/flow-in-and-out @kibertoad
+/test @lokalise/flow-in-and-out @kibertoad
+/docs @lokalise/flow-in-and-out @kibertoad
