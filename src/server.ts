@@ -1,9 +1,4 @@
-if (process.env.NEW_RELIC_ENABLED !== 'false') {
-  await import('newrelic')
-}
-
 import { getApp } from './app.js'
-import type { Config } from './infrastructure/config.js'
 import { getConfig, isProduction } from './infrastructure/config.js'
 import {
   executeAndHandleGlobalErrors,
@@ -13,7 +8,7 @@ import {
 
 async function start() {
   globalLogger.info('Starting application...')
-  const config = executeAndHandleGlobalErrors<Config>(getConfig)
+  const config = executeAndHandleGlobalErrors(getConfig)
   const app = await getApp({
     enableMetrics: isProduction(),
   })
