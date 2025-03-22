@@ -1,0 +1,35 @@
+version: 2
+updates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+    groups:
+      types:
+        patterns:
+          - '@types/*'
+      vitest:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
+      typescript:
+        patterns:
+          - 'tsx'
+          - 'typescript'
+          - '@types/*'
+      fastify:
+        patterns:
+          - '@fastify/*'
+          - 'fastify'
+          - 'fastify-*'
+      awilix:
+        patterns:
+          - 'awilix'
+          - 'awilix-*'
