@@ -67,7 +67,7 @@ Run linter:
 
 ## Openapi
 
-Openapi docs are available at [connector-openapi](https://github.com/lokalise/connector-openapi/blob/master/postman/schemas/schema.yaml)
+Openapi docs are available at [ce-connector-api](https://github.com/lokalise/ce-connector-api/blob/main/schema.yaml)
 
 ## License
 
