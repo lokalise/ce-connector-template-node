@@ -40,7 +40,7 @@
         "zod": "^3.25.75"
     },
     "devDependencies": {
-        "@biomejs/biome": "^1.9.4",
+        "@biomejs/biome": "^2.0.6",
         "@lokalise/biome-config": "^2.0.0",
         "@types/newrelic": "^9.14.8",
         "@types/node": "^24.0.10",
