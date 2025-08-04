@@ -48,7 +48,7 @@
         "cpy-cli": "^5.0.0",
         "cross-env": "^10.0.0",
         "mockttp": "^4.1.0",
-        "pino-pretty": "^13.0.0",
+        "pino-pretty": "^13.1.1",
         "tsx": "^4.20.3",
         "typescript": "^5.8.3",
         "vitest": "^3.0.9"
