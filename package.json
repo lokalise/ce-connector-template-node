@@ -33,7 +33,7 @@
         "fastify-graceful-shutdown": "^4.0.1",
         "fastify-metrics": "^12.1.0",
         "fastify-plugin": "^5.0.1",
-        "fastify-type-provider-zod": "^5.0.1",
+        "fastify-type-provider-zod": "^5.0.3",
         "newrelic": "^13.0.0",
         "pino": "^9.7.0",
         "undici": "^7.13.0",
