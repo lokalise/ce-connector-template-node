@@ -1,4 +1,5 @@
 import { ConfigScope } from '@lokalise/node-core'
+
 const configScope: ConfigScope = new ConfigScope()
 
 export type Config = {

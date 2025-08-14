@@ -1,8 +1,8 @@
-import type z from 'zod'
+import type z from 'zod/v4'
 
-import type { ApiReply } from '../commonTypes.js'
+import type { ApiReply } from '../commonTypes.ts'
 
-import type { getAuthResponseBody, postAuthResultRequestBody } from './authSchemas.js'
+import type { getAuthResponseBody, postAuthResultRequestBody } from './authSchemas.ts'
 
 export type GetAuthResponseBody = z.infer<typeof getAuthResponseBody>
 export type GetAuthResponse = ApiReply<GetAuthResponseBody>

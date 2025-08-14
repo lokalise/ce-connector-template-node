@@ -1,8 +1,8 @@
-import { authRouteDefinition } from './auth/authRoutes.js'
-import { cacheRouteDefinition } from './cache/cacheRoutes.js'
-import { envRouteDefinition } from './env/envRoutes.js'
-import { publishRouteDefinition } from './publish/publishRoutes.js'
-import { translateRouteDefinition } from './translate/translateRoutes.js'
+import { authRouteDefinition } from './auth/authRoutes.ts'
+import { cacheRouteDefinition } from './cache/cacheRoutes.ts'
+import { envRouteDefinition } from './env/envRoutes.ts'
+import { publishRouteDefinition } from './publish/publishRoutes.ts'
+import { translateRouteDefinition } from './translate/translateRoutes.ts'
 
 export const routeDefinitions = {
   routes: [

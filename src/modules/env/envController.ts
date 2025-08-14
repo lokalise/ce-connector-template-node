@@ -1,6 +1,6 @@
 import type { FastifyRequest } from 'fastify'
 
-import type { EnvResponse } from './envTypes.js'
+import type { EnvResponse } from './envTypes.ts'
 
 export const getEnv = async (req: FastifyRequest, reply: EnvResponse) => {
   const { envService } = req.diScope.cradle

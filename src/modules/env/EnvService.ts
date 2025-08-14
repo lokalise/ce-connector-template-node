@@ -1,4 +1,4 @@
-import type { AuthConfig, IntegrationConfig } from 'src/types'
+import type { AuthConfig, IntegrationConfig } from '../../types.ts'
 
 export class EnvService {
   getLocales(_config: IntegrationConfig, _auth: AuthConfig) {

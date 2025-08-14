@@ -1,8 +1,8 @@
-import { apiError } from '../commonSchemas.js'
-import type { Routes } from '../commonTypes.js'
+import { apiError } from '../commonSchemas.ts'
+import type { Routes } from '../commonTypes.ts'
 
-import { getContent } from './translateController.js'
-import { translateRequestBody, translateResponseBody } from './translateSchemas.js'
+import { getContent } from './translateController.ts'
+import { translateRequestBody, translateResponseBody } from './translateSchemas.ts'
 
 export const translateRouteDefinition: Routes = [
   {

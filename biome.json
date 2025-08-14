@@ -3,5 +3,8 @@
     "extends": [
         "./node_modules/@lokalise/biome-config/configs/biome-base.jsonc",
         "./node_modules/@lokalise/biome-config/configs/biome-esm.jsonc"
-    ]
+    ],
+    "linter": {
+        "rules": {}
+    }
 }

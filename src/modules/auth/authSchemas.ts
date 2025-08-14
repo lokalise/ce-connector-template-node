@@ -1,4 +1,4 @@
-import z from 'zod'
+import z from 'zod/v4'
 
 const AUTH_TYPES_AVAILABLE = ['OAuth', 'apiToken'] as const
 

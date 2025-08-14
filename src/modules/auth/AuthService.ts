@@ -1,13 +1,13 @@
-import type { PostAuthResultRequestPayload } from 'src/modules/auth/authTypes'
-import type { AuthConfig, IntegrationConfig } from 'src/types'
-
-import type { Dependencies } from '../../infrastructure/diConfig.js'
-import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.js'
+import type { Dependencies } from '../../infrastructure/diConfig.ts'
+import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
+import type { AuthConfig, IntegrationConfig } from '../../types.ts'
+import type { PostAuthResultRequestPayload } from './authTypes.ts'
 
 export class AuthService {
-  private readonly fakeApiClient: FakeIntegrationApiClient
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: this is just an example
+  private readonly _fakeApiClient: FakeIntegrationApiClient
   constructor({ fakeIntegrationApiClient }: Dependencies) {
-    this.fakeApiClient = fakeIntegrationApiClient
+    this._fakeApiClient = fakeIntegrationApiClient
   }
 
   // API key flow

@@ -1,10 +1,10 @@
-import { getApp } from './app.js'
-import { getConfig, isProduction } from './infrastructure/config.js'
+import { getApp } from './app.ts'
+import { getConfig, isProduction } from './infrastructure/config.ts'
 import {
   executeAndHandleGlobalErrors,
   globalLogger,
   resolveGlobalErrorLogObject,
-} from './infrastructure/errors/globalErrorHandler.js'
+} from './infrastructure/errors/globalErrorHandler.ts'
 
 async function start() {
   globalLogger.info('Starting application...')

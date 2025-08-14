@@ -1,4 +1,4 @@
-import type { ErrorDetails } from './InternalError.js'
+import type { ErrorDetails } from './InternalError.ts'
 
 export type PublicNonRecoverableErrorParams = {
   message: string
