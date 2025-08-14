@@ -37,7 +37,7 @@
         "newrelic": "^13.1.0",
         "pino": "^9.9.0",
         "undici": "^7.13.0",
-        "zod": "^3.25.76"
+        "zod": "^4.0.17"
     },
     "devDependencies": {
         "@biomejs/biome": "^2.2.0",
