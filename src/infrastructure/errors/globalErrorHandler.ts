@@ -2,7 +2,7 @@ import { types } from 'node:util'
 
 import { pino, stdSerializers } from 'pino'
 
-import { hasMessage } from '../../utils/typeUtils.js'
+import { hasMessage } from '../../utils/typeUtils.ts'
 
 export const globalLogger = pino()
 

@@ -1,7 +1,7 @@
-import { TEST_OPTIONS, buildClient, sendGet } from '@lokalise/backend-http-client'
+import { buildClient, sendGet, TEST_OPTIONS } from '@lokalise/backend-http-client'
 import type { FastifyInstance } from 'fastify'
 
-import { getApp } from './app.js'
+import { getApp } from './app.ts'
 
 describe('app', () => {
   let app: FastifyInstance

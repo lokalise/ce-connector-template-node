@@ -1,17 +1,15 @@
-import type { AwilixContainer, NameAndRegistrationPair } from 'awilix'
-import { Lifetime, asClass, asFunction } from 'awilix'
-import type { FastifyBaseLogger, FastifyInstance } from 'fastify'
-
-import { FakeIntegrationApiClient } from '../integrations/fakeIntegration/client/FakeIntegrationApiClient.js'
-import { AuthService } from '../modules/auth/AuthService.js'
-import { CacheService } from '../modules/cache/CacheService.js'
-import { EnvService } from '../modules/env/EnvService.js'
-import { PublishService } from '../modules/publish/PublishService.js'
-import { TranslateService } from '../modules/translate/TranslateService.js'
-
 import type { TransactionObservabilityManager } from '@lokalise/node-core'
-import type { Config } from './config.js'
-import { getConfig } from './config.js'
+import type { AwilixContainer, NameAndRegistrationPair } from 'awilix'
+import { asClass, asFunction, Lifetime } from 'awilix'
+import type { FastifyBaseLogger, FastifyInstance } from 'fastify'
+import { FakeIntegrationApiClient } from '../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
+import { AuthService } from '../modules/auth/AuthService.ts'
+import { CacheService } from '../modules/cache/CacheService.ts'
+import { EnvService } from '../modules/env/EnvService.ts'
+import { PublishService } from '../modules/publish/PublishService.ts'
+import { TranslateService } from '../modules/translate/TranslateService.ts'
+import type { Config } from './config.ts'
+import { getConfig } from './config.ts'
 
 export type ExternalDependencies = {
   app?: FastifyInstance

@@ -1,4 +1,4 @@
-import type { AuthConfig, ContentItem, IntegrationConfig, ItemIdentifiers } from '../../types.js'
+import type { AuthConfig, ContentItem, IntegrationConfig, ItemIdentifiers } from '../../types.ts'
 
 export class TranslateService {
   getContent(

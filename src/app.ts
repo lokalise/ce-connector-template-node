@@ -16,19 +16,19 @@ import fastify from 'fastify'
 import fastifyGracefulShutdown from 'fastify-graceful-shutdown'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
-
-import { getConfig, isDevelopment, isTest } from './infrastructure/config.js'
-import { registerDependencies } from './infrastructure/diConfig.js'
-import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler.js'
-import { dummyHealthCheck, runAllHealthchecks } from './infrastructure/healthchecks.js'
-import { routeDefinitions } from './modules/routes.js'
-import { integrationConfigPlugin } from './plugins/integrationConfigPlugin.js'
+import { stdSerializers } from 'pino'
+import { getConfig, isDevelopment, isTest } from './infrastructure/config.ts'
+import { registerDependencies } from './infrastructure/diConfig.ts'
+import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler.ts'
+import { dummyHealthCheck, runAllHealthchecks } from './infrastructure/healthchecks.ts'
+import { routeDefinitions } from './modules/routes.ts'
+import { integrationConfigPlugin } from './plugins/integrationConfigPlugin.ts'
 
 const GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS = 10000
 const API_VERSION = '2.1.1'
 
 const getMajorApiVersion = (): string => {
-  return Number.parseInt(API_VERSION).toString()
+  return Number.parseInt(API_VERSION, 10).toString()
 }
 
 export function getPrefix() {
@@ -153,7 +153,7 @@ export async function getApp(configOverrides: ConfigOverrides = {}) {
       await runAllHealthchecks(app)
     }
   } catch (err) {
-    app.log.error('Error while initializing app: ', err)
+    app.log.error({ error: stdSerializers.err(err as Error) }, 'Error while initializing app: ')
     throw err
   }
 

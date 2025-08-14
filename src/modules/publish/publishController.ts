@@ -1,6 +1,6 @@
 import type { FastifyRequest } from 'fastify'
 
-import type { PublishRequestBody, PublishResponse } from './publishTypes.js'
+import type { PublishRequestBody, PublishResponse } from './publishTypes.ts'
 
 export const publishContent = async (
   req: FastifyRequest<{ Body: PublishRequestBody }>,

@@ -1,7 +1,7 @@
-import type { Dependencies } from '../../infrastructure/diConfig.js'
-import { CouldNotRetrieveCacheItemsError } from '../../infrastructure/errors/publicErrors.js'
-import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.js'
-import type { AuthConfig, IntegrationConfig, ItemIdentifiers } from '../../types.js'
+import type { Dependencies } from '../../infrastructure/diConfig.ts'
+import { CouldNotRetrieveCacheItemsError } from '../../infrastructure/errors/publicErrors.ts'
+import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
+import type { AuthConfig, IntegrationConfig, ItemIdentifiers } from '../../types.ts'
 
 export class CacheService {
   private readonly fakeApiClient: FakeIntegrationApiClient

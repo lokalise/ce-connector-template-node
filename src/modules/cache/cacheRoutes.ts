@@ -1,8 +1,8 @@
-import { apiError } from '../commonSchemas.js'
-import type { Routes } from '../commonTypes.js'
+import { apiError } from '../commonSchemas.ts'
+import type { Routes } from '../commonTypes.ts'
 
-import { getCache, getCacheItems } from './cacheController.js'
-import { cacheRequestBody, cacheResponseBody, listCacheResponseBody } from './cacheSchemas.js'
+import { getCache, getCacheItems } from './cacheController.ts'
+import { cacheRequestBody, cacheResponseBody, listCacheResponseBody } from './cacheSchemas.ts'
 
 export const cacheRouteDefinition: Routes = [
   {

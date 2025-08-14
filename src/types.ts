@@ -1,6 +1,6 @@
-import type z from 'zod'
+import type z from 'zod/v4'
 
-import type { contentItem, itemIdentifiers } from './modules/commonSchemas.js'
+import type { contentItem, itemIdentifiers } from './modules/commonSchemas.ts'
 
 export type ItemIdentifiers = z.infer<typeof itemIdentifiers>
 export type ContentItem = z.infer<typeof contentItem>
