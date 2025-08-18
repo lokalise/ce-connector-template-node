@@ -36,7 +36,7 @@
         "fastify-type-provider-zod": "^5.0.3",
         "newrelic": "^13.1.0",
         "pino": "^9.9.0",
-        "undici": "^7.13.0",
+        "undici": "^7.14.0",
         "zod": "^4.0.17"
     },
     "devDependencies": {
