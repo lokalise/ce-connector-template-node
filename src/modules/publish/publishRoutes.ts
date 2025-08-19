@@ -1,7 +1,6 @@
+import { publishRequestBody, publishResponseBody } from '@lokalise/connector-api-contracts'
 import type { Routes } from '../commonTypes.ts'
-
 import { publishContent } from './publishController.ts'
-import { publishRequestBody, publishResponseBody } from './publishSchemas.ts'
 
 export const publishRouteDefinition: Routes = [
   {

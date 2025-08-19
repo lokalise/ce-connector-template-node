@@ -1,10 +1,9 @@
+import type { PostAuthResultRequestBody } from '@lokalise/connector-api-contracts'
 import type { FastifyRequest } from 'fastify'
-
 import type {
   GetAuthResponse,
   PostAuthRefreshResponse,
   PostAuthResponse,
-  PostAuthResultRequestPayload,
   PostAuthResultResponse,
 } from './authTypes.ts'
 
@@ -50,7 +49,7 @@ export const postAuthRefresh = async (req: FastifyRequest, reply: PostAuthRefres
 }
 
 export const postAuthResponse = async (
-  req: FastifyRequest<{ Body: PostAuthResultRequestPayload }>,
+  req: FastifyRequest<{ Body: PostAuthResultRequestBody }>,
   reply: PostAuthResultResponse,
 ) => {
   const { authService } = req.diScope.cradle

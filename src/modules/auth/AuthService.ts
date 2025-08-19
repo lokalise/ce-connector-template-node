@@ -1,7 +1,7 @@
+import type { PostAuthResultRequestBody } from '@lokalise/connector-api-contracts'
 import type { Dependencies } from '../../infrastructure/diConfig.ts'
 import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type { AuthConfig, IntegrationConfig } from '../../types.ts'
-import type { PostAuthResultRequestPayload } from './authTypes.ts'
 
 export class AuthService {
   // biome-ignore lint/correctness/noUnusedPrivateClassMembers: this is just an example
@@ -36,7 +36,7 @@ export class AuthService {
     })
   }
 
-  getAuthCredentials(_authData: PostAuthResultRequestPayload) {
+  getAuthCredentials(_authData: PostAuthResultRequestBody) {
     // TODO: implementation
     return Promise.resolve({
       accessToken: 'accessToken',

@@ -1,6 +1,6 @@
+import type { TranslateRequestBody } from '@lokalise/connector-api-contracts'
 import type { FastifyRequest } from 'fastify'
-
-import type { TranslateRequestBody, TranslateResponse } from './translateTypes.ts'
+import type { TranslateResponse } from './translateTypes.ts'
 
 export const getContent = async (
   req: FastifyRequest<{ Body: TranslateRequestBody }>,
@@ -8,7 +8,7 @@ export const getContent = async (
 ) => {
   const { translateService } = req.diScope.cradle
 
-  const [items, updateItems] = await translateService.getContent(
+  const [items] = await translateService.getContent(
     req.integrationConfig,
     req.authConfig,
     req.body.locales,
@@ -24,5 +24,5 @@ export const getContent = async (
     return
   }
 
-  await reply.send({ items, updateItems })
+  await reply.send({ items })
 }
