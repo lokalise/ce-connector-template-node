@@ -1,6 +1,6 @@
+import type { CacheRequestBody } from '@lokalise/connector-api-contracts'
 import type { FastifyRequest } from 'fastify'
-
-import type { CacheRequestBody, CacheResponse, ListCacheResponse } from './cacheTypes.ts'
+import type { CacheResponse, ListCacheResponse } from './cacheTypes.ts'
 
 export async function getCache(req: FastifyRequest, reply: ListCacheResponse) {
   const { cacheService } = req.diScope.cradle

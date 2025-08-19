@@ -1,6 +1,6 @@
+import type { PublishRequestBody } from '@lokalise/connector-api-contracts'
 import type { FastifyRequest } from 'fastify'
-
-import type { PublishRequestBody, PublishResponse } from './publishTypes.ts'
+import type { PublishResponse } from './publishTypes.ts'
 
 export const publishContent = async (
   req: FastifyRequest<{ Body: PublishRequestBody }>,
@@ -8,7 +8,7 @@ export const publishContent = async (
 ) => {
   const { publishService } = req.diScope.cradle
 
-  const [publishResult, updateItems] = await publishService.publishContent(
+  const [publishResult] = await publishService.publishContent(
     req.integrationConfig,
     req.authConfig,
     req.body.items,
@@ -24,8 +24,7 @@ export const publishContent = async (
   }
 
   await reply.send({
-    status: 200,
+    statusCode: 200,
     message: 'Content successfully updated',
-    updateItems,
   })
 }

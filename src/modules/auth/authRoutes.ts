@@ -1,13 +1,7 @@
+import { getAuthResponseBody, postAuthResponseBody } from '@lokalise/connector-api-contracts'
 import { apiError, authError } from '../commonSchemas.ts'
 import type { Routes } from '../commonTypes.ts'
-
 import { getAuth, postAuth, postAuthRefresh, postAuthResponse } from './authController.ts'
-import {
-  getAuthResponseBody,
-  postAuthResponseBody,
-  postAuthResultRequestBody,
-  postAuthResultResponseBody,
-} from './authSchemas.ts'
 
 export const authRouteDefinition: Routes = [
   {
@@ -47,9 +41,9 @@ export const authRouteDefinition: Routes = [
     url: '/auth/response',
     handler: postAuthResponse,
     schema: {
-      body: postAuthResultRequestBody,
+      body: postAuthResponseBody,
       response: {
-        200: postAuthResultResponseBody,
+        200: postAuthResponseBody,
         403: authError,
       },
     },

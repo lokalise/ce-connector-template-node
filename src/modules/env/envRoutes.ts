@@ -1,8 +1,7 @@
+import { envResponseBody } from '@lokalise/connector-api-contracts'
 import { apiError } from '../commonSchemas.ts'
 import type { Routes } from '../commonTypes.ts'
-
 import { getEnv } from './envController.ts'
-import { envResponseBody } from './envSchemas.ts'
 
 export const envRouteDefinition: Routes = [
   {

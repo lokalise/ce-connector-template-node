@@ -1,8 +1,11 @@
+import {
+  cacheRequestBody,
+  cacheResponseBody,
+  listCacheResponseBody,
+} from '@lokalise/connector-api-contracts'
 import { apiError } from '../commonSchemas.ts'
 import type { Routes } from '../commonTypes.ts'
-
 import { getCache, getCacheItems } from './cacheController.ts'
-import { cacheRequestBody, cacheResponseBody, listCacheResponseBody } from './cacheSchemas.ts'
 
 export const cacheRouteDefinition: Routes = [
   {

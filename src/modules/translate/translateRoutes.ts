@@ -1,8 +1,7 @@
+import { translateRequestBody, translateResponseBody } from '@lokalise/connector-api-contracts'
 import { apiError } from '../commonSchemas.ts'
 import type { Routes } from '../commonTypes.ts'
-
 import { getContent } from './translateController.ts'
-import { translateRequestBody, translateResponseBody } from './translateSchemas.ts'
 
 export const translateRouteDefinition: Routes = [
   {

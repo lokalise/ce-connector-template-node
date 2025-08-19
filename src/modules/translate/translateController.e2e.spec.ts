@@ -1,11 +1,9 @@
+import type { TranslateRequestBody } from '@lokalise/connector-api-contracts'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
-
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
 import { getApp, getPrefix } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
-
-import type { TranslateRequestBodyType } from './translateSchemas.ts'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
@@ -46,15 +44,16 @@ describe('translateController e2e', () => {
           items: [],
           locales: [],
           defaultLocale: 'en',
-        } satisfies TranslateRequestBodyType,
+        } satisfies TranslateRequestBody,
         headers: createTestRequestHeaders({}, {}),
       })
 
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toEqual({
-        items: [],
-        updateItems: [],
-      })
+      expect(response.json()).toMatchInlineSnapshot(`
+        {
+          "items": [],
+        }
+      `)
     })
   })
 })

@@ -1,11 +1,9 @@
+import type { PublishRequestBody } from '@lokalise/connector-api-contracts'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
-
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
 import { getApp, getPrefix } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
-
-import type { PublishRequestBodyType } from './publishSchemas.ts'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
@@ -45,16 +43,17 @@ describe('publishController e2e', () => {
         payload: {
           items: [],
           defaultLocale: 'en',
-        } satisfies PublishRequestBodyType,
+        } satisfies PublishRequestBody,
         headers: createTestRequestHeaders({}, {}),
       })
 
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toEqual({
-        message: 'Content successfully updated',
-        status: 200,
-        updateItems: [],
-      })
+      expect(response.json()).toMatchInlineSnapshot(`
+        {
+          "message": "Content successfully updated",
+          "statusCode": 200,
+        }
+      `)
     })
   })
 })
