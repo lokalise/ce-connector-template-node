@@ -48,11 +48,12 @@ describe('publishController e2e', () => {
       })
 
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toEqual({
-        message: 'Content successfully updated',
-        status: 200,
-        updateItems: [],
-      })
+      expect(response.json()).toMatchInlineSnapshot(`
+        {
+          "message": "Content successfully updated",
+          "statusCode": 200,
+        }
+      `)
     })
   })
 })

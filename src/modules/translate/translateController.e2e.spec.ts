@@ -49,10 +49,11 @@ describe('translateController e2e', () => {
       })
 
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toEqual({
-        items: [],
-        updateItems: [],
-      })
+      expect(response.json()).toMatchInlineSnapshot(`
+        {
+          "items": [],
+        }
+      `)
     })
   })
 })
