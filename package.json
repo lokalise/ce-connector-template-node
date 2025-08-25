@@ -26,7 +26,7 @@
         "@bugsnag/js": "^8.4.0",
         "@fastify/awilix": "^8.0.0",
         "@lokalise/backend-http-client": "^7.0.0",
-        "@lokalise/connector-api-contracts": "^0.10.1",
+        "@lokalise/connector-api-contracts": "^1.0.0",
         "@lokalise/fastify-extras": "29.0.0",
         "@lokalise/node-core": "^14.3.1",
         "awilix": "^12.0.5",
