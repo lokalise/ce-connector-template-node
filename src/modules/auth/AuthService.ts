@@ -1,12 +1,12 @@
 import type { PostAuthResultRequestBody } from '@lokalise/connector-api-contracts'
-import type { Dependencies } from '../../infrastructure/CommonModule.ts'
 import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type { AuthConfig, IntegrationConfig } from '../../types.ts'
+import type { ConnectorDependencies } from '../ConnectorModule.js'
 
 export class AuthService {
   // biome-ignore lint/correctness/noUnusedPrivateClassMembers: this is just an example
   private readonly _fakeApiClient: FakeIntegrationApiClient
-  constructor({ fakeIntegrationApiClient }: Dependencies) {
+  constructor({ fakeIntegrationApiClient }: ConnectorDependencies) {
     this._fakeApiClient = fakeIntegrationApiClient
   }
 
