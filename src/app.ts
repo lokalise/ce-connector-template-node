@@ -20,7 +20,7 @@ import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod
 import { type DependencyInjectionOptions, DIContext, type NestedPartial } from 'opinionated-machine'
 import { stdSerializers } from 'pino'
 import type {
-  Dependencies,
+  CommonDependencies,
   DependencyOverrides,
   ExternalDependencies,
 } from './infrastructure/CommonModule.ts'
@@ -133,7 +133,7 @@ export async function getApp(
     }),
   )
 
-  const diContext = new DIContext<Dependencies, Config, ExternalDependencies>(
+  const diContext = new DIContext<CommonDependencies, Config, ExternalDependencies>(
     diContainer,
     /**
      * Running consumers and jobs introduces additional overhead and fragility when running tests,

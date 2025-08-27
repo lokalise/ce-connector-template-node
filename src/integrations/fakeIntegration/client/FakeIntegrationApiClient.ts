@@ -3,7 +3,7 @@
 import { buildClient, sendGet } from '@lokalise/backend-http-client'
 import type { Client } from 'undici'
 
-import type { Dependencies } from '../../../infrastructure/CommonModule.ts'
+import type { CommonDependencies } from '../../../infrastructure/CommonModule.ts'
 
 import { EXTERNAL_ITEM_RESPONSE_SCHEMA } from './fakeIntegrationApiTypes.ts'
 
@@ -16,7 +16,7 @@ const RETRY_CONFIG = {
 
 export class FakeIntegrationApiClient {
   private readonly client: Client
-  constructor({ config }: Dependencies) {
+  constructor({ config }: CommonDependencies) {
     this.client = buildClient(config.integrations.fakeStore.baseUrl, {
       bodyTimeout: 5000,
       headersTimeout: 5000,

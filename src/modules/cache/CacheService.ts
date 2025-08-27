@@ -1,11 +1,11 @@
-import type { Dependencies } from '../../infrastructure/CommonModule.ts'
 import { CouldNotRetrieveCacheItemsError } from '../../infrastructure/errors/publicErrors.ts'
 import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type { AuthConfig, IntegrationConfig, ItemIdentifiers } from '../../types.ts'
+import type { ConnectorDependencies } from '../ConnectorModule.js'
 
 export class CacheService {
   private readonly fakeApiClient: FakeIntegrationApiClient
-  constructor({ fakeIntegrationApiClient }: Dependencies) {
+  constructor({ fakeIntegrationApiClient }: ConnectorDependencies) {
     this.fakeApiClient = fakeIntegrationApiClient
   }
 
