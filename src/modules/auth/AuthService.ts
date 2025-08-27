@@ -1,5 +1,5 @@
 import type { PostAuthResultRequestBody } from '@lokalise/connector-api-contracts'
-import type { Dependencies } from '../../infrastructure/diConfig.ts'
+import type { Dependencies } from '../../infrastructure/CommonModule.ts'
 import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type { AuthConfig, IntegrationConfig } from '../../types.ts'
 

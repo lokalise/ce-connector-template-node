@@ -7,7 +7,7 @@ describe('app', () => {
   let app: FastifyInstance
   beforeAll(async () => {
     app = await getApp({
-      enableMetrics: true,
+      monitoringEnabled: true,
     })
   })
 

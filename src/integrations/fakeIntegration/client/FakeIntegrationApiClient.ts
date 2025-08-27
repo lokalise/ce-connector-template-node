@@ -3,7 +3,7 @@
 import { buildClient, sendGet } from '@lokalise/backend-http-client'
 import type { Client } from 'undici'
 
-import type { Dependencies } from '../../../infrastructure/diConfig.ts'
+import type { Dependencies } from '../../../infrastructure/CommonModule.ts'
 
 import { EXTERNAL_ITEM_RESPONSE_SCHEMA } from './fakeIntegrationApiTypes.ts'
 
