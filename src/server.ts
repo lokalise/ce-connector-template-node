@@ -10,7 +10,7 @@ async function start() {
   globalLogger.info('Starting application...')
   const config = executeAndHandleGlobalErrors(getConfig)
   const app = await getApp({
-    enableMetrics: isProduction(),
+    monitoringEnabled: isProduction(),
   })
 
   try {
