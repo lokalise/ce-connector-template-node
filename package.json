@@ -26,7 +26,8 @@
         "@bugsnag/js": "^8.4.0",
         "@fastify/awilix": "^8.0.0",
         "@lokalise/backend-http-client": "^7.0.0",
-        "@lokalise/connector-api-contracts": "^1.0.0",
+        "@lokalise/connector-api-contracts": "^1.1.1",
+        "@lokalise/fastify-api-contracts": "^4.0.0",
         "@lokalise/fastify-extras": "29.0.0",
         "@lokalise/node-core": "^14.4.1",
         "awilix": "^12.0.5",
@@ -39,7 +40,7 @@
         "opinionated-machine": "^3.1.0",
         "pino": "^9.9.0",
         "undici": "^7.15.0",
-        "zod": "^4.1.1"
+        "zod": "^4.1.4"
     },
     "devDependencies": {
         "@biomejs/biome": "^2.2.2",

@@ -1,4 +1,9 @@
-import type { PostAuthResultRequestBody } from '@lokalise/connector-api-contracts'
+import {
+  getAuthContract,
+  postAuthContract,
+  postAuthRefreshContract, postAuthResponseContract,
+  type PostAuthResultRequestBody,
+} from '@lokalise/connector-api-contracts'
 import type { FastifyRequest } from 'fastify'
 import type {
   GetAuthResponse,
@@ -6,12 +11,26 @@ import type {
   PostAuthResponse,
   PostAuthResultResponse,
 } from './authTypes.ts'
+import { AbstractController } from 'opinionated-machine'
+import { buildFastifyNoPayloadRoute } from '@lokalise/fastify-api-contracts'
 
-export const getAuth = async (_req: FastifyRequest, reply: GetAuthResponse) => {
-  await reply.send({
-    // type can be either apiToken or OAuth that depends on the app authorization strategy
-    type: 'apiToken',
+type AuthControllerContractsType = typeof AuthController.contracts
+
+export class AuthController extends AbstractController<AuthControllerContractsType> {
+  public static contracts = {
+    getAuth: getAuthContract,
+    postAuth: postAuthContract,
+    postAuthRefresh: postAuthRefreshContract,
+    postAuthResponse: postAuthResponseContract,
+  } as const
+
+  private getAuth = buildFastifyNoPayloadRoute(getAuthContract, async (_req: FastifyRequest, reply: GetAuthResponse) => {
+    await reply.send({
+      // type can be either apiToken or OAuth that depends on the app authorization strategy
+      type: 'apiToken',
+    })
   })
+
 }
 
 export const postAuth = async (req: FastifyRequest, reply: PostAuthResponse) => {
