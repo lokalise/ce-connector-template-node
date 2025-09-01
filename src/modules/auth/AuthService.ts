@@ -1,4 +1,4 @@
-import type { PostAuthResultRequestBody } from '@lokalise/connector-api-contracts'
+import type { PostAuthResponseRequestBody } from '@lokalise/connector-api-contracts'
 import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type { AuthConfig, IntegrationConfig } from '../../types.ts'
 import type { ConnectorDependencies } from '../ConnectorModule.js'
@@ -36,7 +36,7 @@ export class AuthService {
     })
   }
 
-  getAuthCredentials(_authData: PostAuthResultRequestBody) {
+  getAuthCredentials(_authData: PostAuthResponseRequestBody) {
     // TODO: implementation
     return Promise.resolve({
       accessToken: 'accessToken',

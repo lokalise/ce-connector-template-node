@@ -1,5 +1,6 @@
 import {
   AbstractModule,
+  asControllerClass,
   asSingletonClass,
   type DependencyInjectionOptions,
   type MandatoryNameAndRegistrationPair,
@@ -7,6 +8,7 @@ import {
 import type { ExternalDependencies } from '../infrastructure/CommonModule.js'
 import { FakeIntegrationApiClient } from '../integrations/fakeIntegration/client/FakeIntegrationApiClient.js'
 import { AuthService } from './auth/AuthService.js'
+import { AuthController } from './auth/authController.js'
 import { CacheService } from './cache/CacheService.js'
 import { EnvService } from './env/EnvService.js'
 import { PublishService } from './publish/PublishService.js'
@@ -28,7 +30,9 @@ export class ConnectorModule extends AbstractModule<ConnectorDependencies, Exter
   }
 
   resolveControllers(): MandatoryNameAndRegistrationPair<unknown> {
-    return {}
+    return {
+      authController: asControllerClass(AuthController),
+    }
   }
 }
 

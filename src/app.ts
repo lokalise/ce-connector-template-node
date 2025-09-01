@@ -169,6 +169,7 @@ export async function getApp(
         url: versionPrefix.concat(route.url),
       })
     }
+    diContext.registerRoutes(app)
 
     // Graceful shutdown hook
     if (!isDevelopment()) {

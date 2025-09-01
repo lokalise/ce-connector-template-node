@@ -1,8 +1,9 @@
+import { getAuthContract } from '@lokalise/connector-api-contracts'
+import { injectGet } from '@lokalise/fastify-api-contracts'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
-
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
-import { getApp, getPrefix } from '../../app.ts'
+import { getApp } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
 
 const mockPort = 8000
@@ -37,9 +38,7 @@ describe('authController e2e', () => {
           JSON.stringify([{ id: '1', name: 'dummy' }] satisfies ExternalItem[]),
           JSON_HEADERS,
         )
-      const response = await app.inject({
-        method: 'GET',
-        url: `${getPrefix()}/auth`,
+      const response = await injectGet(app, getAuthContract, {
         headers: createTestRequestHeaders({}, {}),
       })
 
