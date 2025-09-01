@@ -12,7 +12,9 @@ import { AuthController } from './auth/authController.js'
 import { CacheService } from './cache/CacheService.js'
 import { EnvService } from './env/EnvService.js'
 import { PublishService } from './publish/PublishService.js'
+import { PublishController } from './publish/publishController.js'
 import { TranslateService } from './translate/TranslateService.js'
+import { TranslateController } from './translate/translateController.js'
 
 export class ConnectorModule extends AbstractModule<ConnectorDependencies, ExternalDependencies> {
   resolveDependencies(
@@ -32,6 +34,8 @@ export class ConnectorModule extends AbstractModule<ConnectorDependencies, Exter
   resolveControllers(): MandatoryNameAndRegistrationPair<unknown> {
     return {
       authController: asControllerClass(AuthController),
+      publishController: asControllerClass(PublishController),
+      translateController: asControllerClass(TranslateController),
     }
   }
 }
