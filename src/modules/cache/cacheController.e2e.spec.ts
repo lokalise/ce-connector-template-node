@@ -14,10 +14,14 @@ describe('cacheController e2e', () => {
   describe('GET /cache', () => {
     let app: FastifyInstance
     beforeAll(async () => {
-      app = await getApp()
+      app = await getApp({
+        integrations: {
+          fakeStore: {
+            baseUrl: mockBaseUrl,
+          },
+        },
+      })
       await mockServer.start(mockPort)
-      const { config } = app.diContainer.cradle
-      config.integrations.fakeStore.baseUrl = mockBaseUrl
     })
 
     afterAll(async () => {
