@@ -1,26 +1,49 @@
-import type { FastifyRequest } from 'fastify'
+import { getEnvContract } from '@lokalise/connector-api-contracts'
+import { buildFastifyNoPayloadRoute } from '@lokalise/fastify-api-contracts'
+import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
+import type { ConnectorDependencies } from '../ConnectorModule.js'
+import type { EnvService } from './EnvService.js'
 
-import type { EnvResponse } from './envTypes.ts'
+type EnvControllerContractsType = typeof EnvController.contracts
 
-export const getEnv = async (req: FastifyRequest, reply: EnvResponse) => {
-  const { envService } = req.diScope.cradle
+export class EnvController extends AbstractController<EnvControllerContractsType> {
+  public static contracts = {
+    getEnv: getEnvContract,
+  } as const
 
-  const localeData = await envService.getLocales(req.integrationConfig, req.authConfig)
-  if (!localeData) {
-    await reply.status(403).send({
-      message: 'Could not retrieve locales from 3rd party.',
-      statusCode: 403,
-    })
-    return
+  private readonly envService: EnvService
+
+  constructor(dependencies: ConnectorDependencies) {
+    super()
+
+    this.envService = dependencies.envService
   }
 
-  const cacheItemStructure = await envService.getCacheItemStructure(
-    req.integrationConfig,
-    req.authConfig,
-  )
+  private getEnv = buildFastifyNoPayloadRoute(getEnvContract, async (req, reply) => {
+    const localeData = await this.envService.getLocales(req.integrationConfig, req.authConfig)
+    if (!localeData) {
+      await reply.status(403).send({
+        // @ts-expect-error ToDo check if correct types could be enforced on opinionated-machine side for errors
+        message: 'Could not retrieve locales from 3rd party.',
+        statusCode: 403,
+      })
+      return
+    }
 
-  await reply.send({
-    ...localeData,
-    cacheItemStructure,
+    const cacheItemStructure = await this.envService.getCacheItemStructure(
+      req.integrationConfig,
+      req.authConfig,
+    )
+
+    await reply.send({
+      ...localeData,
+      cacheItemStructure,
+    })
   })
+
+  buildRoutes(): BuildRoutesReturnType<EnvControllerContractsType> {
+    return {
+      getEnv: this.getEnv,
+    }
+  }
 }
