@@ -2,7 +2,7 @@ import type { TranslateRequestBody } from '@lokalise/connector-api-contracts'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
-import { getApp, getPrefix } from '../../app.ts'
+import { getApp } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
 
 const mockPort = 8000
@@ -39,7 +39,7 @@ describe('translateController e2e', () => {
         )
       const response = await app.inject({
         method: 'POST',
-        url: `${getPrefix()}/translate`,
+        url: '/translate',
         payload: {
           items: [],
           locales: [],

@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
 
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
-import { getApp, getPrefix } from '../../app.ts'
+import { getApp } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
 
 const mockPort = 8000
@@ -39,7 +39,7 @@ describe('envController e2e', () => {
         )
       const response = await app.inject({
         method: 'GET',
-        url: `${getPrefix()}/env`,
+        url: '/env',
         headers: createTestRequestHeaders({}, {}),
       })
 

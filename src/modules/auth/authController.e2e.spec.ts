@@ -1,3 +1,4 @@
+import { JSON_HEADERS } from '@lokalise/backend-http-client'
 import { getAuthContract } from '@lokalise/connector-api-contracts'
 import { injectGet } from '@lokalise/fastify-api-contracts'
 import type { FastifyInstance } from 'fastify'
@@ -8,9 +9,6 @@ import type { ExternalItem } from '../../integrations/fakeIntegration/client/fak
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
-const JSON_HEADERS = {
-  'content-type': 'application/json',
-}
 
 const mockServer = getLocal()
 
