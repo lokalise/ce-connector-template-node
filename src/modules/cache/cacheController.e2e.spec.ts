@@ -1,15 +1,12 @@
+import { JSON_HEADERS } from '@lokalise/backend-http-client'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
-
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
-import { getApp, getPrefix } from '../../app.ts'
+import { getApp } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
-const JSON_HEADERS = {
-  'content-type': 'application/json',
-}
 
 const mockServer = getLocal()
 
@@ -17,10 +14,14 @@ describe('cacheController e2e', () => {
   describe('GET /cache', () => {
     let app: FastifyInstance
     beforeAll(async () => {
-      app = await getApp()
+      app = await getApp({
+        integrations: {
+          fakeStore: {
+            baseUrl: mockBaseUrl,
+          },
+        },
+      })
       await mockServer.start(mockPort)
-      const { config } = app.diContainer.cradle
-      config.integrations.fakeStore.baseUrl = mockBaseUrl
     })
 
     afterAll(async () => {
@@ -38,7 +39,7 @@ describe('cacheController e2e', () => {
         )
       const response = await app.inject({
         method: 'GET',
-        url: `${getPrefix()}/cache`,
+        url: 'cache',
         headers: createTestRequestHeaders({}, {}),
       })
 

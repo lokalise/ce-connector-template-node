@@ -1,28 +1,52 @@
-import type { TranslateRequestBody } from '@lokalise/connector-api-contracts'
-import type { FastifyRequest } from 'fastify'
-import type { TranslateResponse } from './translateTypes.ts'
+import { postTranslateContract } from '@lokalise/connector-api-contracts'
+import { buildFastifyPayloadRoute } from '@lokalise/fastify-api-contracts'
+import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
+import type { ConnectorDependencies } from '../ConnectorModule.js'
+import type { TranslateService } from './TranslateService.js'
 
-export const getContent = async (
-  req: FastifyRequest<{ Body: TranslateRequestBody }>,
-  reply: TranslateResponse,
-) => {
-  const { translateService } = req.diScope.cradle
+type TranslateControllerContractsType = typeof TranslateController.contracts
 
-  const [items] = await translateService.getContent(
-    req.integrationConfig,
-    req.authConfig,
-    req.body.locales,
-    req.body.items,
-    req.body.defaultLocale,
-  )
-  if (!items) {
-    await reply.status(403).send({
-      message: 'Could not retrieve content items',
-      statusCode: 403,
-      error: 'Invalid credentials',
-    })
-    return
+export class TranslateController extends AbstractController<TranslateControllerContractsType> {
+  public static contracts = {
+    postTranslate: postTranslateContract,
+  } as const
+
+  private readonly translateService: TranslateService
+
+  constructor(dependencies: ConnectorDependencies) {
+    super()
+
+    this.translateService = dependencies.translateService
   }
 
-  await reply.send({ items })
+  private postTranslate = buildFastifyPayloadRoute(postTranslateContract, async (req, reply) => {
+    const [items] = await this.translateService.getContent(
+      req.integrationConfig,
+      req.authConfig,
+      req.body.locales,
+      req.body.items,
+      req.body.defaultLocale,
+    )
+    if (!items) {
+      await reply.status(403).send({
+        payload: {
+          message: 'Could not retrieve content items',
+          errorCode: 'INVALID_CREDENTIALS',
+          details: {
+            errors: [],
+          },
+        },
+        items: [],
+      })
+      return
+    }
+
+    await reply.send({ items })
+  })
+
+  buildRoutes(): BuildRoutesReturnType<TranslateControllerContractsType> {
+    return {
+      postTranslate: this.postTranslate,
+    }
+  }
 }

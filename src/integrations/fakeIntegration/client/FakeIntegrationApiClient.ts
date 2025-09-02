@@ -26,7 +26,7 @@ export class FakeIntegrationApiClient {
   async listItems() {
     const response = await sendGet(this.client, '/items', {
       retryConfig: RETRY_CONFIG,
-      requestLabel: 'TEST',
+      requestLabel: 'List items (Integration X)',
       responseSchema: EXTERNAL_ITEM_RESPONSE_SCHEMA,
     })
 

@@ -1,15 +1,14 @@
-import type { TranslateRequestBody } from '@lokalise/connector-api-contracts'
+import { JSON_HEADERS } from '@lokalise/backend-http-client'
+import { postTranslateContract } from '@lokalise/connector-api-contracts'
+import { injectPost } from '@lokalise/fastify-api-contracts'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
-import { getApp, getPrefix } from '../../app.ts'
+import { getApp } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
-const JSON_HEADERS = {
-  'content-type': 'application/json',
-}
 
 const mockServer = getLocal()
 
@@ -17,10 +16,14 @@ describe('translateController e2e', () => {
   describe('POST /translate', () => {
     let app: FastifyInstance
     beforeAll(async () => {
-      app = await getApp()
+      app = await getApp({
+        integrations: {
+          fakeStore: {
+            baseUrl: mockBaseUrl,
+          },
+        },
+      })
       await mockServer.start(mockPort)
-      const { config } = app.diContainer.cradle
-      config.integrations.fakeStore.baseUrl = mockBaseUrl
     })
 
     afterAll(async () => {
@@ -37,14 +40,12 @@ describe('translateController e2e', () => {
           JSON.stringify([{ id: '1', name: 'dummy' }] satisfies ExternalItem[]),
           JSON_HEADERS,
         )
-      const response = await app.inject({
-        method: 'POST',
-        url: `${getPrefix()}/translate`,
-        payload: {
+      const response = await injectPost(app, postTranslateContract, {
+        body: {
           items: [],
           locales: [],
           defaultLocale: 'en',
-        } satisfies TranslateRequestBody,
+        },
         headers: createTestRequestHeaders({}, {}),
       })
 

@@ -1,30 +1,55 @@
-import type { PublishRequestBody } from '@lokalise/connector-api-contracts'
-import type { FastifyRequest } from 'fastify'
-import type { PublishResponse } from './publishTypes.ts'
+import { postPublishContract } from '@lokalise/connector-api-contracts'
+import { buildFastifyPayloadRoute } from '@lokalise/fastify-api-contracts'
+import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
+import type { ConnectorDependencies } from '../ConnectorModule.js'
+import type { PublishService } from './PublishService.js'
 
-export const publishContent = async (
-  req: FastifyRequest<{ Body: PublishRequestBody }>,
-  reply: PublishResponse,
-) => {
-  const { publishService } = req.diScope.cradle
+type PublishControllerContractsType = typeof PublishController.contracts
 
-  const [publishResult] = await publishService.publishContent(
-    req.integrationConfig,
-    req.authConfig,
-    req.body.items,
-    req.body.defaultLocale,
-  )
-  if (!publishResult) {
-    await reply.status(403).send({
-      message: 'Could not publish content',
-      statusCode: 403,
-      error: 'Invalid credentials',
-    })
-    return
+export class PublishController extends AbstractController<PublishControllerContractsType> {
+  public static contracts = {
+    postPublishContract: postPublishContract,
+  } as const
+
+  private readonly publishService: PublishService
+
+  constructor(dependencies: ConnectorDependencies) {
+    super()
+
+    this.publishService = dependencies.publishService
   }
 
-  await reply.send({
-    statusCode: 200,
-    message: 'Content successfully updated',
+  private postPublishContent = buildFastifyPayloadRoute(postPublishContract, async (req, reply) => {
+    const [publishResult] = await this.publishService.publishContent(
+      req.integrationConfig,
+      req.authConfig,
+      req.body.items,
+      req.body.defaultLocale,
+    )
+    if (!publishResult) {
+      await reply.status(403).send({
+        message: 'Could not publish content',
+        statusCode: 403,
+        payload: {
+          message: 'Could not publish content',
+          errorCode: 'INVALID_CREDENTIALS',
+          details: {
+            errors: [],
+          },
+        },
+      })
+      return
+    }
+
+    await reply.send({
+      statusCode: 200,
+      message: 'Content successfully updated',
+    })
   })
+
+  buildRoutes(): BuildRoutesReturnType<PublishControllerContractsType> {
+    return {
+      postPublishContract: this.postPublishContent,
+    }
+  }
 }

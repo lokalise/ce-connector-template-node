@@ -32,15 +32,6 @@ import { ALL_MODULES } from './modules.js'
 import { integrationConfigPlugin } from './plugins/integrationConfigPlugin.ts'
 
 const GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS = 10000
-const API_VERSION = '2.1.1'
-
-const getMajorApiVersion = (): string => {
-  return Number.parseInt(API_VERSION, 10).toString()
-}
-
-export function getPrefix() {
-  return `/v${getMajorApiVersion()}`
-}
 
 export type ConfigOverrides = DependencyInjectionOptions & {
   diContainer?: AwilixContainer
@@ -63,8 +54,6 @@ export async function getApp(
     disableRequestLogging: !enableRequestLogging,
   })
 
-  const versionPrefix = getPrefix()
-
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)
 
@@ -80,10 +69,7 @@ export async function getApp(
   const defaultSkipList = ['/', '/health', '/favicon.ico']
 
   await app.register(integrationConfigPlugin, {
-    skipList: [
-      ...defaultSkipList,
-      ...['/auth', '/auth/response'].map((url) => `${versionPrefix}`.concat(url)),
-    ],
+    skipList: [...defaultSkipList, ...['/auth', '/auth/response']],
   })
 
   if (configOverrides.healthchecksEnabled !== false) {
@@ -164,11 +150,9 @@ export async function getApp(
 
   app.after(() => {
     for (const route of routeDefinitions.routes) {
-      app.withTypeProvider<ZodTypeProvider>().route({
-        ...route,
-        url: versionPrefix.concat(route.url),
-      })
+      app.withTypeProvider<ZodTypeProvider>().route(route)
     }
+    diContext.registerRoutes(app)
 
     // Graceful shutdown hook
     if (!isDevelopment()) {
