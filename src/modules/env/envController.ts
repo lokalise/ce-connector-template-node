@@ -23,9 +23,12 @@ export class EnvController extends AbstractController<EnvControllerContractsType
     const localeData = await this.envService.getLocales(req.integrationConfig, req.authConfig)
     if (!localeData) {
       await reply.status(403).send({
-        // @ts-expect-error ToDo check if correct types could be enforced on opinionated-machine side for errors
-        message: 'Could not retrieve locales from 3rd party.',
         statusCode: 403,
+        payload: {
+          message: 'Could not retrieve locales from 3rd party.',
+          errorCode: 'error',
+          details: {},
+        },
       })
       return
     }

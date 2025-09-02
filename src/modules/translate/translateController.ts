@@ -29,6 +29,7 @@ export class TranslateController extends AbstractController<TranslateControllerC
     )
     if (!items) {
       await reply.status(403).send({
+        statusCode: 403,
         payload: {
           message: 'Could not retrieve content items',
           errorCode: 'INVALID_CREDENTIALS',
@@ -36,7 +37,6 @@ export class TranslateController extends AbstractController<TranslateControllerC
             errors: [],
           },
         },
-        items: [],
       })
       return
     }
