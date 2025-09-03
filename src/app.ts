@@ -26,7 +26,7 @@ import type {
 import { type Config, getConfig, isDevelopment, isTest } from './infrastructure/config.ts'
 import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler.ts'
 import { dummyHealthCheck, runAllHealthchecks } from './infrastructure/healthchecks.ts'
-import { ALL_MODULES } from './modules.js'
+import { ALL_MODULES } from './modules.ts'
 
 const GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS = 10000
 
@@ -57,8 +57,8 @@ export async function getApp(
     loggerInstance: logger,
     disableRequestLogging: !enableRequestLogging,
   })
-  app.decorateRequest('authConfig')
-  app.decorateRequest('integrationConfig')
+  app.decorateRequest('authConfig', {})
+  app.decorateRequest('integrationConfig', {})
 
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)

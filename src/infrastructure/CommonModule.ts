@@ -7,7 +7,7 @@ import {
   type DependencyInjectionOptions,
   type MandatoryNameAndRegistrationPair,
 } from 'opinionated-machine'
-import type { ConnectorDependencies } from '../modules/ConnectorModule.js'
+import type { ConnectorDependencies } from '../modules/ConnectorModule.ts'
 import { type Config, getConfig } from './config.ts'
 
 export type ExternalDependencies = {

@@ -1,9 +1,9 @@
 import { postPublishContract } from '@lokalise/connector-api-contracts'
 import { buildFastifyPayloadRoute } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
-import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.js'
-import type { ConnectorDependencies } from '../ConnectorModule.js'
-import type { PublishService } from './PublishService.js'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.ts'
+import type { ConnectorDependencies } from '../ConnectorModule.ts'
+import type { PublishService } from './PublishService.ts'
 
 type PublishControllerContractsType = typeof PublishController.contracts
 

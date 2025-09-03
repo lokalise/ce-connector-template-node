@@ -4,9 +4,9 @@ import {
   buildFastifyPayloadRoute,
 } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
-import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.js'
-import type { ConnectorDependencies } from '../ConnectorModule.js'
-import type { CacheService } from './CacheService.js'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.ts'
+import type { ConnectorDependencies } from '../ConnectorModule.ts'
+import type { CacheService } from './CacheService.ts'
 
 type CacheControllerContractsType = typeof CacheController.contracts
 

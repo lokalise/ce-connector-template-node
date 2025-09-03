@@ -1,9 +1,9 @@
 import { getEnvContract } from '@lokalise/connector-api-contracts'
 import { buildFastifyNoPayloadRoute } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
-import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.js'
-import type { ConnectorDependencies } from '../ConnectorModule.js'
-import type { EnvService } from './EnvService.js'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.ts'
+import type { ConnectorDependencies } from '../ConnectorModule.ts'
+import type { EnvService } from './EnvService.ts'
 
 type EnvControllerContractsType = typeof EnvController.contracts
 

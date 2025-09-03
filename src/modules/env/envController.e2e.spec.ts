@@ -7,7 +7,7 @@ import { getLocal } from 'mockttp'
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
 import { getApp } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
-import { EnvController } from './envController.js'
+import { EnvController } from './envController.ts'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`

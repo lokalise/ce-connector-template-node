@@ -1,9 +1,9 @@
 import { getItemListContract } from '@lokalise/connector-api-contracts'
 import { buildFastifyNoPayloadRoute } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
-import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.js'
-import type { ConnectorDependencies } from '../ConnectorModule.js'
-import type { ItemListService } from './ItemListService.js'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.ts'
+import type { ConnectorDependencies } from '../ConnectorModule.ts'
+import type { ItemListService } from './ItemListService.ts'
 
 type ItemListControllerContractsType = typeof ItemListController.contracts
 
