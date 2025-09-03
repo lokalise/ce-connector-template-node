@@ -52,7 +52,7 @@ export function createIntegrationConfigPrehandler() {
     if (Array.isArray(authConfigHeaderData)) {
       return done(
         new PublicNonRecoverableError({
-          errorCode: '401',
+          errorCode: '400',
           message: 'Authorization data must not be an array',
         }),
       )
