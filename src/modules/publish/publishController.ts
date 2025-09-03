@@ -1,6 +1,7 @@
 import { postPublishContract } from '@lokalise/connector-api-contracts'
 import { buildFastifyPayloadRoute } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.js'
 import type { ConnectorDependencies } from '../ConnectorModule.js'
 import type { PublishService } from './PublishService.js'
 
@@ -19,33 +20,37 @@ export class PublishController extends AbstractController<PublishControllerContr
     this.publishService = dependencies.publishService
   }
 
-  private postPublishContent = buildFastifyPayloadRoute(postPublishContract, async (req, reply) => {
-    const [publishResult] = await this.publishService.publishContent(
-      req.integrationConfig,
-      req.authConfig,
-      req.body.items,
-      req.body.defaultLocale,
-    )
-    if (!publishResult) {
-      await reply.status(403).send({
-        message: 'Could not publish content',
-        statusCode: 403,
-        payload: {
+  private postPublishContent = buildFastifyPayloadRoute(
+    postPublishContract,
+    async (req, reply) => {
+      const [publishResult] = await this.publishService.publishContent(
+        req.integrationConfig,
+        req.authConfig,
+        req.body.items,
+        req.body.defaultLocale,
+      )
+      if (!publishResult) {
+        await reply.status(403).send({
           message: 'Could not publish content',
-          errorCode: 'INVALID_CREDENTIALS',
-          details: {
-            errors: [],
+          statusCode: 403,
+          payload: {
+            message: 'Could not publish content',
+            errorCode: 'INVALID_CREDENTIALS',
+            details: {
+              errors: [],
+            },
           },
-        },
-      })
-      return
-    }
+        })
+        return
+      }
 
-    await reply.send({
-      statusCode: 200,
-      message: 'Content successfully updated',
-    })
-  })
+      await reply.send({
+        statusCode: 200,
+        message: 'Content successfully updated',
+      })
+    },
+    PROTECTED_ROUTE_METADATA_MAPPER,
+  )
 
   buildRoutes(): BuildRoutesReturnType<PublishControllerContractsType> {
     return {

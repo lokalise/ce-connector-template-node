@@ -4,6 +4,7 @@ import {
   buildFastifyPayloadRoute,
 } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.js'
 import type { ConnectorDependencies } from '../ConnectorModule.js'
 import type { CacheService } from './CacheService.js'
 
@@ -23,25 +24,33 @@ export class CacheController extends AbstractController<CacheControllerContracts
     this.cacheService = dependencies.cacheService
   }
 
-  private getCache = buildFastifyNoPayloadRoute(getCacheContract, async (req, reply) => {
-    const items = await this.cacheService.listItems(req.integrationConfig, req.authConfig)
+  private getCache = buildFastifyNoPayloadRoute(
+    getCacheContract,
+    async (req, reply) => {
+      const items = await this.cacheService.listItems(req.integrationConfig, req.authConfig)
 
-    await reply.send({
-      items,
-    })
-  })
+      await reply.send({
+        items,
+      })
+    },
+    PROTECTED_ROUTE_METADATA_MAPPER,
+  )
 
-  private getCacheItems = buildFastifyPayloadRoute(postCacheItemsContract, async (req, reply) => {
-    const items = await this.cacheService.getItems(
-      req.integrationConfig,
-      req.authConfig,
-      req.body.items,
-    )
+  private getCacheItems = buildFastifyPayloadRoute(
+    postCacheItemsContract,
+    async (req, reply) => {
+      const items = await this.cacheService.getItems(
+        req.integrationConfig,
+        req.authConfig,
+        req.body.items,
+      )
 
-    await reply.send({
-      items,
-    })
-  })
+      await reply.send({
+        items,
+      })
+    },
+    PROTECTED_ROUTE_METADATA_MAPPER,
+  )
 
   buildRoutes(): BuildRoutesReturnType<CacheControllerContractsType> {
     return {
