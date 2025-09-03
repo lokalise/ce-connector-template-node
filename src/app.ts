@@ -57,8 +57,8 @@ export async function getApp(
     loggerInstance: logger,
     disableRequestLogging: !enableRequestLogging,
   })
-  app.decorateRequest('authConfig', {})
-  app.decorateRequest('integrationConfig', {})
+  app.decorateRequest('authConfig')
+  app.decorateRequest('integrationConfig')
 
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)
