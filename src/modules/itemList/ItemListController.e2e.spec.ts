@@ -1,21 +1,21 @@
 import { describeContract } from '@lokalise/api-contracts'
 import { JSON_HEADERS } from '@lokalise/backend-http-client'
-import { getAuthContract } from '@lokalise/connector-api-contracts'
+import { getItemListContract } from '@lokalise/connector-api-contracts'
 import { injectGet } from '@lokalise/fastify-api-contracts'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
 import { getApp } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
-import { AuthController } from './authController.js'
+import { ItemListController } from './ItemListController.js'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
 
 const mockServer = getLocal()
 
-describe('authController e2e', () => {
-  describe(describeContract(AuthController.contracts.getAuth), () => {
+describe('itemListController e2e', () => {
+  describe(describeContract(ItemListController.contracts.getItemList), () => {
     let app: FastifyInstance
     beforeAll(async () => {
       app = await getApp({
@@ -33,7 +33,7 @@ describe('authController e2e', () => {
       await mockServer.stop()
     })
 
-    it('resolves auth', async () => {
+    it('retrieves item list', async () => {
       // Replace with whatever mock you need
       await mockServer
         .forGet('/placeholder')
@@ -42,14 +42,22 @@ describe('authController e2e', () => {
           JSON.stringify([{ id: '1', name: 'dummy' }] satisfies ExternalItem[]),
           JSON_HEADERS,
         )
-      const response = await injectGet(app, getAuthContract, {
+      const response = await injectGet(app, getItemListContract, {
+        queryParams: {},
         headers: createTestRequestHeaders({}, {}),
       })
 
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toEqual({
-        type: 'apiToken',
-      })
+      expect(response.json()).toMatchInlineSnapshot(`
+        {
+          "data": [],
+          "meta": {
+            "count": 0,
+            "cursor": "placeholder",
+            "hasMore": false,
+          },
+        }
+      `)
     })
   })
 })
