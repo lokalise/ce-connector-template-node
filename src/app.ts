@@ -26,8 +26,7 @@ import type {
 import { type Config, getConfig, isDevelopment, isTest } from './infrastructure/config.ts'
 import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler.ts'
 import { dummyHealthCheck, runAllHealthchecks } from './infrastructure/healthchecks.ts'
-import { ALL_MODULES } from './modules.js'
-import { integrationConfigPlugin } from './plugins/integrationConfigPlugin.ts'
+import { ALL_MODULES } from './modules.ts'
 
 const GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS = 10000
 
@@ -36,6 +35,13 @@ export type ConfigOverrides = DependencyInjectionOptions & {
   healthchecksEnabled?: boolean
   monitoringEnabled?: boolean
 } & NestedPartial<Config>
+
+declare module 'fastify' {
+  interface FastifyRequest {
+    authConfig: Record<string, unknown>
+    integrationConfig: Record<string, unknown>
+  }
+}
 
 export async function getApp(
   configOverrides: ConfigOverrides = {},
@@ -51,6 +57,8 @@ export async function getApp(
     loggerInstance: logger,
     disableRequestLogging: !enableRequestLogging,
   })
+  app.decorateRequest('authConfig')
+  app.decorateRequest('integrationConfig')
 
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)
@@ -64,11 +72,6 @@ export async function getApp(
   })
 
   await app.register(fastifyAwilixPlugin, { disposeOnClose: true })
-  const defaultSkipList = ['/', '/health', '/favicon.ico']
-
-  await app.register(integrationConfigPlugin, {
-    skipList: [...defaultSkipList, ...['/auth', '/auth/response']],
-  })
 
   if (configOverrides.healthchecksEnabled !== false) {
     await app.register(commonHealthcheckPlugin, {

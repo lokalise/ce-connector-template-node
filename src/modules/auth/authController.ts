@@ -9,8 +9,9 @@ import {
   buildFastifyPayloadRoute,
 } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
-import type { ConnectorDependencies } from '../ConnectorModule.js'
-import type { AuthService } from './AuthService.js'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.ts'
+import type { ConnectorDependencies } from '../ConnectorModule.ts'
+import type { AuthService } from './AuthService.ts'
 
 type AuthControllerContractsType = typeof AuthController.contracts
 
@@ -69,6 +70,7 @@ export class AuthController extends AbstractController<AuthControllerContractsTy
 
       return reply.send(authConfig)
     },
+    PROTECTED_ROUTE_METADATA_MAPPER,
   )
 
   private postAuthResponse = buildFastifyPayloadRoute(

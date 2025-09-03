@@ -1,7 +1,7 @@
 import { CouldNotRetrieveCacheItemsError } from '../../infrastructure/errors/publicErrors.ts'
 import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type { AuthConfig, IntegrationConfig, ItemIdentifiers } from '../../types.ts'
-import type { ConnectorDependencies } from '../ConnectorModule.js'
+import type { ConnectorDependencies } from '../ConnectorModule.ts'
 
 export class CacheService {
   private readonly fakeApiClient: FakeIntegrationApiClient

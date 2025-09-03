@@ -1,4 +1,4 @@
-import { PublicNonRecoverableError } from './PublicNonRecoverableError.ts'
+import { PublicNonRecoverableError } from '@lokalise/node-core'
 
 export type CommonErrorParams = {
   message: string
