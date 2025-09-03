@@ -1,26 +1,52 @@
-import type { CacheRequestBody } from '@lokalise/connector-api-contracts'
-import type { FastifyRequest } from 'fastify'
-import type { CacheResponse, ListCacheResponse } from './cacheTypes.ts'
+import { getCacheContract, postCacheItemsContract } from '@lokalise/connector-api-contracts'
+import {
+  buildFastifyNoPayloadRoute,
+  buildFastifyPayloadRoute,
+} from '@lokalise/fastify-api-contracts'
+import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
+import type { ConnectorDependencies } from '../ConnectorModule.js'
+import type { CacheService } from './CacheService.js'
 
-export async function getCache(req: FastifyRequest, reply: ListCacheResponse) {
-  const { cacheService } = req.diScope.cradle
+type CacheControllerContractsType = typeof CacheController.contracts
 
-  const items = await cacheService.listItems(req.integrationConfig, req.authConfig)
+export class CacheController extends AbstractController<CacheControllerContractsType> {
+  public static contracts = {
+    getCache: getCacheContract,
+    postCacheItems: postCacheItemsContract,
+  } as const
 
-  await reply.send({
-    items,
+  private readonly cacheService: CacheService
+
+  constructor(dependencies: ConnectorDependencies) {
+    super()
+
+    this.cacheService = dependencies.cacheService
+  }
+
+  private getCache = buildFastifyNoPayloadRoute(getCacheContract, async (req, reply) => {
+    const items = await this.cacheService.listItems(req.integrationConfig, req.authConfig)
+
+    await reply.send({
+      items,
+    })
   })
-}
 
-export async function getCacheItems(
-  req: FastifyRequest<{ Body: CacheRequestBody }>,
-  reply: CacheResponse,
-) {
-  const { cacheService } = req.diScope.cradle
+  private getCacheItems = buildFastifyPayloadRoute(postCacheItemsContract, async (req, reply) => {
+    const items = await this.cacheService.getItems(
+      req.integrationConfig,
+      req.authConfig,
+      req.body.items,
+    )
 
-  const items = await cacheService.getItems(req.integrationConfig, req.authConfig, req.body.items)
-
-  await reply.send({
-    items,
+    await reply.send({
+      items,
+    })
   })
+
+  buildRoutes(): BuildRoutesReturnType<CacheControllerContractsType> {
+    return {
+      getCache: this.getCache,
+      postCacheItems: this.getCacheItems,
+    }
+  }
 }

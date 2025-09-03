@@ -1,3 +1,4 @@
+import { describeContract } from '@lokalise/api-contracts'
 import { JSON_HEADERS } from '@lokalise/backend-http-client'
 import { postPublishContract } from '@lokalise/connector-api-contracts'
 import { injectPost } from '@lokalise/fastify-api-contracts'
@@ -6,6 +7,7 @@ import { getLocal } from 'mockttp'
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
 import { getApp } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
+import { PublishController } from './publishController.js'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
@@ -13,7 +15,7 @@ const mockBaseUrl = `http://localhost:${mockPort}`
 const mockServer = getLocal()
 
 describe('publishController e2e', () => {
-  describe('POST /publish', () => {
+  describe(describeContract(PublishController.contracts.postPublishContract), () => {
     let app: FastifyInstance
     beforeAll(async () => {
       app = await getApp({

@@ -15,7 +15,6 @@ import type { AwilixContainer } from 'awilix'
 import type { FastifyBaseLogger } from 'fastify'
 import fastify from 'fastify'
 import fastifyGracefulShutdown from 'fastify-graceful-shutdown'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 import { type DependencyInjectionOptions, DIContext, type NestedPartial } from 'opinionated-machine'
 import { stdSerializers } from 'pino'
@@ -27,7 +26,6 @@ import type {
 import { type Config, getConfig, isDevelopment, isTest } from './infrastructure/config.ts'
 import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler.ts'
 import { dummyHealthCheck, runAllHealthchecks } from './infrastructure/healthchecks.ts'
-import { routeDefinitions } from './modules/routes.ts'
 import { ALL_MODULES } from './modules.js'
 import { integrationConfigPlugin } from './plugins/integrationConfigPlugin.ts'
 
@@ -149,9 +147,6 @@ export async function getApp(
   )
 
   app.after(() => {
-    for (const route of routeDefinitions.routes) {
-      app.withTypeProvider<ZodTypeProvider>().route(route)
-    }
     diContext.registerRoutes(app)
 
     // Graceful shutdown hook

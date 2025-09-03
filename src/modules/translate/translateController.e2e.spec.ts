@@ -1,3 +1,4 @@
+import { describeContract } from '@lokalise/api-contracts'
 import { JSON_HEADERS } from '@lokalise/backend-http-client'
 import { postTranslateContract } from '@lokalise/connector-api-contracts'
 import { injectPost } from '@lokalise/fastify-api-contracts'
@@ -6,6 +7,7 @@ import { getLocal } from 'mockttp'
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
 import { getApp } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
+import { TranslateController } from './translateController.js'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
@@ -13,7 +15,7 @@ const mockBaseUrl = `http://localhost:${mockPort}`
 const mockServer = getLocal()
 
 describe('translateController e2e', () => {
-  describe('POST /translate', () => {
+  describe(describeContract(TranslateController.contracts.postTranslate), () => {
     let app: FastifyInstance
     beforeAll(async () => {
       app = await getApp({
