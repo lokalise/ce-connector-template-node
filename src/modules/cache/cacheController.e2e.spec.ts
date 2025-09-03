@@ -1,9 +1,11 @@
+import { describeContract } from '@lokalise/api-contracts'
 import { JSON_HEADERS } from '@lokalise/backend-http-client'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
 import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
 import { getApp } from '../../app.ts'
 import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
+import { CacheController } from './cacheController.js'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
@@ -11,7 +13,7 @@ const mockBaseUrl = `http://localhost:${mockPort}`
 const mockServer = getLocal()
 
 describe('cacheController e2e', () => {
-  describe('GET /cache', () => {
+  describe(describeContract(CacheController.contracts.getCache), () => {
     let app: FastifyInstance
     beforeAll(async () => {
       app = await getApp({
