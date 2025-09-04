@@ -1,3 +1,4 @@
+import { PublicNonRecoverableError } from '@lokalise/node-core'
 import type { AuthConfig, ContentItem, IntegrationConfig, ItemIdentifiers } from '../../types.ts'
 
 export class TranslateService {
@@ -6,11 +7,22 @@ export class TranslateService {
     _auth: AuthConfig,
     _locales: string[],
     _ids: ItemIdentifiers[],
-    // Default locale might not be needed for integration logic
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _defaultLocale: string,
-  ): Promise<[ContentItem[] | undefined, ItemIdentifiers[]]> {
+  ): Promise<ContentItem[]> {
     // implementation
-    return Promise.resolve([[], []])
+
+    // biome-ignore lint/correctness/noConstantCondition: to be replaced with real implementation
+    if (false) {
+      throw new PublicNonRecoverableError({
+        message: 'Could not retrieve content items',
+        errorCode: 'FAILED_TO_FETCH_CONTENT',
+        httpStatusCode: 500,
+        details: {
+          errors: [],
+        },
+      })
+    }
+
+    return Promise.resolve([])
   }
 }

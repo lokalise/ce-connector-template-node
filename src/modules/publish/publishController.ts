@@ -1,5 +1,6 @@
 import { postPublishContract } from '@lokalise/connector-api-contracts'
 import { buildFastifyPayloadRoute } from '@lokalise/fastify-api-contracts'
+import { PublicNonRecoverableError } from '@lokalise/node-core'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
 import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.ts'
 import type { ConnectorDependencies } from '../ConnectorModule.ts'
@@ -23,25 +24,22 @@ export class PublishController extends AbstractController<PublishControllerContr
   private postPublishContent = buildFastifyPayloadRoute(
     postPublishContract,
     async (req, reply) => {
-      const [publishResult] = await this.publishService.publishContent(
+      const publishResult = await this.publishService.publishContent(
         req.integrationConfig,
         req.authConfig,
         req.body.items,
         req.body.defaultLocale,
       )
-      if (!publishResult) {
-        await reply.status(403).send({
+
+      if (publishResult.error) {
+        throw new PublicNonRecoverableError({
           message: 'Could not publish content',
-          statusCode: 403,
-          payload: {
-            message: 'Could not publish content',
-            errorCode: 'INVALID_CREDENTIALS',
-            details: {
-              errors: [],
-            },
+          httpStatusCode: 500,
+          errorCode: 'PUBLISHING_ERROR',
+          details: {
+            erroredItemIdentifiers: publishResult.error,
           },
         })
-        return
       }
 
       await reply.send({

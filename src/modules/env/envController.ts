@@ -24,17 +24,6 @@ export class EnvController extends AbstractController<EnvControllerContractsType
     getEnvContract,
     async (req, reply) => {
       const localeData = await this.envService.getLocales(req.integrationConfig, req.authConfig)
-      if (!localeData) {
-        await reply.status(403).send({
-          statusCode: 403,
-          payload: {
-            message: 'Could not retrieve locales from 3rd party.',
-            errorCode: 'error',
-            details: {},
-          },
-        })
-        return
-      }
 
       const cacheItemStructure = await this.envService.getCacheItemStructure(
         req.integrationConfig,

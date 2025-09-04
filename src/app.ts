@@ -10,7 +10,7 @@ import {
   metricsPlugin,
   newrelicTransactionManagerPlugin,
 } from '@lokalise/fastify-extras'
-import { resolveLogger } from '@lokalise/node-core'
+import { resolveGlobalErrorLogObject, resolveLogger } from '@lokalise/node-core'
 import type { AwilixContainer } from 'awilix'
 import type { FastifyBaseLogger } from 'fastify'
 import fastify from 'fastify'
@@ -24,7 +24,6 @@ import type {
   ExternalDependencies,
 } from './infrastructure/CommonModule.ts'
 import { type Config, getConfig, isDevelopment, isTest } from './infrastructure/config.ts'
-import { resolveGlobalErrorLogObject } from './infrastructure/errors/globalErrorHandler.ts'
 import { dummyHealthCheck, runAllHealthchecks } from './infrastructure/healthchecks.ts'
 import { ALL_MODULES } from './modules.ts'
 
