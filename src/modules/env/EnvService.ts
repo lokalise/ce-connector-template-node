@@ -1,6 +1,9 @@
-import type { EnvLocaleDefinition } from '@lokalise/connector-api-contracts'
+import type {
+  AuthConfig,
+  EnvLocaleDefinition,
+  IntegrationConfig,
+} from '@lokalise/connector-api-contracts'
 import { PublicNonRecoverableError } from '@lokalise/node-core'
-import type { AuthConfig, IntegrationConfig } from '../../types.ts'
 
 export class EnvService {
   getLocales(_config: IntegrationConfig, _auth: AuthConfig): Promise<EnvLocaleDefinition> {

@@ -1,12 +1,17 @@
+import type {
+  AuthConfig,
+  ContentItem,
+  IntegrationConfig,
+  ItemIdentifier,
+} from '@lokalise/connector-api-contracts'
 import { PublicNonRecoverableError } from '@lokalise/node-core'
-import type { AuthConfig, ContentItem, IntegrationConfig, ItemIdentifiers } from '../../types.ts'
 
 export class TranslateService {
   getContent(
     _config: IntegrationConfig,
     _auth: AuthConfig,
     _locales: string[],
-    _ids: ItemIdentifiers[],
+    _ids: ItemIdentifier[],
     _defaultLocale: string,
   ): Promise<ContentItem[]> {
     // implementation

@@ -1,6 +1,9 @@
-import type { CONNECTOR_REQUEST_HEADERS_SCHEMA } from '@lokalise/connector-api-contracts'
+import type {
+  AuthConfig,
+  CONNECTOR_REQUEST_HEADERS_SCHEMA,
+  IntegrationConfig,
+} from '@lokalise/connector-api-contracts'
 import type { z } from 'zod/v4'
-import type { AuthConfig, IntegrationConfig } from '../../src/types.ts'
 import { encodeBase64 } from '../../src/utils/base64Utils.ts'
 
 export function createTestRequestHeaders(

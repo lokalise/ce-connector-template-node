@@ -1,5 +1,10 @@
+import type {
+  AuthConfig,
+  ContentItem,
+  IntegrationConfig,
+  ItemIdentifier,
+} from '@lokalise/connector-api-contracts'
 import type { Either } from '@lokalise/node-core'
-import type { AuthConfig, ContentItem, IntegrationConfig, ItemIdentifiers } from '../../types.ts'
 
 export class PublishService {
   /**
@@ -15,7 +20,7 @@ export class PublishService {
     _items: ContentItem[],
     // Default locale might not be needed for integration logic
     _defaultLocale: string,
-  ): Promise<Either<ItemIdentifiers[], true>> {
+  ): Promise<Either<ItemIdentifier[], true>> {
     // implementation
 
     // biome-ignore lint/correctness/noConstantCondition: to be replaced with real implementation
