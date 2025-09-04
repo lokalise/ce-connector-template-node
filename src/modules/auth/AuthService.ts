@@ -1,7 +1,13 @@
 import type { PostAuthResponseRequestBody } from '@lokalise/connector-api-contracts'
+import { PublicNonRecoverableError } from '@lokalise/node-core'
 import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type { AuthConfig, IntegrationConfig } from '../../types.ts'
 import type { ConnectorDependencies } from '../ConnectorModule.ts'
+
+// Placeholder, may change depending on the integration
+export type AuthResult = {
+  key: string
+}
 
 export class AuthService {
   // biome-ignore lint/correctness/noUnusedPrivateClassMembers: this is just an example
@@ -11,9 +17,19 @@ export class AuthService {
   }
 
   // API key flow
-  validate(_config: IntegrationConfig) {
+  validate(_config: IntegrationConfig): Promise<AuthResult> {
     // TODO: implementation
-    // response structure depends on platform specificity
+    // response structure depends on the integration
+
+    // biome-ignore lint/correctness/noConstantCondition: to be replaced with real implementation
+    if (false) {
+      throw new PublicNonRecoverableError({
+        message: 'Could not authenticate to 3rd party using the provided key.',
+        errorCode: 'AUTHENTICATION_ERROR',
+        httpStatusCode: 403,
+      })
+    }
+
     return Promise.resolve({
       key: 'apiKey',
     })

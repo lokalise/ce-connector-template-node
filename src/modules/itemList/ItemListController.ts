@@ -27,16 +27,13 @@ export class ItemListController extends AbstractController<ItemListControllerCon
         req.integrationConfig,
         req.authConfig,
       )
-      if (!itemListResult.result) {
-        throw itemListResult.error
-      }
 
       await reply.send({
-        data: itemListResult.result.items,
+        data: itemListResult.items,
         meta: {
-          cursor: itemListResult.result.cursor,
-          hasMore: itemListResult.result.hasMore,
-          count: itemListResult.result.totalCount,
+          cursor: itemListResult.cursor,
+          hasMore: itemListResult.hasMore,
+          count: itemListResult.totalCount,
         },
       })
     },

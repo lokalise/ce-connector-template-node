@@ -23,26 +23,13 @@ export class TranslateController extends AbstractController<TranslateControllerC
   private postTranslate = buildFastifyPayloadRoute(
     postTranslateContract,
     async (req, reply) => {
-      const [items] = await this.translateService.getContent(
+      const items = await this.translateService.getContent(
         req.integrationConfig,
         req.authConfig,
         req.body.locales,
         req.body.items,
         req.body.defaultLocale,
       )
-      if (!items) {
-        await reply.status(403).send({
-          statusCode: 403,
-          payload: {
-            message: 'Could not retrieve content items',
-            errorCode: 'INVALID_CREDENTIALS',
-            details: {
-              errors: [],
-            },
-          },
-        })
-        return
-      }
 
       await reply.send({ items })
     },

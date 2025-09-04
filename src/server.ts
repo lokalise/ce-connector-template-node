@@ -1,10 +1,10 @@
-import { getApp } from './app.ts'
-import { getConfig, isProduction } from './infrastructure/config.ts'
 import {
   executeAndHandleGlobalErrors,
   globalLogger,
   resolveGlobalErrorLogObject,
-} from './infrastructure/errors/globalErrorHandler.ts'
+} from '@lokalise/node-core'
+import { getApp } from './app.ts'
+import { getConfig, isProduction } from './infrastructure/config.ts'
 
 async function start() {
   globalLogger.info('Starting application...')
