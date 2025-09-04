@@ -1,7 +1,10 @@
-import type { itemListEntry } from '@lokalise/connector-api-contracts'
+import type {
+  AuthConfig,
+  IntegrationConfig,
+  itemListEntry,
+} from '@lokalise/connector-api-contracts'
 import { PublicNonRecoverableError } from '@lokalise/node-core'
 import type { z } from 'zod/v4'
-import type { AuthConfig, IntegrationConfig } from '../../types.ts'
 
 export type ItemList = z.infer<typeof itemListEntry>[]
 export type ItemListResult = {

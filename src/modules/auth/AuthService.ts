@@ -1,7 +1,10 @@
-import type { PostAuthResponseRequestBody } from '@lokalise/connector-api-contracts'
+import type {
+  AuthConfig,
+  IntegrationConfig,
+  PostAuthResponseRequestBody,
+} from '@lokalise/connector-api-contracts'
 import { PublicNonRecoverableError } from '@lokalise/node-core'
 import type { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
-import type { AuthConfig, IntegrationConfig } from '../../types.ts'
 import type { ConnectorDependencies } from '../ConnectorModule.ts'
 
 // Placeholder, may change depending on the integration
