@@ -1,8 +1,8 @@
 import type { itemListEntry } from '@lokalise/connector-api-contracts'
 import { PublicNonRecoverableError } from '@lokalise/node-core'
 import type { z } from 'zod/v4'
-import type { ItemListService } from '../../adapter-common/types/AdapterTypes.js'
-import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.js'
+import type { ItemListService } from '../../adapter-common/types/AdapterTypes.ts'
+import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.ts'
 
 export type ItemList = z.infer<typeof itemListEntry>[]
 export type ItemListResult = {

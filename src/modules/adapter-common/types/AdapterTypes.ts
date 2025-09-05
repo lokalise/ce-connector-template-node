@@ -6,7 +6,7 @@ import type {
   PostAuthResponseRequestBody,
 } from '@lokalise/connector-api-contracts'
 import type { Either } from '@lokalise/node-core'
-import type { ItemListResult } from '../../adapter/itemList/TemplateItemListService.js'
+import type { ItemListResult } from '../../adapter/itemList/TemplateItemListService.ts'
 
 export const ADAPTER_LABEL = 'connectorAdapter'
 

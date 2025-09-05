@@ -6,13 +6,13 @@ import {
 } from 'opinionated-machine'
 import type { CommonDependencies, ExternalDependencies } from '../../infrastructure/CommonModule.ts'
 import { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
-import { ADAPTER_LABEL } from '../adapter-common/types/AdapterTypes.js'
-import { TemplateAuthService } from './auth/TemplateAuthService.js'
+import { ADAPTER_LABEL } from '../adapter-common/types/AdapterTypes.ts'
+import { TemplateAuthService } from './auth/TemplateAuthService.ts'
 import { TemplateCacheService } from './cache/TemplateCacheService.ts'
 import { TemplateEnvService } from './env/TemplateEnvService.ts'
 import { TemplateItemListService } from './itemList/TemplateItemListService.ts'
 import { TemplatePublishService } from './publish/TemplatePublishService.ts'
-import { TemplateAdapter } from './TemplateAdapter.js'
+import { TemplateAdapter } from './TemplateAdapter.ts'
 import { TemplateTranslateService } from './translate/TemplateTranslateService.ts'
 
 export type TemplateInjectableDependencies = TemplateDependencies & CommonDependencies

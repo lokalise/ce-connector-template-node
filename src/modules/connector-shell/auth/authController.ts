@@ -9,13 +9,13 @@ import { AbstractController, type BuildRoutesReturnType } from 'opinionated-mach
 import {
   ApiTokenNotSupportedError,
   OAuthNotSupportedError,
-} from '../../../infrastructure/errors/publicErrors.js'
+} from '../../../infrastructure/errors/publicErrors.ts'
 import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../../prehandlers/integrationConfigPrehandler.ts'
-import type { Adapter } from '../../adapter-common/types/AdapterTypes.js'
+import type { Adapter } from '../../adapter-common/types/AdapterTypes.ts'
 import type {
   ConnectorShellInjectableDependencies,
   SupportedConnectors,
-} from '../ConnectorShellModule.js'
+} from '../ConnectorShellModule.ts'
 
 type AuthControllerContractsType = typeof AuthController.contracts
 

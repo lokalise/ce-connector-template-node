@@ -2,11 +2,11 @@ import { postTranslateContract } from '@lokalise/connector-api-contracts'
 import { buildFastifyPayloadRoute } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
 import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../../prehandlers/integrationConfigPrehandler.ts'
-import type { Adapter } from '../../adapter-common/types/AdapterTypes.js'
+import type { Adapter } from '../../adapter-common/types/AdapterTypes.ts'
 import type {
   ConnectorShellInjectableDependencies,
   SupportedConnectors,
-} from '../ConnectorShellModule.js'
+} from '../ConnectorShellModule.ts'
 
 type TranslateControllerContractsType = typeof TranslateController.contracts
 

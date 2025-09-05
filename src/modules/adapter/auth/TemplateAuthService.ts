@@ -1,11 +1,11 @@
 import type { PostAuthResponseRequestBody } from '@lokalise/connector-api-contracts'
-import { ThirdPartyAuthenticationError } from '../../../infrastructure/errors/publicErrors.js'
+import { ThirdPartyAuthenticationError } from '../../../infrastructure/errors/publicErrors.ts'
 import type { FakeIntegrationApiClient } from '../../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type {
   AuthServiceAPIKey,
   AuthServiceOAuth,
-} from '../../adapter-common/types/AdapterTypes.js'
-import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.js'
+} from '../../adapter-common/types/AdapterTypes.ts'
+import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.ts'
 import type { TemplateDependencies } from '../TemplateAdapterModule.ts'
 
 // Placeholder, may change depending on the integration

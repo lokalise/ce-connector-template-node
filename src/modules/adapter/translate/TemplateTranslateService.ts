@@ -1,7 +1,7 @@
 import type { ContentItem, ItemIdentifier } from '@lokalise/connector-api-contracts'
 import { PublicNonRecoverableError } from '@lokalise/node-core'
-import type { TranslateService } from '../../adapter-common/types/AdapterTypes.js'
-import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.js'
+import type { TranslateService } from '../../adapter-common/types/AdapterTypes.ts'
+import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.ts'
 
 export class TemplateTranslateService implements TranslateService<IntegrationConfig, AuthConfig> {
   /**
