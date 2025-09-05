@@ -54,6 +54,13 @@ export class TemplateAuthService
    * @param _authData
    */
   getAuthCredentials(_authData: PostAuthResponseRequestBody): Promise<AuthCredentials> {
+    // biome-ignore lint/correctness/noConstantCondition: to be replaced with real implementation
+    if (false) {
+      throw new ThirdPartyAuthenticationError({
+        message: 'Authorization failed',
+      })
+    }
+
     // TODO: implementation
     return Promise.resolve({
       accessToken: 'accessToken',
@@ -89,6 +96,12 @@ export class TemplateAuthService
    */
   refresh(_config: IntegrationConfig, _auth: AuthConfig): Promise<AuthResult> {
     // TODO: implementation
+    // biome-ignore lint/correctness/noConstantCondition: to be replaced with real implementation
+    if (false) {
+      throw new ThirdPartyAuthenticationError({
+        message: 'Could not authenticate to 3rd party using the provided key.',
+      })
+    }
 
     // response structure depends on auth strategy and specific integration
     return Promise.resolve({

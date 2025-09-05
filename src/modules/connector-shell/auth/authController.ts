@@ -70,14 +70,6 @@ export class AuthController extends AbstractController<AuthControllerContractsTy
       }
       const authConfig = await resolvedAuthService.refresh(req.integrationConfig, req.authConfig)
 
-      if (!authConfig) {
-        await reply.status(403).send({
-          message: 'Could not authenticate to 3rd party using the provided key.',
-          statusCode: 403,
-        })
-        return
-      }
-
       return reply.send(authConfig)
     },
     PROTECTED_ROUTE_METADATA_MAPPER,
@@ -92,14 +84,6 @@ export class AuthController extends AbstractController<AuthControllerContractsTy
       }
 
       const credentials = await resolvedAuthService.getAuthCredentials(req.body)
-
-      if (!credentials) {
-        await reply.status(403).send({
-          message: 'Authorization failed',
-          errorCode: 403,
-        })
-        return
-      }
 
       return reply.send(credentials)
     },
