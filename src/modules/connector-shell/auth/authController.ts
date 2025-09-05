@@ -4,8 +4,12 @@ import {
   postAuthResponseContract,
 } from '@lokalise/connector-api-contracts'
 import { buildFastifyPayloadRoute } from '@lokalise/fastify-api-contracts'
-import { PublicNonRecoverableError } from '@lokalise/node-core'
+import { InternalError } from '@lokalise/node-core'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
+import {
+  ApiTokenNotSupportedError,
+  OAuthNotSupportedError,
+} from '../../../infrastructure/errors/publicErrors.js'
 import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../../prehandlers/integrationConfigPrehandler.ts'
 import type { Adapter } from '../../adapter-common/types/AdapterTypes.js'
 import type {
@@ -31,24 +35,30 @@ export class AuthController extends AbstractController<AuthControllerContractsTy
   }
 
   private postAuth = buildFastifyPayloadRoute(postAuthContract, async (req, reply) => {
-    const resolvedAuthService = this.adapters.template.authServiceAPIKey
-    if (!resolvedAuthService) {
-      throw new PublicNonRecoverableError({
-        message: 'API token auth not supported by connector',
-        errorCode: 'API_TOKEN_AUTH_NOT_SUPPORTED',
-        httpStatusCode: 400,
-        details: {
-          connectorId: this.adapters.template.getConnectorName(),
-        },
+    if (this.adapters.template.authServiceAPIKey) {
+      const authConfig = await this.adapters.template.authServiceAPIKey.validate(
+        req.integrationConfig,
+      )
+      return reply.send(authConfig)
+    }
+
+    if (this.adapters.template.authServiceOAuth) {
+      const authorizationUrl =
+        await this.adapters.template.authServiceOAuth.generateAuthorizationUrl(
+          req.integrationConfig,
+        )
+      return reply.send({
+        url: authorizationUrl,
       })
     }
 
-    // Api key flow: delete next line if your connector uses OAuth
-    const authConfig = await resolvedAuthService.validate(req.integrationConfig)
-    // OAuth flow: uncomment next line if your connect uses OAuth otherwise delete it
-    // const authConfig = await authService.generateAuthorizationUrl(req.integrationConfig)
-
-    await reply.send(authConfig)
+    throw new InternalError({
+      message: 'No auth service defined for connector',
+      errorCode: 'NO_AUTH_SERVICE_DEFINED',
+      details: {
+        connectorName: this.adapters.template.getConnectorName(),
+      },
+    })
   })
 
   private postAuthRefresh = buildFastifyPayloadRoute(
@@ -56,14 +66,7 @@ export class AuthController extends AbstractController<AuthControllerContractsTy
     async (req, reply) => {
       const resolvedAuthService = this.adapters.template.authServiceAPIKey
       if (!resolvedAuthService) {
-        throw new PublicNonRecoverableError({
-          message: 'API token auth not supported by connector',
-          errorCode: 'API_TOKEN_AUTH_NOT_SUPPORTED',
-          httpStatusCode: 400,
-          details: {
-            connectorId: this.adapters.template.getConnectorName(),
-          },
-        })
+        throw new ApiTokenNotSupportedError(this.adapters.template.getConnectorName())
       }
       const authConfig = await resolvedAuthService.refresh(req.integrationConfig, req.authConfig)
 
@@ -85,14 +88,7 @@ export class AuthController extends AbstractController<AuthControllerContractsTy
     async (req, reply) => {
       const resolvedAuthService = this.adapters.template.authServiceOAuth
       if (!resolvedAuthService) {
-        throw new PublicNonRecoverableError({
-          message: 'OAUTH auth not supported by connector',
-          errorCode: 'OAUTH_AUTH_NOT_SUPPORTED',
-          httpStatusCode: 400,
-          details: {
-            connectorId: this.adapters.template.getConnectorName(),
-          },
-        })
+        throw new OAuthNotSupportedError(this.adapters.template.getConnectorName())
       }
 
       const credentials = await resolvedAuthService.getAuthCredentials(req.body)

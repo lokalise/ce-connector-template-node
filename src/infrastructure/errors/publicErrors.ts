@@ -45,13 +45,39 @@ export class EmptyTokenError extends PublicNonRecoverableError {
   }
 }
 
-export class AuthFailedError extends PublicNonRecoverableError {
+export class ThirdPartyAuthenticationError extends PublicNonRecoverableError {
   constructor(params: OptionalMessageErrorParams = {}) {
     super({
-      message: params.message ?? 'Authentication failed',
-      errorCode: 'AUTH_FAILED',
-      httpStatusCode: 401,
+      message: params.message ?? 'Authentication to third party service failed',
+      errorCode: 'AUTH_ERROR',
+      httpStatusCode: 403,
       details: params.details,
+    })
+  }
+}
+
+export class OAuthNotSupportedError extends PublicNonRecoverableError {
+  constructor(connectorName: string) {
+    super({
+      message: 'OAUTH auth not supported by connector',
+      errorCode: 'OAUTH_AUTH_NOT_SUPPORTED',
+      httpStatusCode: 400,
+      details: {
+        connectorName,
+      },
+    })
+  }
+}
+
+export class ApiTokenNotSupportedError extends PublicNonRecoverableError {
+  constructor(connectorName: string) {
+    super({
+      message: 'API token auth not supported by connector',
+      errorCode: 'API_TOKEN_AUTH_NOT_SUPPORTED',
+      httpStatusCode: 400,
+      details: {
+        connectorName,
+      },
     })
   }
 }

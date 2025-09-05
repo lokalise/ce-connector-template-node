@@ -16,6 +16,7 @@ export type IntegrationConfig = Record<string, unknown>
 export type AuthConfig = Record<string, unknown>
 
 export class TemplateAdapter implements Adapter {
+  // replace this with an identifier unique to the integration
   static connectorName = 'template' as const
 
   public readonly authServiceAPIKey: TemplateAuthService

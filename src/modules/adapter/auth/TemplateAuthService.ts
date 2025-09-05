@@ -1,5 +1,5 @@
 import type { PostAuthResponseRequestBody } from '@lokalise/connector-api-contracts'
-import { PublicNonRecoverableError } from '@lokalise/node-core'
+import { ThirdPartyAuthenticationError } from '../../../infrastructure/errors/publicErrors.js'
 import type { FakeIntegrationApiClient } from '../../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type {
   AuthServiceAPIKey,
@@ -72,10 +72,8 @@ export class TemplateAuthService
 
     // biome-ignore lint/correctness/noConstantCondition: to be replaced with real implementation
     if (false) {
-      throw new PublicNonRecoverableError({
+      throw new ThirdPartyAuthenticationError({
         message: 'Could not authenticate to 3rd party using the provided key.',
-        errorCode: 'AUTHENTICATION_ERROR',
-        httpStatusCode: 403,
       })
     }
 
@@ -91,7 +89,8 @@ export class TemplateAuthService
    */
   refresh(_config: IntegrationConfig, _auth: AuthConfig): Promise<AuthResult> {
     // TODO: implementation
-    // response structure depends on auth strategy and platform specificity
+
+    // response structure depends on auth strategy and specific integration
     return Promise.resolve({
       key: 'apiKey',
     })
