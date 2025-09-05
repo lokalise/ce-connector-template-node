@@ -1,21 +1,21 @@
 import { describeContract } from '@lokalise/api-contracts'
 import { JSON_HEADERS } from '@lokalise/backend-http-client'
-import { getEnvContract } from '@lokalise/connector-api-contracts'
-import { injectGet } from '@lokalise/fastify-api-contracts'
+import { postTranslateContract } from '@lokalise/connector-api-contracts'
+import { injectPost } from '@lokalise/fastify-api-contracts'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
-import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
-import { getApp } from '../../app.ts'
-import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
-import { EnvController } from './envController.ts'
+import { createTestRequestHeaders } from '../../../../test/fixtures/testHeaders.ts'
+import { getApp } from '../../../app.ts'
+import type { ExternalItem } from '../../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
+import { TranslateController } from './translateController.ts'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
 
 const mockServer = getLocal()
 
-describe('envController e2e', () => {
-  describe(describeContract(EnvController.contracts.getEnv), () => {
+describe('translateController e2e', () => {
+  describe(describeContract(TranslateController.contracts.postTranslate), () => {
     let app: FastifyInstance
     beforeAll(async () => {
       app = await getApp({
@@ -33,7 +33,7 @@ describe('envController e2e', () => {
       await mockServer.stop()
     })
 
-    it('resolves env', async () => {
+    it('translates', async () => {
       // Replace with whatever mock you need
       await mockServer
         .forGet('/placeholder')
@@ -42,23 +42,21 @@ describe('envController e2e', () => {
           JSON.stringify([{ id: '1', name: 'dummy' }] satisfies ExternalItem[]),
           JSON_HEADERS,
         )
-      const response = await injectGet(app, getEnvContract, {
+      const response = await injectPost(app, postTranslateContract, {
+        body: {
+          items: [],
+          locales: [],
+          defaultLocale: 'en',
+        },
         headers: createTestRequestHeaders({}, {}),
       })
 
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toEqual({
-        cacheItemStructure: {
-          foo: 'bar',
-        },
-        defaultLocale: 'en',
-        locales: [
-          {
-            code: 'en',
-            name: 'English',
-          },
-        ],
-      })
+      expect(response.json()).toMatchInlineSnapshot(`
+        {
+          "items": [],
+        }
+      `)
     })
   })
 })

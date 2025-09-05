@@ -5,9 +5,12 @@ import {
 } from '@lokalise/connector-api-contracts'
 import { buildFastifyPayloadRoute } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
-import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.ts'
-import type { ConnectorDependencies } from '../ConnectorModule.ts'
-import type { AuthService } from './AuthService.ts'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../../prehandlers/integrationConfigPrehandler.ts'
+import type { Adapter } from '../../adapter-common/types/AdapterTypes.js'
+import type {
+  ConnectorShellInjectableDependencies,
+  SupportedConnectors,
+} from '../ConnectorShellModule.js'
 
 type AuthControllerContractsType = typeof AuthController.contracts
 
@@ -18,17 +21,20 @@ export class AuthController extends AbstractController<AuthControllerContractsTy
     postAuthResponse: postAuthResponseContract,
   } as const
 
-  private readonly authService: AuthService
+  private readonly adapters: Record<SupportedConnectors, Adapter>
 
-  constructor(dependencies: ConnectorDependencies) {
+  constructor(dependencies: ConnectorShellInjectableDependencies) {
     super()
 
-    this.authService = dependencies.authService
+    this.adapters = dependencies.adapters
   }
 
   private postAuth = buildFastifyPayloadRoute(postAuthContract, async (req, reply) => {
     // Api key flow: delete next line if your connector uses OAuth
-    const authConfig = await this.authService.validate(req.integrationConfig)
+    // biome-ignore lint/style/noNonNullAssertion: if connector uses API-key based auth, this field should be always set
+    const authConfig = await this.adapters.template.authServiceAPIKey!.validate(
+      req.integrationConfig,
+    )
     // OAuth flow: uncomment next line if your connect uses OAuth otherwise delete it
     // const authConfig = await authService.generateAuthorizationUrl(req.integrationConfig)
 
@@ -38,7 +44,11 @@ export class AuthController extends AbstractController<AuthControllerContractsTy
   private postAuthRefresh = buildFastifyPayloadRoute(
     postAuthRefreshContract,
     async (req, reply) => {
-      const authConfig = await this.authService.refresh(req.integrationConfig, req.authConfig)
+      // biome-ignore lint/style/noNonNullAssertion: if connector uses API-key based auth, this field should be always set
+      const authConfig = await this.adapters.template.authServiceAPIKey!.refresh(
+        req.integrationConfig,
+        req.authConfig,
+      )
 
       if (!authConfig) {
         await reply.status(403).send({
@@ -56,7 +66,10 @@ export class AuthController extends AbstractController<AuthControllerContractsTy
   private postAuthResponse = buildFastifyPayloadRoute(
     postAuthResponseContract,
     async (req, reply) => {
-      const credentials = await this.authService.getAuthCredentials(req.body)
+      // biome-ignore lint/style/noNonNullAssertion: if connector uses OAuth based auth, this field should be always set
+      const credentials = await this.adapters.template.authServiceOAuth!.getAuthCredentials(
+        req.body,
+      )
 
       if (!credentials) {
         await reply.status(403).send({

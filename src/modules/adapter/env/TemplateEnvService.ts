@@ -1,11 +1,10 @@
-import type {
-  AuthConfig,
-  EnvLocaleDefinition,
-  IntegrationConfig,
-} from '@lokalise/connector-api-contracts'
+import type { EnvLocaleDefinition } from '@lokalise/connector-api-contracts'
 import { PublicNonRecoverableError } from '@lokalise/node-core'
+import type { EnvService } from '../../adapter-common/types/AdapterTypes.js'
+import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.js'
 
-export class EnvService {
+// Replace "Template" with the name of the integration
+export class TemplateEnvService implements EnvService<IntegrationConfig, AuthConfig> {
   getLocales(_config: IntegrationConfig, _auth: AuthConfig): Promise<EnvLocaleDefinition> {
     // biome-ignore lint/correctness/noConstantCondition: to be replaced with real implementation
     if (false) {

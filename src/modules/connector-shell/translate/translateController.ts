@@ -1,9 +1,12 @@
 import { postTranslateContract } from '@lokalise/connector-api-contracts'
 import { buildFastifyPayloadRoute } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
-import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.ts'
-import type { ConnectorDependencies } from '../ConnectorModule.ts'
-import type { TranslateService } from './TranslateService.ts'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../../prehandlers/integrationConfigPrehandler.ts'
+import type { Adapter } from '../../adapter-common/types/AdapterTypes.js'
+import type {
+  ConnectorShellInjectableDependencies,
+  SupportedConnectors,
+} from '../ConnectorShellModule.js'
 
 type TranslateControllerContractsType = typeof TranslateController.contracts
 
@@ -11,19 +14,18 @@ export class TranslateController extends AbstractController<TranslateControllerC
   public static contracts = {
     postTranslate: postTranslateContract,
   } as const
+  private readonly adapters: Record<SupportedConnectors, Adapter>
 
-  private readonly translateService: TranslateService
-
-  constructor(dependencies: ConnectorDependencies) {
+  constructor(dependencies: ConnectorShellInjectableDependencies) {
     super()
 
-    this.translateService = dependencies.translateService
+    this.adapters = dependencies.adapters
   }
 
   private postTranslate = buildFastifyPayloadRoute(
     postTranslateContract,
     async (req, reply) => {
-      const items = await this.translateService.getContent(
+      const items = await this.adapters.template.translateService.getContent(
         req.integrationConfig,
         req.authConfig,
         req.body.locales,

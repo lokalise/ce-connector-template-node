@@ -1,21 +1,21 @@
 import { describeContract } from '@lokalise/api-contracts'
 import { JSON_HEADERS } from '@lokalise/backend-http-client'
-import { postAuthContract } from '@lokalise/connector-api-contracts'
+import { postPublishContract } from '@lokalise/connector-api-contracts'
 import { injectPost } from '@lokalise/fastify-api-contracts'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
-import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
-import { getApp } from '../../app.ts'
-import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
-import { AuthController } from './authController.ts'
+import { createTestRequestHeaders } from '../../../../test/fixtures/testHeaders.ts'
+import { getApp } from '../../../app.ts'
+import type { ExternalItem } from '../../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
+import { PublishController } from './publishController.ts'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
 
 const mockServer = getLocal()
 
-describe('authController e2e', () => {
-  describe(describeContract(AuthController.contracts.postAuth), () => {
+describe('publishController e2e', () => {
+  describe(describeContract(PublishController.contracts.postPublishContract), () => {
     let app: FastifyInstance
     beforeAll(async () => {
       app = await getApp({
@@ -33,7 +33,7 @@ describe('authController e2e', () => {
       await mockServer.stop()
     })
 
-    it('Validates provided auth integration configuration', async () => {
+    it('publishes', async () => {
       // Replace with whatever mock you need
       await mockServer
         .forGet('/placeholder')
@@ -42,15 +42,19 @@ describe('authController e2e', () => {
           JSON.stringify([{ id: '1', name: 'dummy' }] satisfies ExternalItem[]),
           JSON_HEADERS,
         )
-      const response = await injectPost(app, postAuthContract, {
-        body: null,
+      const response = await injectPost(app, postPublishContract, {
+        body: {
+          items: [],
+          defaultLocale: 'en',
+        },
         headers: createTestRequestHeaders({}, {}),
       })
 
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchInlineSnapshot(`
         {
-          "key": "apiKey",
+          "message": "Content successfully updated",
+          "statusCode": 200,
         }
       `)
     })

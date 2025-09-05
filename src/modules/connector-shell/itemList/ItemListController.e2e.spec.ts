@@ -4,9 +4,9 @@ import { getItemListContract } from '@lokalise/connector-api-contracts'
 import { injectGet } from '@lokalise/fastify-api-contracts'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
-import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
-import { getApp } from '../../app.ts'
-import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
+import { createTestRequestHeaders } from '../../../../test/fixtures/testHeaders.ts'
+import { getApp } from '../../../app.ts'
+import type { ExternalItem } from '../../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
 import { ItemListController } from './ItemListController.ts'
 
 const mockPort = 8000

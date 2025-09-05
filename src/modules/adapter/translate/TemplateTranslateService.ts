@@ -1,12 +1,18 @@
-import type {
-  AuthConfig,
-  ContentItem,
-  IntegrationConfig,
-  ItemIdentifier,
-} from '@lokalise/connector-api-contracts'
+import type { ContentItem, ItemIdentifier } from '@lokalise/connector-api-contracts'
 import { PublicNonRecoverableError } from '@lokalise/node-core'
+import type { TranslateService } from '../../adapter-common/types/AdapterTypes.js'
+import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.js'
 
-export class TranslateService {
+export class TemplateTranslateService implements TranslateService<IntegrationConfig, AuthConfig> {
+  /**
+   * Fetch data from the integration for the import to Lokalise.
+   * Returns a list of content items with full payload.
+   * @param _config
+   * @param _auth
+   * @param _locales
+   * @param _ids
+   * @param _defaultLocale
+   */
   getContent(
     _config: IntegrationConfig,
     _auth: AuthConfig,

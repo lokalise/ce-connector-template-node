@@ -1,10 +1,8 @@
-import type {
-  AuthConfig,
-  IntegrationConfig,
-  itemListEntry,
-} from '@lokalise/connector-api-contracts'
+import type { itemListEntry } from '@lokalise/connector-api-contracts'
 import { PublicNonRecoverableError } from '@lokalise/node-core'
 import type { z } from 'zod/v4'
+import type { ItemListService } from '../../adapter-common/types/AdapterTypes.js'
+import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.js'
 
 export type ItemList = z.infer<typeof itemListEntry>[]
 export type ItemListResult = {
@@ -14,7 +12,8 @@ export type ItemListResult = {
   cursor: string
 }
 
-export class ItemListService {
+// Replace "Template" with the name of the integration
+export class TemplateItemListService implements ItemListService<IntegrationConfig, AuthConfig> {
   getItemList(_config: IntegrationConfig, _auth: AuthConfig): Promise<ItemListResult> {
     // implementation
 

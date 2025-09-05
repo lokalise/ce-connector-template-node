@@ -1,13 +1,12 @@
-import type {
-  AuthConfig,
-  ContentItem,
-  IntegrationConfig,
-  ItemIdentifier,
-} from '@lokalise/connector-api-contracts'
+import type { ContentItem, ItemIdentifier } from '@lokalise/connector-api-contracts'
 import type { Either } from '@lokalise/node-core'
+import type { PublishService } from '../../adapter-common/types/AdapterTypes.js'
+import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.js'
 
-export class PublishService {
+// Replace "Template" with the name of the integration
+export class TemplatePublishService implements PublishService<IntegrationConfig, AuthConfig> {
   /**
+   * Export data from Lokalise to the integration.
    * Returns true if all items were published successfully, false and a list of failed item identifiers otherwise.
    * @param _config
    * @param _auth

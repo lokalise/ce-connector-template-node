@@ -1,21 +1,21 @@
 import { describeContract } from '@lokalise/api-contracts'
 import { JSON_HEADERS } from '@lokalise/backend-http-client'
-import { postTranslateContract } from '@lokalise/connector-api-contracts'
+import { postAuthContract } from '@lokalise/connector-api-contracts'
 import { injectPost } from '@lokalise/fastify-api-contracts'
 import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
-import { createTestRequestHeaders } from '../../../test/fixtures/testHeaders.ts'
-import { getApp } from '../../app.ts'
-import type { ExternalItem } from '../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
-import { TranslateController } from './translateController.ts'
+import { createTestRequestHeaders } from '../../../../test/fixtures/testHeaders.ts'
+import { getApp } from '../../../app.ts'
+import type { ExternalItem } from '../../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
+import { AuthController } from './authController.ts'
 
 const mockPort = 8000
 const mockBaseUrl = `http://localhost:${mockPort}`
 
 const mockServer = getLocal()
 
-describe('translateController e2e', () => {
-  describe(describeContract(TranslateController.contracts.postTranslate), () => {
+describe('authController e2e', () => {
+  describe(describeContract(AuthController.contracts.postAuth), () => {
     let app: FastifyInstance
     beforeAll(async () => {
       app = await getApp({
@@ -33,7 +33,7 @@ describe('translateController e2e', () => {
       await mockServer.stop()
     })
 
-    it('translates', async () => {
+    it('Validates provided auth integration configuration', async () => {
       // Replace with whatever mock you need
       await mockServer
         .forGet('/placeholder')
@@ -42,19 +42,15 @@ describe('translateController e2e', () => {
           JSON.stringify([{ id: '1', name: 'dummy' }] satisfies ExternalItem[]),
           JSON_HEADERS,
         )
-      const response = await injectPost(app, postTranslateContract, {
-        body: {
-          items: [],
-          locales: [],
-          defaultLocale: 'en',
-        },
+      const response = await injectPost(app, postAuthContract, {
+        body: null,
         headers: createTestRequestHeaders({}, {}),
       })
 
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchInlineSnapshot(`
         {
-          "items": [],
+          "key": "apiKey",
         }
       `)
     })

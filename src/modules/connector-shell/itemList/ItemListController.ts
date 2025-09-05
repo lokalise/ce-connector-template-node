@@ -1,9 +1,12 @@
 import { getItemListContract } from '@lokalise/connector-api-contracts'
 import { buildFastifyNoPayloadRoute } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
-import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.ts'
-import type { ConnectorDependencies } from '../ConnectorModule.ts'
-import type { ItemListService } from './ItemListService.ts'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../../prehandlers/integrationConfigPrehandler.ts'
+import type { Adapter } from '../../adapter-common/types/AdapterTypes.js'
+import type {
+  ConnectorShellInjectableDependencies,
+  SupportedConnectors,
+} from '../ConnectorShellModule.js'
 
 type ItemListControllerContractsType = typeof ItemListController.contracts
 
@@ -11,19 +14,18 @@ export class ItemListController extends AbstractController<ItemListControllerCon
   public static contracts = {
     getItemList: getItemListContract,
   } as const
+  private readonly adapters: Record<SupportedConnectors, Adapter>
 
-  private readonly itemListService: ItemListService
-
-  constructor(dependencies: ConnectorDependencies) {
+  constructor(dependencies: ConnectorShellInjectableDependencies) {
     super()
 
-    this.itemListService = dependencies.itemListService
+    this.adapters = dependencies.adapters
   }
 
   private getItemList = buildFastifyNoPayloadRoute(
     getItemListContract,
     async (req, reply) => {
-      const itemListResult = await this.itemListService.getItemList(
+      const itemListResult = await this.adapters.template.itemListService.getItemList(
         req.integrationConfig,
         req.authConfig,
       )

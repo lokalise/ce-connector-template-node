@@ -1,5 +1,6 @@
 import type { TransactionObservabilityManager } from '@lokalise/node-core'
 import type { NameAndRegistrationPair } from 'awilix'
+import type { AwilixManager } from 'awilix-manager'
 import type { FastifyBaseLogger, FastifyInstance } from 'fastify'
 import {
   AbstractModule,
@@ -7,7 +8,7 @@ import {
   type DependencyInjectionOptions,
   type MandatoryNameAndRegistrationPair,
 } from 'opinionated-machine'
-import type { ConnectorDependencies } from '../modules/ConnectorModule.ts'
+import type { TemplateDependencies } from '../modules/adapter/TemplateAdapterModule.ts'
 import { type Config, getConfig } from './config.ts'
 
 export type ExternalDependencies = {
@@ -15,7 +16,7 @@ export type ExternalDependencies = {
   logger?: FastifyBaseLogger
 }
 
-export type Dependencies = CommonDependencies & ConnectorDependencies
+export type Dependencies = CommonDependencies & TemplateDependencies
 type DiConfig = NameAndRegistrationPair<Dependencies>
 export type DependencyOverrides = Partial<DiConfig>
 
@@ -27,6 +28,12 @@ export class CommonModule extends AbstractModule<CommonDependencies, ExternalDep
     return {
       config: asSingletonFunction(() => {
         return getConfig()
+      }),
+      awilixManager: asSingletonFunction(() => {
+        if (!externalDependencies.app?.awilixManager) {
+          throw new Error('awilix-manager is not set')
+        }
+        return externalDependencies.app?.awilixManager
       }),
       transactionObservabilityManager: asSingletonFunction(() => {
         if (!externalDependencies.app?.newrelicTransactionManager) {
@@ -45,6 +52,7 @@ export class CommonModule extends AbstractModule<CommonDependencies, ExternalDep
 export interface CommonDependencies {
   config: Config
   transactionObservabilityManager: TransactionObservabilityManager
+  awilixManager: AwilixManager
 }
 
 declare module '@fastify/awilix' {

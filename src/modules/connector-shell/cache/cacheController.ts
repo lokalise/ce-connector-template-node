@@ -4,9 +4,12 @@ import {
   buildFastifyPayloadRoute,
 } from '@lokalise/fastify-api-contracts'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
-import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.ts'
-import type { ConnectorDependencies } from '../ConnectorModule.ts'
-import type { CacheService } from './CacheService.ts'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../../prehandlers/integrationConfigPrehandler.ts'
+import type { Adapter } from '../../adapter-common/types/AdapterTypes.js'
+import type {
+  ConnectorShellInjectableDependencies,
+  SupportedConnectors,
+} from '../ConnectorShellModule.js'
 
 type CacheControllerContractsType = typeof CacheController.contracts
 
@@ -16,18 +19,21 @@ export class CacheController extends AbstractController<CacheControllerContracts
     postCacheItems: postCacheItemsContract,
   } as const
 
-  private readonly cacheService: CacheService
+  private readonly adapters: Record<SupportedConnectors, Adapter>
 
-  constructor(dependencies: ConnectorDependencies) {
+  constructor(dependencies: ConnectorShellInjectableDependencies) {
     super()
 
-    this.cacheService = dependencies.cacheService
+    this.adapters = dependencies.adapters
   }
 
   private getCache = buildFastifyNoPayloadRoute(
     getCacheContract,
     async (req, reply) => {
-      const items = await this.cacheService.listItems(req.integrationConfig, req.authConfig)
+      const items = await this.adapters.template.cacheService.listItems(
+        req.integrationConfig,
+        req.authConfig,
+      )
 
       await reply.send({
         items,
@@ -39,7 +45,7 @@ export class CacheController extends AbstractController<CacheControllerContracts
   private getCacheItems = buildFastifyPayloadRoute(
     postCacheItemsContract,
     async (req, reply) => {
-      const items = await this.cacheService.getItems(
+      const items = await this.adapters.template.cacheService.getItems(
         req.integrationConfig,
         req.authConfig,
         req.body.items,

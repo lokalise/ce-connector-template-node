@@ -1,8 +1,10 @@
 import type { AbstractModule } from 'opinionated-machine'
 import { CommonModule } from './infrastructure/CommonModule.ts'
-import { ConnectorModule } from './modules/ConnectorModule.ts'
+import { TemplateAdapterModule } from './modules/adapter/TemplateAdapterModule.ts'
+import { ConnectorShellModule } from './modules/connector-shell/ConnectorShellModule.js'
 
 export const ALL_MODULES: readonly AbstractModule<unknown>[] = [
   new CommonModule(),
-  new ConnectorModule(),
+  new TemplateAdapterModule(),
+  new ConnectorShellModule(),
 ]

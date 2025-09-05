@@ -2,9 +2,12 @@ import { postPublishContract } from '@lokalise/connector-api-contracts'
 import { buildFastifyPayloadRoute } from '@lokalise/fastify-api-contracts'
 import { PublicNonRecoverableError } from '@lokalise/node-core'
 import { AbstractController, type BuildRoutesReturnType } from 'opinionated-machine'
-import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../prehandlers/integrationConfigPrehandler.ts'
-import type { ConnectorDependencies } from '../ConnectorModule.ts'
-import type { PublishService } from './PublishService.ts'
+import { PROTECTED_ROUTE_METADATA_MAPPER } from '../../../prehandlers/integrationConfigPrehandler.ts'
+import type { Adapter } from '../../adapter-common/types/AdapterTypes.js'
+import type {
+  ConnectorShellInjectableDependencies,
+  SupportedConnectors,
+} from '../ConnectorShellModule.js'
 
 type PublishControllerContractsType = typeof PublishController.contracts
 
@@ -12,19 +15,18 @@ export class PublishController extends AbstractController<PublishControllerContr
   public static contracts = {
     postPublishContract: postPublishContract,
   } as const
+  private readonly adapters: Record<SupportedConnectors, Adapter>
 
-  private readonly publishService: PublishService
-
-  constructor(dependencies: ConnectorDependencies) {
+  constructor(dependencies: ConnectorShellInjectableDependencies) {
     super()
 
-    this.publishService = dependencies.publishService
+    this.adapters = dependencies.adapters
   }
 
   private postPublishContent = buildFastifyPayloadRoute(
     postPublishContract,
     async (req, reply) => {
-      const publishResult = await this.publishService.publishContent(
+      const publishResult = await this.adapters.template.publishService.publishContent(
         req.integrationConfig,
         req.authConfig,
         req.body.items,
