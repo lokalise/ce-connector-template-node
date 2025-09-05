@@ -1,13 +1,13 @@
 // Replace "Template" with the name of the integration
 
-import type { Adapter } from '../adapter-common/types/AdapterTypes.js'
-import type { TemplateAuthService } from './auth/TemplateAuthService.js'
-import type { TemplateCacheService } from './cache/TemplateCacheService.js'
-import type { TemplateEnvService } from './env/TemplateEnvService.js'
-import type { TemplateItemListService } from './itemList/TemplateItemListService.js'
-import type { TemplatePublishService } from './publish/TemplatePublishService.js'
-import type { TemplateInjectableDependencies } from './TemplateAdapterModule.js'
-import type { TemplateTranslateService } from './translate/TemplateTranslateService.js'
+import type { Adapter } from '../adapter-common/types/AdapterTypes.ts'
+import type { TemplateAuthService } from './auth/TemplateAuthService.ts'
+import type { TemplateCacheService } from './cache/TemplateCacheService.ts'
+import type { TemplateEnvService } from './env/TemplateEnvService.ts'
+import type { TemplateItemListService } from './itemList/TemplateItemListService.ts'
+import type { TemplatePublishService } from './publish/TemplatePublishService.ts'
+import type { TemplateInjectableDependencies } from './TemplateAdapterModule.ts'
+import type { TemplateTranslateService } from './translate/TemplateTranslateService.ts'
 
 // Replace with the real integration config for the integration
 export type IntegrationConfig = Record<string, unknown>
@@ -16,6 +16,7 @@ export type IntegrationConfig = Record<string, unknown>
 export type AuthConfig = Record<string, unknown>
 
 export class TemplateAdapter implements Adapter {
+  // replace this with an identifier unique to the integration
   static connectorName = 'template' as const
 
   public readonly authServiceAPIKey: TemplateAuthService

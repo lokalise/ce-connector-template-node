@@ -1,8 +1,8 @@
 import type { CacheItem, ItemIdentifier } from '@lokalise/connector-api-contracts'
 import { CouldNotRetrieveCacheItemsError } from '../../../infrastructure/errors/publicErrors.ts'
 import type { FakeIntegrationApiClient } from '../../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
-import type { CacheService } from '../../adapter-common/types/AdapterTypes.js'
-import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.js'
+import type { CacheService } from '../../adapter-common/types/AdapterTypes.ts'
+import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.ts'
 import type { TemplateDependencies } from '../TemplateAdapterModule.ts'
 
 // Replace "Template" with the name of the integration

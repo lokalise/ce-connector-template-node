@@ -1,7 +1,7 @@
 import type { ContentItem, ItemIdentifier } from '@lokalise/connector-api-contracts'
 import type { Either } from '@lokalise/node-core'
-import type { PublishService } from '../../adapter-common/types/AdapterTypes.js'
-import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.js'
+import type { PublishService } from '../../adapter-common/types/AdapterTypes.ts'
+import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.ts'
 
 // Replace "Template" with the name of the integration
 export class TemplatePublishService implements PublishService<IntegrationConfig, AuthConfig> {

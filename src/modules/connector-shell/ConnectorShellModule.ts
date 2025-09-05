@@ -6,9 +6,9 @@ import {
   type MandatoryNameAndRegistrationPair,
 } from 'opinionated-machine'
 import type { CommonDependencies, ExternalDependencies } from '../../infrastructure/CommonModule.ts'
-import type { TemplateAdapter } from '../adapter/TemplateAdapter.js'
-import type { TemplatePublicDependencies } from '../adapter/TemplateAdapterModule.js'
-import { ADAPTER_LABEL, type Adapter } from '../adapter-common/types/AdapterTypes.js'
+import type { TemplateAdapter } from '../adapter/TemplateAdapter.ts'
+import type { TemplatePublicDependencies } from '../adapter/TemplateAdapterModule.ts'
+import { ADAPTER_LABEL, type Adapter } from '../adapter-common/types/AdapterTypes.ts'
 import { AuthController } from '../connector-shell/auth/authController.ts'
 import { CacheController } from '../connector-shell/cache/cacheController.ts'
 import { EnvController } from '../connector-shell/env/envController.ts'

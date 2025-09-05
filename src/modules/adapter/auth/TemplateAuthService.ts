@@ -1,11 +1,11 @@
 import type { PostAuthResponseRequestBody } from '@lokalise/connector-api-contracts'
-import { PublicNonRecoverableError } from '@lokalise/node-core'
+import { ThirdPartyAuthenticationError } from '../../../infrastructure/errors/publicErrors.ts'
 import type { FakeIntegrationApiClient } from '../../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type {
   AuthServiceAPIKey,
   AuthServiceOAuth,
-} from '../../adapter-common/types/AdapterTypes.js'
-import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.js'
+} from '../../adapter-common/types/AdapterTypes.ts'
+import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.ts'
 import type { TemplateDependencies } from '../TemplateAdapterModule.ts'
 
 // Placeholder, may change depending on the integration
@@ -54,6 +54,13 @@ export class TemplateAuthService
    * @param _authData
    */
   getAuthCredentials(_authData: PostAuthResponseRequestBody): Promise<AuthCredentials> {
+    // biome-ignore lint/correctness/noConstantCondition: to be replaced with real implementation
+    if (false) {
+      throw new ThirdPartyAuthenticationError({
+        message: 'Authorization failed',
+      })
+    }
+
     // TODO: implementation
     return Promise.resolve({
       accessToken: 'accessToken',
@@ -72,10 +79,8 @@ export class TemplateAuthService
 
     // biome-ignore lint/correctness/noConstantCondition: to be replaced with real implementation
     if (false) {
-      throw new PublicNonRecoverableError({
+      throw new ThirdPartyAuthenticationError({
         message: 'Could not authenticate to 3rd party using the provided key.',
-        errorCode: 'AUTHENTICATION_ERROR',
-        httpStatusCode: 403,
       })
     }
 
@@ -91,7 +96,14 @@ export class TemplateAuthService
    */
   refresh(_config: IntegrationConfig, _auth: AuthConfig): Promise<AuthResult> {
     // TODO: implementation
-    // response structure depends on auth strategy and platform specificity
+    // biome-ignore lint/correctness/noConstantCondition: to be replaced with real implementation
+    if (false) {
+      throw new ThirdPartyAuthenticationError({
+        message: 'Could not authenticate to 3rd party using the provided key.',
+      })
+    }
+
+    // response structure depends on auth strategy and specific integration
     return Promise.resolve({
       key: 'apiKey',
     })
