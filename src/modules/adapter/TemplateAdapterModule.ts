@@ -5,8 +5,8 @@ import {
   type MandatoryNameAndRegistrationPair,
 } from 'opinionated-machine'
 import type { CommonDependencies, ExternalDependencies } from '../../infrastructure/CommonModule.ts'
-import { FakeIntegrationApiClient } from '../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import { ADAPTER_LABEL } from '../adapter-common/types/AdapterTypes.ts'
+import { TemplateApiClient } from './apiClients/TemplateApiClient.js'
 import { TemplateAuthService } from './auth/TemplateAuthService.ts'
 import { TemplateCacheService } from './cache/TemplateCacheService.ts'
 import { TemplateEnvService } from './env/TemplateEnvService.ts'
@@ -28,7 +28,7 @@ export class TemplateAdapterModule extends AbstractModule<
     _externalDependencies: ExternalDependencies,
   ) {
     return {
-      fakeIntegrationApiClient: asSingletonClass(FakeIntegrationApiClient),
+      templateApiClient: asSingletonClass(TemplateApiClient),
       templateCacheService: asSingletonClass(TemplateCacheService),
       templateAuthService: asSingletonClass(TemplateAuthService),
       templateEnvService: asSingletonClass(TemplateEnvService),
@@ -47,7 +47,7 @@ export class TemplateAdapterModule extends AbstractModule<
 }
 
 export interface TemplateDependencies {
-  fakeIntegrationApiClient: FakeIntegrationApiClient
+  templateApiClient: TemplateApiClient
   templateCacheService: TemplateCacheService
   templateAuthService: TemplateAuthService
   templateEnvService: TemplateEnvService

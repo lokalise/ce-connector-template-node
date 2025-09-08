@@ -6,7 +6,7 @@ import type { FastifyInstance } from 'fastify'
 import { getLocal } from 'mockttp'
 import { createTestRequestHeaders } from '../../../../test/fixtures/testHeaders.ts'
 import { getApp } from '../../../app.ts'
-import type { ExternalItem } from '../../../integrations/fakeIntegration/client/fakeIntegrationApiTypes.ts'
+import type { ExternalItem } from '../../adapter/apiClients/TemplateApiTypes.js'
 import { AuthController } from './authController.ts'
 
 const mockPort = 8000

@@ -1,4 +1,4 @@
-// TODO: fakeIntegration connector 3-rd party client types
+// TODO: placeholder types
 
 import z from 'zod/v4'
 

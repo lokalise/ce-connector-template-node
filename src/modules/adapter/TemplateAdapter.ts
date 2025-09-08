@@ -13,7 +13,9 @@ import type { TemplateTranslateService } from './translate/TemplateTranslateServ
 export type IntegrationConfig = Record<string, unknown>
 
 // Replace with the real auth config for the integration
-export type AuthConfig = Record<string, unknown>
+export type AuthConfig = {
+  apiToken: string
+}
 
 export class TemplateAdapter implements Adapter {
   // replace this with an identifier unique to the integration
