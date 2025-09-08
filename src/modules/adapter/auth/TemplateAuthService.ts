@@ -1,10 +1,10 @@
 import type { PostAuthResponseRequestBody } from '@lokalise/connector-api-contracts'
 import { ThirdPartyAuthenticationError } from '../../../infrastructure/errors/publicErrors.ts'
-import type { FakeIntegrationApiClient } from '../../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type {
   AuthServiceAPIKey,
   AuthServiceOAuth,
 } from '../../adapter-common/types/AdapterTypes.ts'
+import type { TemplateApiClient } from '../apiClients/TemplateApiClient.js'
 import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.ts'
 import type { TemplateDependencies } from '../TemplateAdapterModule.ts'
 
@@ -34,9 +34,9 @@ export class TemplateAuthService
   supportsApiToken = true as const
   supportsOAuth = true as const
   // biome-ignore lint/correctness/noUnusedPrivateClassMembers: this is just an example
-  private readonly _fakeApiClient: FakeIntegrationApiClient
-  constructor({ fakeIntegrationApiClient }: TemplateDependencies) {
-    this._fakeApiClient = fakeIntegrationApiClient
+  private readonly _fakeApiClient: TemplateApiClient
+  constructor({ templateApiClient }: TemplateDependencies) {
+    this._fakeApiClient = templateApiClient
   }
 
   /**

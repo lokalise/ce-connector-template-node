@@ -1,11 +1,8 @@
-// TODO: fakeIntegration connector 3-rd party client implementation
-
 import { buildClient, sendGet } from '@lokalise/backend-http-client'
 import type { Client } from 'undici'
 
 import type { CommonDependencies } from '../../../infrastructure/CommonModule.ts'
-
-import { EXTERNAL_ITEM_RESPONSE_SCHEMA } from './fakeIntegrationApiTypes.ts'
+import { EXTERNAL_ITEM_RESPONSE_SCHEMA } from './TemplateApiTypes.js'
 
 const RETRY_CONFIG = {
   retryOnTimeout: false,
@@ -14,7 +11,7 @@ const RETRY_CONFIG = {
   delayBetweenAttemptsInMsecs: 250,
 }
 
-export class FakeIntegrationApiClient {
+export class TemplateApiClient {
   private readonly client: Client
   constructor({ config }: CommonDependencies) {
     this.client = buildClient(config.integrations.fakeStore.baseUrl, {
@@ -24,6 +21,7 @@ export class FakeIntegrationApiClient {
   }
 
   async listItems() {
+    // placeholder, to re replaced
     const response = await sendGet(this.client, '/items', {
       retryConfig: RETRY_CONFIG,
       requestLabel: 'List items (Integration X)',

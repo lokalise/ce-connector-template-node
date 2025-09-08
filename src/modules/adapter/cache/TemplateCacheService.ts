@@ -1,19 +1,19 @@
 import type { CacheItem, ItemIdentifier } from '@lokalise/connector-api-contracts'
 import { CouldNotRetrieveCacheItemsError } from '../../../infrastructure/errors/publicErrors.ts'
-import type { FakeIntegrationApiClient } from '../../../integrations/fakeIntegration/client/FakeIntegrationApiClient.ts'
 import type { CacheService } from '../../adapter-common/types/AdapterTypes.ts'
+import type { TemplateApiClient } from '../apiClients/TemplateApiClient.js'
 import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.ts'
 import type { TemplateDependencies } from '../TemplateAdapterModule.ts'
 
 // Replace "Template" with the name of the integration
 export class TemplateCacheService implements CacheService<IntegrationConfig, AuthConfig> {
-  private readonly fakeApiClient: FakeIntegrationApiClient
-  constructor({ fakeIntegrationApiClient }: TemplateDependencies) {
-    this.fakeApiClient = fakeIntegrationApiClient
+  private readonly templateApiClient: TemplateApiClient
+  constructor({ templateApiClient }: TemplateDependencies) {
+    this.templateApiClient = templateApiClient
   }
 
   async listItems(_config: IntegrationConfig, _auth: AuthConfig): Promise<ItemIdentifier[]> {
-    const items = await this.fakeApiClient.listItems()
+    const items = await this.templateApiClient.listItems()
 
     if (!items) {
       throw new CouldNotRetrieveCacheItemsError()
