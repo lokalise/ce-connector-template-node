@@ -41,7 +41,7 @@
         "newrelic": "^13.3.2",
         "opinionated-machine": "^4.0.0",
         "pino": "^9.11.0",
-        "undici": "^7.15.0",
+        "undici": "^7.16.0",
         "zod": "^4.1.11"
     },
     "devDependencies": {
