@@ -40,7 +40,7 @@
         "fastify-type-provider-zod": "^6.1.0",
         "newrelic": "^13.4.0",
         "opinionated-machine": "^4.0.0",
-        "pino": "^10.0.0",
+        "pino": "^10.1.0",
         "undici": "^7.16.0",
         "zod": "^4.1.12"
     },
