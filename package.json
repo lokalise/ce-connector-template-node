@@ -46,7 +46,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "^2.2.4",
-        "@lokalise/biome-config": "^3.1.0",
+        "@lokalise/biome-config": "^3.1.1",
         "@lokalise/tsconfig": "^3.1.0",
         "@types/newrelic": "^9.14.8",
         "@types/node": "^25.0.3",
