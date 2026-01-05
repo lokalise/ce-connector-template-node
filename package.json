@@ -42,7 +42,7 @@
         "opinionated-machine": "^4.0.0",
         "pino": "^10.1.0",
         "undici": "^7.16.0",
-        "zod": "^4.2.1"
+        "zod": "^4.3.5"
     },
     "devDependencies": {
         "@biomejs/biome": "^2.2.4",
