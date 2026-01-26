@@ -39,7 +39,7 @@
         "fastify-plugin": "^5.1.0",
         "fastify-type-provider-zod": "^6.1.0",
         "newrelic": "^13.8.1",
-        "opinionated-machine": "^4.0.0",
+        "opinionated-machine": "^5.2.0",
         "pino": "^10.2.0",
         "undici": "^7.16.0",
         "zod": "^4.3.5"
