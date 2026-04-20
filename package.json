@@ -23,7 +23,7 @@
     "author": "Lokalise",
     "license": "Apache-2.0",
     "dependencies": {
-        "@bugsnag/js": "^8.8.1",
+        "@bugsnag/js": "^8.9.0",
         "@fastify/awilix": "^8.2.0",
         "@lokalise/api-contracts": "^5.4.0",
         "@lokalise/backend-http-client": "^7.2.0",
