@@ -29,7 +29,7 @@
         "@lokalise/backend-http-client": "^7.2.0",
         "@lokalise/connector-api-contracts": "^1.8.0",
         "@lokalise/fastify-api-contracts": "^4.2.1",
-        "@lokalise/fastify-extras": "^30.2.1",
+        "@lokalise/fastify-extras": "^30.7.2",
         "@lokalise/node-core": "^14.7.4",
         "awilix": "^13.0.3",
         "awilix-manager": "^6.4.0",
