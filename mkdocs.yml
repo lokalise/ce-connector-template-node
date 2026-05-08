@@ -1,0 +1,11 @@
+site_name: Template Connector
+site_description: 'Template connector for Lokalise Content Exchange app engine'
+
+nav:
+  - Home: index.md
+  - Environment Variables: environment-variables.md
+  - Health-checks: healthchecks.md
+  - Metrics: metrics.md
+
+plugins:
+  - techdocs-core

@@ -1,0 +1,46 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: ce-connector-template-node-all
+spec:
+  targets:
+    - ./catalog/apis/api.yaml
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ce-connector-template-node
+  title: Template Connector
+  description: |
+    Template connector for Lokalise Content Exchange app engine.
+    Serves as a starting point for building new content exchange connectors
+    that bridge third-party content platforms with Lokalise.
+
+  annotations:
+    github.com/project-slug: lokalise/ce-connector-template-node
+    backstage.io/kubernetes-label-selector: 'app=ce-connector-template-node'
+    argocd/app-name: ce-connector-template-node
+    backstage.io/techdocs-ref: dir:.
+
+  tags:
+    - nodejs
+    - typescript
+    - template
+
+  links:
+    - url: https://github.com/lokalise/ce-connector-template-node
+      title: Source Code
+      icon: github
+    - url: https://github.com/lokalise/service-reliability-documents/blob/main/runbooks/ce-connector-template-node
+      title: Runbook
+      icon: docs
+
+spec:
+  type: service
+  lifecycle: template
+  owner: content-exchange-team
+  providesApis:
+    - ce-connector-template-node-api
+  consumesApis:
+    - content-type-app-engine-api
