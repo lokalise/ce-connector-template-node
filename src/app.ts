@@ -2,7 +2,6 @@ import type http from 'node:http'
 
 import { diContainer, fastifyAwilixPlugin } from '@fastify/awilix'
 import fastifySwagger from '@fastify/swagger'
-import scalarFastifyApiReference from '@scalar/fastify-api-reference'
 import {
   bugsnagErrorReporter,
   bugsnagPlugin,
@@ -13,6 +12,7 @@ import {
   newrelicTransactionManagerPlugin,
 } from '@lokalise/fastify-extras'
 import { resolveGlobalErrorLogObject, resolveLogger } from '@lokalise/node-core'
+import scalarFastifyApiReference from '@scalar/fastify-api-reference'
 import type { AwilixContainer } from 'awilix'
 import type { FastifyBaseLogger } from 'fastify'
 import fastify from 'fastify'
