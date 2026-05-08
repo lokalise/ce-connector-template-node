@@ -1,6 +1,7 @@
 import type http from 'node:http'
 
 import { diContainer, fastifyAwilixPlugin } from '@fastify/awilix'
+import fastifySwagger from '@fastify/swagger'
 import {
   bugsnagErrorReporter,
   bugsnagPlugin,
@@ -11,11 +12,16 @@ import {
   newrelicTransactionManagerPlugin,
 } from '@lokalise/fastify-extras'
 import { resolveGlobalErrorLogObject, resolveLogger } from '@lokalise/node-core'
+import scalarFastifyApiReference from '@scalar/fastify-api-reference'
 import type { AwilixContainer } from 'awilix'
 import type { FastifyBaseLogger } from 'fastify'
 import fastify from 'fastify'
 import fastifyGracefulShutdown from 'fastify-graceful-shutdown'
-import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
+import {
+  createJsonSchemaTransform,
+  serializerCompiler,
+  validatorCompiler,
+} from 'fastify-type-provider-zod'
 import { type DependencyInjectionOptions, DIContext, type NestedPartial } from 'opinionated-machine'
 import { stdSerializers } from 'pino'
 import type {
@@ -61,6 +67,41 @@ export async function getApp(
 
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)
+
+  await app.register(fastifySwagger, {
+    transform: createJsonSchemaTransform({
+      skipList: [
+        '/documentation/',
+        '/documentation/initOAuth',
+        '/documentation/uiConfig',
+        '/documentation/yaml',
+        '/documentation/*',
+        '/documentation/static/*',
+        '*',
+      ],
+    }),
+    openapi: {
+      info: {
+        title: 'Template Connector',
+        description: 'Template connector for Lokalise Content Exchange',
+        version: appConfig.appVersion,
+      },
+      servers: [
+        {
+          url: `http://${
+            appConfig.bindAddress === '0.0.0.0' ? 'localhost' : appConfig.bindAddress
+          }:${appConfig.port}`,
+          description: 'Local development server',
+        },
+      ],
+    },
+  })
+
+  if (appConfig.appEnv === 'development') {
+    await app.register(scalarFastifyApiReference, {
+      routePrefix: '/documentation',
+    })
+  }
 
   /**
    * Since DI config relies on having app-scoped NewRelic instance to be set by the plugin,
