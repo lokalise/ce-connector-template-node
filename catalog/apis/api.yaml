@@ -8,6 +8,7 @@ metadata:
     - api
     - rest
     - openapi
+    - template
   annotations:
     github.com/project-slug: lokalise/ce-connector-template-node
 spec:
@@ -15,4 +16,4 @@ spec:
   lifecycle: production
   owner: content-exchange-team
   definition:
-    $text: https://ce-connector-template-node.lokalise.cloud/api/json
+    $text: https://ce-connector-template-node.lokalise.cloud/documentation/openapi.json
