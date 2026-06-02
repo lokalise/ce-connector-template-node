@@ -34,7 +34,7 @@
         "@lokalise/node-core": "^14.7.4",
         "@scalar/fastify-api-reference": "^1.55.3",
         "awilix": "^13.0.3",
-        "awilix-manager": "^6.4.0",
+        "awilix-manager": "^7.0.0",
         "fastify": "^5.6.2",
         "fastify-graceful-shutdown": "^5.0.0",
         "fastify-metrics": "^12.1.0",
