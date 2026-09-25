@@ -1,33 +1,66 @@
 # Environment variables
 
-In development, environment variables are resolved from the .env file
-In production you are expected to set environment variables during deployment (e. g. using Vault)
+## App
 
-## List of environment variables
+- `APP_PORT` (optional)  
+  Type: `integer`  
+  Description: HTTP server listening port  
+  Default: `3000`
 
-### app
+- `APP_BIND_ADDRESS` (required)  
+  Type: `string`  
+  Description: HTTP server binding address (e.g., 0.0.0.0 for all interfaces)
 
-- `APP_NAME` - 
-- `CLUSTER` -
-- `GIT_REPO_NAME` -
-- `GIT_BASE_BRANCH` -
-- `HOST_APP_PORT` - External ports used in dev docker-compose.yml
+- `LOG_LEVEL` (required)  
+  Type: `string`  
+  Description: Minimum log level for emitted logs  
+  Supported values: `fatal` | `error` | `warn` | `info` | `debug` | `trace` | `silent`
 
-- `NODE_ENV` - app execution mode. Supported values: `production` | `development` | `test`
-- `APP_ENV` - environment, in which app is running. Supported values: `production` | `development` | `staging`
-- `APP_BIND_ADDRESS` - address, on which server will be listening for HTTP(S) connections. e. g. `0.0.0.0`
-- `LOG_LEVEL` - logs starting from which level should be emitted. Supported values: `fatal` | `error` | `warn` | `info` | `debug` | `trace` | `silent`
-- (OPTIONAL) `APP_PORT` - port, on which server will be listening for HTTP(S) connections (`3000`)
-- (OPTIONAL) `APP_VERSION` - application version, exposed via healthcheck endpoint (`VERSION_NOT_SET`)
-- (OPTIONAL) `GIT_COMMIT_SHA` - SHA of a last commit of the deployed version (`COMMIT_SHA_NOT_SET`)
+- `NODE_ENV` (required)  
+  Type: `string`  
+  Description: Application execution environment  
+  Supported values: `production` | `development` | `test`
 
-## new relic
+- `APP_ENV` (required)  
+  Type: `string`  
+  Description: Deployment environment for the application  
+  Supported values: `production` | `development` | `staging`
 
-- (OPTIONAL) `NEW_RELIC_LICENSE_KEY` - New Relic API key
-- (OPTIONAL) `NEW_RELIC_APP_NAME` - instrumented application name for New Relic grouping purposes
-- (OPTIONAL) `NEW_RELIC_ENABLED` - whether to use New Relic instrumentation (`true`)
+- `APP_VERSION` (optional)  
+  Type: `string`  
+  Description: Application version exposed via healthcheck endpoint  
+  Default: `VERSION_NOT_SET`
 
-### bugsnag
+- `GIT_COMMIT_SHA` (optional)  
+  Type: `string`  
+  Description: Git commit SHA of the deployed version  
+  Default: `COMMIT_SHA_NOT_SET`
 
-- (OPTIONAL) `BUGSNAG_KEY` - BugSnag API key
-- (OPTIONAL) `BUGSNAG_ENABLED` - whether to send errors to BugSnag (`true`)
+## Integrations FakeStore
+
+- `SAMPLE_FAKE_STORE_BASE_URL` (required)  
+  Type: `string`  
+  Description: Base URL of the sample Fake Store API, e.g. https://fakestoreapi.com
+
+## Vendors Newrelic
+
+- `NEW_RELIC_ENABLED` (optional)  
+  Type: `boolean`  
+  Description: Whether to use New Relic instrumentation  
+  Default: `true`
+
+- `NEW_RELIC_APP_NAME` (optional)  
+  Type: `string`  
+  Description: Instrumented application name for New Relic grouping purposes  
+  Default: ``
+
+## Vendors Bugsnag
+
+- `BUGSNAG_ENABLED` (optional)  
+  Type: `boolean`  
+  Description: Whether to send errors to Bugsnag  
+  Default: `true`
+
+- `BUGSNAG_KEY` (optional)  
+  Type: `string`  
+  Description: Bugsnag API key
