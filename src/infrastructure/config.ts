@@ -3,17 +3,6 @@ import { z } from 'zod'
 
 export const nodeEnv = detectNodeEnv(process.env)
 
-/**
- * The previous node-core config loader treated blank values as unset, so optional variables
- * fell back to their defaults and blank mandatory ones were reported as missing. envase passes
- * `''` to the schema instead, so blank entries are dropped before parsing to keep that behaviour.
- */
-function withoutBlankValues(
-  env: Record<string, string | undefined>,
-): Record<string, string | undefined> {
-  return Object.fromEntries(Object.entries(env).filter(([, value]) => value !== ''))
-}
-
 const envSchema = {
   app: {
     port: envvar(
@@ -94,7 +83,12 @@ let config: Config | null = null
 
 export function getConfig(): Config {
   if (!config) {
-    config = createConfig(withoutBlankValues(process.env), { schema: envSchema })
+    config = createConfig(process.env, {
+      schema: envSchema,
+      // Blank values count as unset (the ConfigScope convention): defaults apply and blank
+      // mandatory values are reported as missing
+      emptyStringAsUndefined: true,
+    })
   }
   return config
 }
