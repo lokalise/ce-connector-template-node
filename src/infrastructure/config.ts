@@ -85,8 +85,7 @@ export function getConfig(): Config {
   if (!config) {
     config = createConfig(process.env, {
       schema: envSchema,
-      // Blank values count as unset (the ConfigScope convention): defaults apply and blank
-      // mandatory values are reported as missing
+      // Blank values count as unset: defaults apply and blank mandatory values are reported as missing
       emptyStringAsUndefined: true,
     })
   }
