@@ -1,85 +1,93 @@
-import { ConfigScope } from '@lokalise/node-core'
+import { createConfig, detectNodeEnv, envvar, type InferEnv } from 'envase'
+import { z } from 'zod'
 
-const configScope: ConfigScope = new ConfigScope()
+export const nodeEnv = detectNodeEnv(process.env)
 
-export type Config = {
+const envSchema = {
+  app: {
+    port: envvar(
+      'APP_PORT',
+      z.coerce.number().int().default(3000).describe('HTTP server listening port'),
+    ),
+    bindAddress: envvar(
+      'APP_BIND_ADDRESS',
+      z.string().describe('HTTP server binding address (e.g., 0.0.0.0 for all interfaces)'),
+    ),
+    logLevel: envvar(
+      'LOG_LEVEL',
+      z
+        .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent'])
+        .describe('Minimum log level for emitted logs'),
+    ),
+    nodeEnv: envvar(
+      'NODE_ENV',
+      z.enum(['production', 'development', 'test']).describe('Application execution environment'),
+    ),
+    appEnv: envvar(
+      'APP_ENV',
+      z
+        .enum(['production', 'development', 'staging'])
+        .describe('Deployment environment for the application'),
+    ),
+    appVersion: envvar(
+      'APP_VERSION',
+      z
+        .string()
+        .default('VERSION_NOT_SET')
+        .describe('Application version exposed via healthcheck endpoint'),
+    ),
+    gitCommitSha: envvar(
+      'GIT_COMMIT_SHA',
+      z.string().default('COMMIT_SHA_NOT_SET').describe('Git commit SHA of the deployed version'),
+    ),
+  },
   integrations: {
     fakeStore: {
-      baseUrl: string
-    }
-  }
-  app: AppConfig
+      baseUrl: envvar(
+        'SAMPLE_FAKE_STORE_BASE_URL',
+        z.string().describe('Base URL of the sample Fake Store API, e.g. https://fakestoreapi.com'),
+      ),
+    },
+  },
   vendors: {
     newrelic: {
-      isEnabled: boolean
-      appName: string
-    }
+      isEnabled: envvar(
+        'NEW_RELIC_ENABLED',
+        z.stringbool().default(true).describe('Whether to use New Relic instrumentation'),
+      ),
+      appName: envvar(
+        'NEW_RELIC_APP_NAME',
+        z
+          .string()
+          .default('')
+          .describe('Instrumented application name for New Relic grouping purposes'),
+      ),
+    },
     bugsnag: {
-      isEnabled: boolean
-      apiKey?: string
-    }
-  }
+      isEnabled: envvar(
+        'BUGSNAG_ENABLED',
+        z.stringbool().default(true).describe('Whether to send errors to Bugsnag'),
+      ),
+      apiKey: envvar('BUGSNAG_KEY', z.string().optional().describe('Bugsnag API key')),
+    },
+  },
 }
 
-export type AppConfig = {
-  port: number
-  bindAddress: string
-  logLevel: 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent'
-  nodeEnv: 'production' | 'development' | 'test'
-  appEnv: 'production' | 'development' | 'staging'
-  appVersion: string
-  gitCommitSha: string
-}
+// biome-ignore lint/style/noDefaultExport: envase uses default export to generate docs
+export default envSchema
+
+export type Config = InferEnv<typeof envSchema>
+export type AppConfig = Config['app']
+
+let config: Config | null = null
 
 export function getConfig(): Config {
-  return {
-    app: getAppConfig(),
-    integrations: {
-      fakeStore: {
-        baseUrl: configScope.getMandatory('SAMPLE_FAKE_STORE_BASE_URL'),
-      },
-    },
-    vendors: {
-      newrelic: {
-        isEnabled: configScope.getOptionalBoolean('NEW_RELIC_ENABLED', true),
-        appName: configScope.getOptionalNullable('NEW_RELIC_APP_NAME', ''),
-      },
-      bugsnag: {
-        isEnabled: configScope.getOptionalBoolean('BUGSNAG_ENABLED', true),
-        apiKey: configScope.getOptionalNullable('BUGSNAG_KEY', undefined),
-      },
-    },
+  if (!config) {
+    config = createConfig(process.env, {
+      schema: envSchema,
+      // Blank values count as unset: defaults apply and blank mandatory values are reported as missing
+      emptyStringAsUndefined: true,
+    })
   }
-}
-
-export function getAppConfig(): AppConfig {
-  return {
-    port: configScope.getOptionalInteger('APP_PORT', 3000),
-    bindAddress: configScope.getMandatory('APP_BIND_ADDRESS'),
-    logLevel: configScope.getMandatoryOneOf('LOG_LEVEL', [
-      'fatal',
-      'error',
-      'warn',
-      'info',
-      'debug',
-      'trace',
-      'silent',
-    ]),
-    nodeEnv: configScope.getMandatoryOneOf('NODE_ENV', ['production', 'development', 'test']),
-    appEnv: configScope.getMandatoryOneOf('APP_ENV', ['production', 'development', 'staging']),
-    appVersion: configScope.getOptional('APP_VERSION', 'VERSION_NOT_SET'),
-    gitCommitSha: configScope.getOptional('GIT_COMMIT_SHA', 'COMMIT_SHA_NOT_SET'),
-  }
-}
-
-export function isDevelopment() {
-  return configScope.isDevelopment()
-}
-
-export function isTest() {
-  return configScope.isTest()
-}
-
-export function isProduction() {
-  return configScope.isProduction()
+  return config
 }

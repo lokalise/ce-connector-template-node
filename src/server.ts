@@ -4,13 +4,13 @@ import {
   resolveGlobalErrorLogObject,
 } from '@lokalise/node-core'
 import { getApp } from './app.ts'
-import { getConfig, isProduction } from './infrastructure/config.ts'
+import { getConfig, nodeEnv } from './infrastructure/config.ts'
 
 async function start() {
   globalLogger.info('Starting application...')
   const config = executeAndHandleGlobalErrors(getConfig)
   const app = await getApp({
-    monitoringEnabled: isProduction(),
+    monitoringEnabled: nodeEnv.isProduction,
   })
 
   try {

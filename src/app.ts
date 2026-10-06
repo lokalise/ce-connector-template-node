@@ -29,7 +29,7 @@ import type {
   DependencyOverrides,
   ExternalDependencies,
 } from './infrastructure/CommonModule.ts'
-import { type Config, getConfig, isDevelopment, isTest } from './infrastructure/config.ts'
+import { type Config, getConfig, nodeEnv } from './infrastructure/config.ts'
 import { dummyHealthCheck, runAllHealthchecks } from './infrastructure/healthchecks.ts'
 import { ALL_MODULES } from './modules.ts'
 
@@ -148,7 +148,7 @@ export async function getApp(
     },
   })
 
-  if (!isDevelopment()) {
+  if (nodeEnv.isProduction) {
     await app.register(fastifyGracefulShutdown, {
       resetHandlersOnInit: true,
       timeout: GRACEFUL_SHUTDOWN_TIMEOUT_IN_MSECS,
@@ -193,7 +193,7 @@ export async function getApp(
     diContext.registerRoutes(app)
 
     // Graceful shutdown hook
-    if (!isDevelopment()) {
+    if (nodeEnv.isProduction) {
       app.gracefulShutdown(() => {
         app.log.info('Starting graceful shutdown')
       })
@@ -202,7 +202,7 @@ export async function getApp(
 
   try {
     await app.ready()
-    if (!isTest() && configOverrides.healthchecksEnabled !== false) {
+    if (!nodeEnv.isTest && configOverrides.healthchecksEnabled !== false) {
       await runAllHealthchecks(app)
     }
   } catch (err) {
