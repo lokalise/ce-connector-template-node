@@ -1,7 +1,7 @@
 import type { CacheItem, ItemIdentifier } from '@lokalise/connector-api-contracts'
 import { CouldNotRetrieveCacheItemsError } from '../../../infrastructure/errors/publicErrors.ts'
 import type { CacheService } from '../../adapter-common/types/AdapterTypes.ts'
-import type { TemplateApiClient } from '../apiClients/TemplateApiClient.js'
+import type { TemplateApiClient } from '../apiClients/TemplateApiClient.ts'
 import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.ts'
 import type { TemplateDependencies } from '../TemplateAdapterModule.ts'
 

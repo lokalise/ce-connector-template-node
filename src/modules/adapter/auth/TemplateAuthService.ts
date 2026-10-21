@@ -4,7 +4,7 @@ import type {
   AuthServiceAPIKey,
   AuthServiceOAuth,
 } from '../../adapter-common/types/AdapterTypes.ts'
-import type { TemplateApiClient } from '../apiClients/TemplateApiClient.js'
+import type { TemplateApiClient } from '../apiClients/TemplateApiClient.ts'
 import type { AuthConfig, IntegrationConfig } from '../TemplateAdapter.ts'
 import type { TemplateDependencies } from '../TemplateAdapterModule.ts'
 

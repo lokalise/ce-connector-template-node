@@ -2,7 +2,7 @@ import { buildClient, sendGet } from '@lokalise/backend-http-client'
 import type { Client } from 'undici'
 
 import type { CommonDependencies } from '../../../infrastructure/CommonModule.ts'
-import { EXTERNAL_ITEM_RESPONSE_SCHEMA } from './TemplateApiTypes.js'
+import { EXTERNAL_ITEM_RESPONSE_SCHEMA } from './TemplateApiTypes.ts'
 
 const RETRY_CONFIG = {
   retryOnTimeout: false,
