@@ -6,7 +6,7 @@ import {
 } from 'opinionated-machine'
 import type { CommonDependencies, ExternalDependencies } from '../../infrastructure/CommonModule.ts'
 import { ADAPTER_LABEL } from '../adapter-common/types/AdapterTypes.ts'
-import { TemplateApiClient } from './apiClients/TemplateApiClient.js'
+import { TemplateApiClient } from './apiClients/TemplateApiClient.ts'
 import { TemplateAuthService } from './auth/TemplateAuthService.ts'
 import { TemplateCacheService } from './cache/TemplateCacheService.ts'
 import { TemplateEnvService } from './env/TemplateEnvService.ts'
